@@ -1,0 +1,80 @@
+// .LoginPage_InputField {
+
+//     width: 98%; 
+//     height: 50px;
+
+//     position: relative;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+
+//     box-sizing: border-box;
+//     margin: 15px 0px 15px 0px;
+//     //padding-left: 10px;
+//     border-radius: 5px;
+// }
+
+// .LoginPage_InputBox {
+
+//     width: 100%;
+//     height: 100%;
+//     position: absolute;
+
+//     // text styling
+//     font-size: 0.9rem;
+//     font-weight: 500;
+//     border: 2px solid rgba(87, 87, 87,0.3);
+//     border-radius: 5px;
+//     outline: none;
+//     box-sizing: border-box;
+//     padding-left: 20px;
+// }
+
+// .LoginPage_InputBox::placeholder {
+
+//     color: rgba(87, 87, 87,0.5);
+// }
+
+// .LoginPage_InputBox_Label {
+
+//     position: absolute;
+//     top: 16.5px;
+//     //bottom: 0%;
+//     // text styling
+
+//     font-family: 'roboto';
+//     font-weight: 600;
+//     font-size: 0.9rem;
+//     color: rgba(87, 87, 87,0);
+//     //transition: top 10s linear;
+//     transition: 0.5s;   
+//     z-index: 1;
+
+//     box-sizing: border-box;
+//     margin-left: 21px;
+// }
+
+// .LoginPage_InputBox:focus + .LoginPage_Label {
+
+//     top: -9px;
+//     background-color: white;
+
+//     font-size: 0.8rem;
+//     font-weight: 400;
+//     color: rgb(0, 120, 233);
+    
+//     box-sizing: border-box;
+//     margin-left: 15px;
+//     padding: 0px 5px 0px 5px;
+
+// }
+
+// .LoginPage_InputBox:focus {
+
+//     border: 3px solid rgb(0, 120, 233);
+
+//     .LoginPage_InputBox::placeholder {
+
+//         color: black;
+//     }
+// }

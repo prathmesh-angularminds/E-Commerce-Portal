@@ -1,0 +1,135 @@
+<div class="login-form">
+  <div class="login-form-card">
+    <form [formGroup]="registerForm">
+      <!-- full name -->
+      <div class="fullname-block">
+        <input
+          type="text"
+          class="fullname-field"
+          formControlName="fullName"
+          placeholder="Enter Full Name"
+        />
+        <label for="fullname-field">Enter Full Name</label>
+      </div>
+      <!-- Full Name Validation -->
+      <div *ngIf="getName?.hasError('pattern'); else fullNameVal1">
+        User Name should not have special characters and digits
+      </div>
+      <ng-template #fullNameVal1
+        ><div
+          *ngIf="
+            getName?.hasError('minlength') && !getName?.hasError('touched');
+            else fullNameVal2
+          "
+        >
+          Full name should greater than 6 characters
+        </div></ng-template
+      >
+      <ng-template #fullNameVal2
+        ><div
+          *ngIf="
+            getName?.hasError('maxlength') && !getName?.hasError('touched')
+          "
+        >
+          Full name should be less than 30 characters
+        </div></ng-template
+      >
+
+      <!-- email -->
+      <div class="email-block">
+        <input
+          type="email"
+          class="email-field"
+          formControlName="email"
+          placeholder="Enter Email"
+        />
+        <label for="email-field">Enter Email</label>
+      </div>
+      <!-- Email Validation -->
+      <div *ngIf="getEmail?.hasError('pattern')">
+        The email you entered is not a valid email
+      </div>
+
+      <!-- company name -->
+      <div class="companyname-block">
+        <input
+          type="text"
+          class="companyname-field"
+          formControlName="companyName"
+          placeholder="Enter Company Name"
+        />
+        <label for="companyname-field">Enter Company Name</label>
+      </div>
+      <!-- Company Name Validation -->
+      <div *ngIf="getCompName?.hasError('pattern'); else compNameVal1">
+        Company Name should not have special characters and digits
+      </div>
+      <ng-template #compNameVal1
+        ><div
+          *ngIf="
+            getCompName?.hasError('minlength') && !getCompName?.hasError('touched');
+            else compNameVal2
+          "
+        >
+          Company Name should greater than 6 characters
+        </div></ng-template
+      >
+      <ng-template #compNameVal2
+        ><div
+          *ngIf="
+            getCompName?.hasError('maxlength') && !getCompName?.hasError('touched')
+          "
+        >
+          Full name should be less than 30 characters
+        </div></ng-template
+      >
+
+      <!-- password -->
+      <div class="password-block">
+        <input
+          [type]="checked ? 'text' : 'password'"
+          class="password-field"
+          formControlName="password"
+          placeholder="Enter Password"
+        />
+        <label for="password-field">Enter Password</label>
+      </div>
+
+      <!-- toggle passowrd btn -->
+      <div class="toggle-checkbox-block">
+        <input
+          type="checkbox"
+          class="toggle-checkbox"
+          (click)="showPasswordToggle($event)"
+        />
+        Show Password
+      </div>
+
+      <!-- confirm password btn -->
+      <div class="confpassword-block">
+        <input
+          type="password"
+          class="confpassword-field"
+          formControlName="confPassword"
+          placeholder="Enter Confirm Password"
+        />
+        <label for="confpassword-field">Enter Confirm Password</label>
+      </div>
+
+      <!-- register btn -->
+      <div
+        
+      >
+        <button
+            class="btn btn-primary"
+            type="submit"
+            (click)="registerAUser()"
+            [routerLink]="'/auth/login'"
+            [disabled]="registerForm.invalid"
+          >
+            Register
+          </button>
+      </div>
+    </form>
+  </div>
+</div>

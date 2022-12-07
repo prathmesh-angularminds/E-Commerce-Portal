@@ -1,0 +1,32 @@
+<div class="login-form">
+  <div class="login-form-card">
+    <form [formGroup]="loginForm">
+      <div class="form-floating mb-3">
+        <input
+          type="email"
+          class="form-control"
+          id="floatingInput"
+          placeholder="name@example.com"
+          formControlName="email"
+        />
+        <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="password"
+          class="form-control"
+          id="floatingPassword"
+          placeholder="Password"
+          formControlName="password"
+        />
+        <label for="floatingPassword">Password</label>
+      </div>
+      <div>Forget Password</div>
+
+      <div>
+        <a [routerLink]="'/my-profile'"><button class="btn btn-primary" type="submit" (click)="userLogined()">Login</button></a>
+        <a [routerLink]="'/auth/register'"><button class="btn btn-primary">Register</button></a>
+      </div>
+    </form>
+  </div>
+</div>
