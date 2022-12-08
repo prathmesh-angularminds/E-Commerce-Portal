@@ -1,19 +1,26 @@
-<div class="login-form">
-  <div class="login-form-card">
-    <form [formGroup]="registerForm">
+<div
+  class="login-form w-100 d-flex justify-content-center align-items-center"
+  style="height: 92.6vh;"
+>
+  <div
+    class="login-form-card h-80 d-flex justify-content-center align-items-center p-5 rounded"
+    style="width: 40%; border: 0.5px solid gray"
+  >
+    
+    <form [formGroup]="registerForm" class="w-100">
       <!-- full name -->
-      <div class="fullname-block">
+      <div class="fullname-block block">
         <input
           type="text"
-          class="fullname-field"
+          class="fullname-field field"
           formControlName="fullName"
           placeholder="Enter Full Name"
         />
-        <label for="fullname-field">Enter Full Name</label>
+        <label for="fullname-field" class="label">Enter Full Name</label>
       </div>
       <!-- Full Name Validation -->
       <div *ngIf="getName?.hasError('pattern'); else fullNameVal1">
-        User Name should not have special characters and digits
+        User Name should not contain special characters and digits
       </div>
       <ng-template #fullNameVal1
         ><div
@@ -36,14 +43,14 @@
       >
 
       <!-- email -->
-      <div class="email-block">
+      <div class="email-block block">
         <input
           type="email"
-          class="email-field"
+          class="email-field field"
           formControlName="email"
           placeholder="Enter Email"
         />
-        <label for="email-field">Enter Email</label>
+        <label for="email-field" class="label">Enter Email</label>
       </div>
       <!-- Email Validation -->
       <div *ngIf="getEmail?.hasError('pattern')">
@@ -51,14 +58,14 @@
       </div>
 
       <!-- company name -->
-      <div class="companyname-block">
+      <div class="companyname-block block">
         <input
           type="text"
-          class="companyname-field"
+          class="companyname-field field"
           formControlName="companyName"
           placeholder="Enter Company Name"
         />
-        <label for="companyname-field">Enter Company Name</label>
+        <label for="companyname-field" class="label">Enter Company Name</label>
       </div>
       <!-- Company Name Validation -->
       <div *ngIf="getCompName?.hasError('pattern'); else compNameVal1">
@@ -67,7 +74,8 @@
       <ng-template #compNameVal1
         ><div
           *ngIf="
-            getCompName?.hasError('minlength') && !getCompName?.hasError('touched');
+            getCompName?.hasError('minlength') &&
+              !getCompName?.hasError('touched');
             else compNameVal2
           "
         >
@@ -77,7 +85,8 @@
       <ng-template #compNameVal2
         ><div
           *ngIf="
-            getCompName?.hasError('maxlength') && !getCompName?.hasError('touched')
+            getCompName?.hasError('maxlength') &&
+            !getCompName?.hasError('touched')
           "
         >
           Full name should be less than 30 characters
@@ -85,50 +94,49 @@
       >
 
       <!-- password -->
-      <div class="password-block">
+      <div class="password-block block">
         <input
           [type]="checked ? 'text' : 'password'"
-          class="password-field"
+          class="password-field field"
           formControlName="password"
           placeholder="Enter Password"
         />
-        <label for="password-field">Enter Password</label>
+        <label for="password-field" class="label">Enter Password</label>
       </div>
 
       <!-- toggle passowrd btn -->
-      <div class="toggle-checkbox-block">
+      <div class="toggle-checkbox-block d-flex align-items-center mr-1">
         <input
           type="checkbox"
           class="toggle-checkbox"
-          (click)="showPasswordToggle($event)"
+          (click)="showPasswordToggle()"
+          style="cursor: pointer"
         />
         Show Password
       </div>
 
       <!-- confirm password btn -->
-      <div class="confpassword-block">
+      <div class="confpassword-block block">
         <input
           type="password"
-          class="confpassword-field"
+          class="confpassword-field field"
           formControlName="confPassword"
           placeholder="Enter Confirm Password"
         />
-        <label for="confpassword-field">Enter Confirm Password</label>
+        <label for="confpassword-field" class="label">Enter Confirm Password</label>
       </div>
 
       <!-- register btn -->
-      <div
-        
-      >
+      <div>
         <button
-            class="btn btn-primary"
-            type="submit"
-            (click)="registerAUser()"
-            [routerLink]="'/auth/login'"
-            [disabled]="registerForm.invalid"
-          >
-            Register
-          </button>
+          class="btn btn-primary"
+          type="submit"
+          (click)="registerAUser()"
+          [routerLink]="'/auth/login'"
+          [disabled]="registerForm.invalid"
+        >
+          Register
+        </button>
       </div>
     </form>
   </div>

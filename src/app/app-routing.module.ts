@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErrorComponent } from './error/error.component';
-import { ShouldLoginGuard } from './guards/should-login.guard';
+import { AuthGuard, CanLogOutGuard, ShouldOpenProfileGuard } from './guards/login-guards.guard';
 
 const routes: Routes = [
   
@@ -9,15 +9,21 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'auth/login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'auth',
+    redirectTo: 'auth/login',
     pathMatch: 'full'
   },
+  
   // Lazy Loading
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+    canActivateChild: [AuthGuard]
   },{
     path: 'my-profile',
-    canActivate: [ShouldLoginGuard],
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
   },
   {

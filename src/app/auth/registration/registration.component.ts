@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UsersdataService } from 'src/app/services/usersdata.service';
-import comparePasswords from 'src/app/custom-validtors/compare-passwords';
+import { Router } from '@angular/router';
+// import comparePasswords from 'src/app/custom-validtors/compare-passwords';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss'],
 })
+
 export class RegistrationComponent implements OnInit {
   // Instance of FormGroup for form
   registerForm: FormGroup;
   checked: boolean = false;
 
-  constructor(private usersData: UsersdataService) {
+  constructor(private usersData: UsersdataService, private router: Router) {
     this.registerForm = new FormGroup({
       fullName: new FormControl('', [
         Validators.required,
@@ -27,7 +29,8 @@ export class RegistrationComponent implements OnInit {
         Validators.pattern('[a-z0-9]+@[a-z]+.[a-z]{2,3}'), // Validator for email
       ]),
       companyName: new FormControl('', [
-        Validators.minLength(6),
+        Validators.required,
+        Validators.minLength(3),
         Validators.maxLength(15),
         Validators.pattern('[a-zA-Z ]*$'),
       ]),
@@ -35,17 +38,17 @@ export class RegistrationComponent implements OnInit {
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(14),
-        // Validators.pattern(
-        //   '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
-        // ),
+        Validators.pattern(
+          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
+        ),
       ]),
       confPassword: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(14),
-        // Validators.pattern(
-        //   '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
-        // ),
+        Validators.pattern(
+          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
+        ),
       ]),
     });
   }
@@ -73,24 +76,32 @@ export class RegistrationComponent implements OnInit {
     return this.registerForm.get('confPassword');
   }
 
+
+  findUser =  (user: any): boolean =>  { return user.email === this.getEmail?.value }
+
   // Function which is called when a user clicks on register btn
   registerAUser() {
-    if (this.registerForm.valid) {
+
+    if (this.registerForm.valid) {          
       
+      let user = this.usersData.getUser();
       let usersList = this.usersData.getUsersList();
-      
-      if (
-        usersList.length === 0 ||
-        usersList.find((userData: any): boolean => {
-          return userData.email === this.getEmail?.value ? false : true;
-        })
-      ) {
+
+      if (usersList.find(this.findUser)) {
+
+        // If User is already present
+        this.router.navigate(['/auth/register'])
+        alert('User is already present');
+    
+      } else {
+        
         let registerValue = this.registerForm.value;
+        
+        registerValue['token'] = Math.random().toString(36).substr(2)
         delete registerValue.confPassword;
 
         this.usersData.setUsersList(registerValue);
-      } else {
-        console.log('User is already present');
+        this.registerForm.reset();
       }
     } else {
       console.log(this.registerForm.valid);
@@ -98,7 +109,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   // This function helps in showing and hidding password
-  showPasswordToggle(event: Event) {
+  showPasswordToggle() {
     this.checked = !this.checked;
   }
 }

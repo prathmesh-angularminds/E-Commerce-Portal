@@ -1,31 +1,57 @@
 <div class="login-form">
   <div class="login-form-card">
     <form [formGroup]="loginForm">
-      <div class="form-floating mb-3">
+      <!-- email -->
+      <div class="email-block">
         <input
           type="email"
-          class="form-control"
-          id="floatingInput"
-          placeholder="name@example.com"
+          class="email-field"
           formControlName="email"
+          placeholder="Enter Email"
         />
-        <label for="floatingInput">Email address</label>
+        <label for="email-field">Enter Email</label>
       </div>
-      <div class="form-floating">
+      <!-- Email Validation -->
+      <div *ngIf="getEmail?.hasError('pattern')">
+        The email you entered is not a valid email
+      </div>
+
+      <!-- password -->
+      <div class="password-block">
         <input
-          type="password"
-          class="form-control"
-          id="floatingPassword"
-          placeholder="Password"
+          [type]="checked ? 'text' : 'password'"
+          class="password-field"
           formControlName="password"
+          placeholder="Enter Password"
         />
-        <label for="floatingPassword">Password</label>
+        <label for="password-field">Enter Password</label>
       </div>
+
+      <!-- toggle passowrd btn -->
+      <div class="toggle-checkbox-block">
+        <input
+          type="checkbox"
+          class="toggle-checkbox"
+          (click)="showPasswordToggle()"
+        />
+        Show Password
+      </div>
+
       <div>Forget Password</div>
 
       <div>
-        <a [routerLink]="'/my-profile'"><button class="btn btn-primary" type="submit" (click)="userLogined()">Login</button></a>
-        <a [routerLink]="'/auth/register'"><button class="btn btn-primary">Register</button></a>
+        <button
+          [disabled]="loginForm.invalid"
+          class="btn btn-primary"
+          type="submit"
+          (click)="logAUser()"
+          [routerLink]="'/my-profile'"
+        >
+          Login
+        </button>
+        <a [routerLink]="'/auth/register'"
+          ><button class="btn btn-primary">Register</button></a
+        >
       </div>
     </form>
   </div>
