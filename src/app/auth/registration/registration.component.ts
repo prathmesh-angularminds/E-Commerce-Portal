@@ -14,6 +14,11 @@ export class RegistrationComponent implements OnInit {
   // Instance of FormGroup for form
   registerForm: FormGroup;
   checked: boolean = false;
+  errorMsg: string = "";
+  errorMsgClass: {snackbar: boolean, show: boolean} = {
+    snackbar: true,
+    show: false
+  };
 
   constructor(private usersData: UsersdataService, private router: Router) {
     this.registerForm = new FormGroup({
@@ -51,6 +56,8 @@ export class RegistrationComponent implements OnInit {
         ),
       ]),
     });
+    
+    console.log('re')
   }
 
   ngOnInit(): void {}
@@ -76,35 +83,44 @@ export class RegistrationComponent implements OnInit {
     return this.registerForm.get('confPassword');
   }
 
+  // show popup code
+  showPop(message: string) {
+
+    this.errorMsgClass.show = true;
+    this.errorMsg = message
+    setTimeout(() =>{  
+      this.errorMsgClass.show = false;
+    }, 3000)
+  }
 
   findUser =  (user: any): boolean =>  { return user.email === this.getEmail?.value }
 
   // Function which is called when a user clicks on register btn
   registerAUser() {
-
-    if (this.registerForm.valid) {          
-      
-      let user = this.usersData.getUser();
-      let usersList = this.usersData.getUsersList();
-
-      if (usersList.find(this.findUser)) {
-
-        // If User is already present
-        this.router.navigate(['/auth/register'])
-        alert('User is already present');
     
-      } else {
-        
-        let registerValue = this.registerForm.value;
-        
-        registerValue['token'] = Math.random().toString(36).substr(2)
-        delete registerValue.confPassword;
 
-        this.usersData.setUsersList(registerValue);
-        this.registerForm.reset();
-      }
+    let user = this.usersData.getUser();                  // form initializing empty object of user
+    let usersList = this.usersData.getUsersList();
+
+    if (this.registerForm.invalid) {
+
+      // If form is not present
+      this.showPop("Form submitted is invalid")
+  
+    } else if(usersList.find(this.findUser)) {
+
+      // If User is already present
+      this.router.navigate(['/auth/register'])
+      this.showPop("User is already present")
     } else {
-      console.log(this.registerForm.valid);
+      
+      // Is User is valid 
+      let registerValue = this.registerForm.value;
+      
+      registerValue['token'] = Math.random().toString(36).substr(2)
+      delete registerValue.confPassword;
+      this.usersData.setUsersList(registerValue);
+      this.router.navigate(['/auth/login'])
     }
   }
 

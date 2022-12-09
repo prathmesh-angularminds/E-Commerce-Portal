@@ -12,6 +12,11 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   checked: boolean = false;
+  errorMsg: string = "Show Something";
+  errorMsgClass: {snackbar: boolean, show: boolean} = {
+    snackbar: true,
+    show: false
+  };
 
   constructor(private usersdata: UsersdataService, private router: Router) { 
 
@@ -32,11 +37,11 @@ export class LoginComponent implements OnInit {
 
     console.log("In Login")
 
+
   }
 
   ngOnInit(): void {
   }
-
   get getEmail() {
 
     return this.loginForm.get('email');
@@ -50,18 +55,32 @@ export class LoginComponent implements OnInit {
   // function which check whether user is present or not
   findUser =  (user: any): boolean =>  { return ((user.email === this.getEmail?.value) && (user.password === this.getPass?.value)) }
 
-  logAUser():void {
+  // show popup code
+  showPop(message: string) {
 
+    this.errorMsgClass.show = true;
+    this.errorMsg = message
+    setTimeout(() =>{  
+      this.errorMsgClass.show = false;
+    }, 3000)
+  }
+
+  logAUser():void {
     
     let usersList = this.usersdata.getUsersList();
     let loggedUser = usersList.find(this.findUser);
-
     if(loggedUser) {
       this.usersdata.setUser(loggedUser);
+      this.router.navigate(['/my-profile'])
+    } else if(this.getEmail?.value === "" || this.getPass?.value === "") {
+
+      this.showPop("Name and password are not provided")
+
     } else {
       
+      this.showPop("User is not present please register")
       this.router.navigate(['/auth/login'])
-      console.log("User is not present please register")
+
     }
   }
 

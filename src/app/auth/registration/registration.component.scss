@@ -3,14 +3,15 @@
 .block {
 
     width: 100%;
-    height: 60px;
+    height: 40px;
     
     box-sizing: border-box;
     position: relative;
 
     display: flex;
     align-items: center;
-    margin: 4% 0%;
+    margin: 3% 0%;
+
 
     .field {
 
@@ -18,22 +19,28 @@
         height: 100%;
         position: absolute;
         background-color: transparent;
-        border: 1px solid gray;
+        border: 1px solid black;
         outline: none;
         z-index: 1;
         padding: 0px 5px 0px 21px;
         border-radius: 5px;
+        font-size: 0.9rem
 
+    }
+
+    .field::placeholder {
+        color:#000;
+        font-size: 0.9rem;
     }
 
     .label {
         position: absolute;
-        top: 16.5px;
+        top: 8px;
         font-weight: 400;
         font-size: 0.9rem;
         color: rgba(87, 87, 87,0);
         transition: 0.5s;   
-        z-index: 1;
+        z-index: -1;
         box-sizing: border-box;
         margin-left: 21px;
     }
@@ -46,7 +53,7 @@
         background-color: white;
         font-size: 0.8rem;
         font-weight: 400;
-        color: rgb(0, 120, 233);  
+        color: black;  
         box-sizing: border-box;
         margin-left: 15px;
         padding: 0px 5px 0px 5px;
@@ -54,88 +61,130 @@
 
     .field:focus{
 
-        border: 1px solid rgb(0, 120, 233);
+        border: 1px solid black;
     }
 }
 
+.validations {
 
-// .LoginPage_InputField {
+    width: 100%;
+    font-size: 0.8rem;
+    color: red;
+}
 
-//     width: 98%; 
-//     height: 50px;
+.submit-btn:hover {
 
-//     position: relative;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
+    color: white !important;
+    background-color: black !important;
+}
 
-//     box-sizing: border-box;
-//     margin: 15px 0px 15px 0px;
-//     //padding-left: 10px;
-//     border-radius: 5px;
-// }
 
-// .LoginPage_InputBox {
-
-//     width: 100%;
-//     height: 100%;
-//     position: absolute;
-
-//     // text styling
-//     font-size: 0.9rem;
-//     font-weight: 500;
-//     border: 2px solid rgba(87, 87, 87,0.3);
-//     border-radius: 5px;
-//     outline: none;
-//     box-sizing: border-box;
-//     padding-left: 20px;
-// }
-
-// .LoginPage_InputBox::placeholder {
-
-//     color: rgba(87, 87, 87,0.5);
-// }
-
-// .LoginPage_InputBox_Label {
-
-//     position: absolute;
-//     top: 16.5px;
-//     //bottom: 0%;
-//     // text styling
-
-//     font-family: 'roboto';
-//     font-weight: 600;
-//     font-size: 0.9rem;
-//     color: rgba(87, 87, 87,0);
-//     //transition: top 10s linear;
-//     transition: 0.5s;   
-//     z-index: 1;
-
-//     box-sizing: border-box;
-//     margin-left: 21px;
-// }
-
-// .LoginPage_InputBox:focus + .LoginPage_Label {
-
-//     top: -9px;
-//     background-color: white;
-
-//     font-size: 0.8rem;
-//     font-weight: 400;
-//     color: rgb(0, 120, 233);
+.snackbar {
+    display: none;
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+  }
+  
+  .show {
     
-//     box-sizing: border-box;
-//     margin-left: 15px;
-//     padding: 0px 5px 0px 5px;
+    display: flex;
+    justify-content: center;
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  
+  @-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
 
+// .wrapper {
+//     height: 40px;
+    
+//     background-color: #f5f6fa;
+//     border: 2px solid red;
+//     position: relative;
+// }
+    
+// .wave-btn {
+
+//     height: 100%;
+//     color: #fff;
+//     text-decoration: none;
+//     border: 2px solid #000;
+//     padding: 5px 30px;
+//     font-size: 22px;
+//     font-weight: 600;
+//     border-radius: 5px;
+//     position: absolute;
+//     // top: 50%;
+//     // left: 50%;
+//     transform: translate(-50%, -50%);
+//     overflow: hidden;
+//     transition: all 1s;
 // }
 
-// .LoginPage_InputBox:focus {
+// .wave-btn {
 
-//     border: 3px solid rgb(0, 120, 233);
+//     color: black;
+// }
 
-//     .LoginPage_InputBox::placeholder {
+// .wave-btn:hover {
 
-//         color: black;
+//     color: white;
+// }
+
+// .wave-btn:before {
+//     content: "";
+//     position: absolute;
+//     width: 320px;
+//     height: 320px;
+//     border-radius: 130px;
+//     background-color: black;
+//     top: 80px;
+//     // left: 50%;
+//     transform: translate(-50%);
+//     animation: wave 5s infinite linear;
+//     transition: all 1s;
+// }
+    
+// .wave-btn:hover:before {
+//     top: 5px;
+//     z-index: -2
+// }
+    
+// @keyframes wave {
+//     0% {
+//         transform: translate(-50%) rotate(-180deg);
+//     }
+//     100% {
+//         transform: translate(-50%) rotate(360deg);
 //     }
 // }
