@@ -74,13 +74,12 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/my-profile'])
     } else if(this.getEmail?.value === "" || this.getPass?.value === "") {
 
-      this.showPop("Name and password are not provided")
+      this.showPop("Email and password are not provided")
 
     } else {
       
       this.showPop("User is not present please register")
       this.router.navigate(['/auth/login'])
-
     }
   }
 
