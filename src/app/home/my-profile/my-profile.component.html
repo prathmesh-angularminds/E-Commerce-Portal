@@ -6,3 +6,9 @@
     </div>
     <button [routerLink]="'/auth/login'" (click)="userLoggedOut()" class="btn btn-primary m-1" >Login Out</button>
 </nav>
+<div class="Login Profile">
+  <div class="">{{loggedInUser['fullName']}}</div>
+  <div class="">{{loggedInUser['companyName']}}</div>
+  <div class="">{{loggedInUser['email']}}</div>
+  <div class="">{{loggedInUser['password']}}</div>
+</div>

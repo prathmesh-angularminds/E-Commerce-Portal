@@ -21,11 +21,16 @@ export class RegistrationComponent implements OnInit {
   };
 
   constructor(private usersData: UsersdataService, private router: Router) {
+    
+    
+    console.log('re')
+  }
+
+  ngOnInit(): void {
+
     this.registerForm = new FormGroup({
       fullName: new FormControl('', [
         Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(30),
         Validators.pattern('[a-zA-Z ]*$'),
       ]),
 
@@ -35,8 +40,6 @@ export class RegistrationComponent implements OnInit {
       ]),
       companyName: new FormControl('', [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(15),
         Validators.pattern('[a-zA-Z ]*$'),
       ]),
       password: new FormControl('', [
@@ -56,11 +59,7 @@ export class RegistrationComponent implements OnInit {
         ),
       ]),
     });
-    
-    console.log('re')
   }
-
-  ngOnInit(): void {}
 
   // Getter Methods
   get getName() {

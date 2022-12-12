@@ -1,65 +1,7 @@
-<!-- <div class="login-form"
-style="height: 100vh; background-image: url('../../../assets/Comics.jpg')"
->
-  <div class="login-form-card">
-    <form [formGroup]="loginForm">
-      <div class="email-block block">
-        <input
-          type="email"
-          class="email-field field"
-          formControlName="email"
-          placeholder="Enter Email"
-        />
-        <label for="email-field label">Enter Email</label>
-      </div>
-      <div *ngIf="getEmail?.hasError('pattern')">
-        The email you entered is not a valid email
-      </div>
-
-      <div class="password-block block">
-        <input
-          [type]="checked ? 'text' : 'password'"
-          class="password-field field"
-          formControlName="password"
-          placeholder="Enter Password"
-        />
-        <label for="password-field label">Enter Password</label>
-      </div>
-
-      <div class="toggle-checkbox-block">
-        <input
-          type="checkbox"
-          class="toggle-checkbox"
-          (click)="showPasswordToggle()"
-        />
-        Show Password
-      </div>
-
-      <div>Forget Password</div>
-
-      <div>
-        <button
-          [disabled]="loginForm.invalid"
-          class="btn btn-primary"
-          type="submit"
-          (click)="logAUser()"
-          [routerLink]="'/my-profile'"
-        >
-          Login
-        </button>
-        <a [routerLink]="'/auth/register'"
-          ><button class="btn btn-primary">Register</button></a
-        >
-      </div>
-    </form>
-  </div>
-</div> -->
-
 <div
-  class="login-form w-100 d-flex justify-content-center align-items-center"
-  style="height: 100vh; background-image: url('../../../assets/Comics.jpg')"
+  class="login-form d-flex justify-content-center align-items-center"
 >
-  <div class="empty-div d-flex flex-column justify-content-center" style="width: 55%; height: 100%; box-sizing: border-box; padding-left: 5%">
+  <div class="empty-div d-flex flex-column justify-content-center">
     <div class="logo-block" style="width: 300px;">
       <img style="height: 100%; width: 100%" src="../../../assets/ComivVerse-Logo.svg"/>
     </div>
@@ -67,40 +9,22 @@ style="height: 100vh; background-image: url('../../../assets/Comics.jpg')"
       Welcome to the world of comic books where you will gets all of super hero comics and mangas, To get started please register your self
     </div>
   </div>
+
   <div
     class="login-card-main-div d-flex justify-content-center align-items-center"
-    style="width: 750px; height: 100%"
   >
+
     <div
       class="login-form-card d-flex justify-content-between align-items-center flex-column"
-      style="
-        width: 480px;
-        background-color: white;
-        box-sizing: border-box;
-        border-radius: 10px;
-        padding: 7% 0%;
-      "
     >
       <div
-        class="font-title"
-        style="
-          width: 80%;
-          font-size: 1.2rem;
-          font-weight: 800;
-          box-sizing: border-box;
-        "
+        class="form-title"
       >
         {{ "Login" | uppercase }}
       </div>
       <form
         [formGroup]="loginForm"
-        class="flex-column justify-content-center align-items-center"
-        style="
-          width: 80%;
-          display: flex;
-          box-sizing: border-box;
-          padding: 3% 0%;
-        "
+        class="form-block d-flex flex-column justify-content-center align-items-center"
       >    
 
         <!-- email -->
@@ -114,8 +38,8 @@ style="height: 100vh; background-image: url('../../../assets/Comics.jpg')"
           <label for="email-field" class="label">Enter Email</label>
         </div>
         <!-- Email Validation -->
-        <div class="validations" *ngIf="getEmail?.hasError('pattern')">
-          The email you entered is not a valid email
+        <div class="validations" *ngIf="getEmail?.touched && getEmail?.hasError('pattern')">
+          Invalid Email id
         </div>
 
         <!-- password -->
@@ -125,25 +49,26 @@ style="height: 100vh; background-image: url('../../../assets/Comics.jpg')"
             class="password-field field"
             formControlName="password"
             placeholder="Enter Password"
+            autocomplete
           />
-          <label for="password-field" class="label">Enter Password</label>
+          <label for="password-field" class="label">Password</label>
         </div>
 
         <!-- Password Validation -->
         <div
           class="validations"
-          *ngIf="getPass?.hasError('pattern'); else fullNameVal1"
+          *ngIf=" getPass?.touched && getPass?.hasError('pattern'); else fullNameVal1"
         >
-          Password should have 1 uppercase, lowercase letters with 1 digit and special symbol
+          Password should atleast have a uppercase letter along with 1 digit and special symbol
         </div>
         <ng-template #fullNameVal1
           ><div
             class="validations"
             *ngIf="
-              getPass?.hasError('maxlength') && !getPass?.hasError('touched');
+              getPass?.touched && getPass?.hasError('maxlength')
             "
           >
-            Password entered is invalid
+            Invalid Password
           </div>
         </ng-template>
 
@@ -151,15 +76,11 @@ style="height: 100vh; background-image: url('../../../assets/Comics.jpg')"
         <div
           class="toggle-checkbox-block d-flex align-items-center justify-content-between"
           style="
-            width: 100%;
             font-size: 0.8rem;
             font-weight: 400;
-            box-sizing: border-box;
-            margin: 5px 0px;
-            color: black;
           "
         >
-        <div class="toggle-block">
+        <div class="toggle-block d-flex ">
           <input
             type="checkbox"
             class="toggle-checkbox"
@@ -168,29 +89,19 @@ style="height: 100vh; background-image: url('../../../assets/Comics.jpg')"
               cursor: pointer;
               box-sizing: border-box;
               margin-right: 10px;
-              background-color: black;
             "
           />
           Show Password
         </div>
-        <div class="forget-pass-block" style="cursor: pointer; transition: 0.05s;">Forget Password ?</div>
+        <div class="forget-pass-block">Forget Password ?</div>
         </div>
 
         <!-- register btn -->
         <div
           class="submit-btn-block d-flex justify-content-between"
-          style="width: 100%; box-sizing: border-box; margin-top: 6%"
         >
           <button
             class="btn btn-primary submit-btn"
-            style="
-              width: 150px;
-              color: black;
-              border: 1px solid black;
-              background-color: transparent;
-              transition: 0.5s;
-              font-weight: 400;
-            "
             type="submit"
             (click)="logAUser()"
           >
@@ -199,14 +110,6 @@ style="height: 100vh; background-image: url('../../../assets/Comics.jpg')"
 
           <button
             class="btn btn-primary submit-btn"
-            style="
-              width: 150px;
-              color: black;
-              border: 1px solid black;
-              background-color: transparent;
-              transition: 0.5s;
-              font-weight: 400;
-            "
             type="submit"
             [routerLink]="'/auth/register'"
           >

@@ -7,16 +7,13 @@ import { Injectable } from '@angular/core';
 //////////////////////////// Service to work on users data
 export class UsersdataService {
   // Stores data of Logged in users
-  loggedInUser: register = {
-    fullName: '',
-    companyName: '',
-    password: '',
-    email: '',
-    token: ''
-  };
-
-  // Stores data of Registered User
-  userList: (register)[] = [];
+  // loggedInUser: register = {
+  //   fullName: '',
+  //   companyName: '',
+  //   password: '',
+  //   email: '',
+  //   token: ''
+  // };
 
   constructor() {}
 
@@ -29,7 +26,7 @@ export class UsersdataService {
       localStorage.setItem('registeredUserList', JSON.stringify([]));
       return [];
     } else {
-      return (this.userList = JSON.parse(user));
+      return JSON.parse(user);
     }
   }
 
@@ -39,10 +36,9 @@ export class UsersdataService {
     let user = localStorage.getItem('loggedUser');
 
     if(user === null) {
-      localStorage.setItem('loggedUser', JSON.stringify(this.loggedInUser));
-      return this.loggedInUser;
+      return user;
     } else {
-      return (this.loggedInUser = JSON.parse(user));
+      return JSON.parse(user);
     }
   }
 
@@ -53,9 +49,10 @@ export class UsersdataService {
   // set local storage data
   setUsersList(userData: register) {
  
-    this.userList.push(userData);
+    let list = this.getUsersList();
+    list.push(userData);
 
-    localStorage.setItem('registeredUserList', JSON.stringify(this.userList));
+    localStorage.setItem('registeredUserList', JSON.stringify(list));
   }
 }
 

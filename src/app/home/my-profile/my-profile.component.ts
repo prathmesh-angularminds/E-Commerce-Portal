@@ -8,7 +8,7 @@ import { UsersdataService } from 'src/app/services/usersdata.service';
 })
 export class MyProfileComponent implements OnInit {
 
-  loggedInUser: {};
+  loggedInUser: any;
   constructor(private usersData: UsersdataService) { }
 
   ngOnInit(): void {
@@ -17,15 +17,6 @@ export class MyProfileComponent implements OnInit {
 
   userLoggedOut(): void {
 
-    console.log("Logout")
-    let emptyUser = {
-      fullName: '',
-      companyName: '',
-      password: '',
-      email: '',
-      token: ''
-    };
-
-    this.usersData.setUser(emptyUser);
+    localStorage.removeItem('loggedUser');
   }
 }

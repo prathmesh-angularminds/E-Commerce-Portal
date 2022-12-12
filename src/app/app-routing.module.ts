@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErrorComponent } from './error/error.component';
-import { AuthGuard, CanLogOutGuard, ShouldOpenProfileGuard } from './guards/login-guards.guard';
+import { LoginGuardsGuard, CanLogOutGuard, ShouldOpenProfileGuard } from './guards/login-guards.guard';
 
 const routes: Routes = [
   
@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
-    canActivateChild: [AuthGuard]
+    canActivateChild: [LoginGuardsGuard]
   },{
     path: 'my-profile',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
