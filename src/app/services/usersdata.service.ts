@@ -6,60 +6,45 @@ import { Injectable } from '@angular/core';
 
 //////////////////////////// Service to work on users data
 export class UsersdataService {
-  // Stores data of Logged in users
-  // loggedInUser: register = {
-  //   fullName: '',
-  //   companyName: '',
-  //   password: '',
-  //   email: '',
-  //   token: ''
-  // };
 
   constructor() {}
 
-  // get users list from local storage  
-  getUsersList() {
-    
-    let user = localStorage.getItem('registeredUserList');
-    
-    if (user === null) {
-      localStorage.setItem('registeredUserList', JSON.stringify([]));
-      return [];
-    } else {
-      return JSON.parse(user);
-    }
-  }
-
   // get user from local storage
   getUser() {
-
-    let user = localStorage.getItem('loggedUser');
-
-    if(user === null) {
-      return user;
-    } else {
-      return JSON.parse(user);
-    }
+    let data = localStorage.getItem('loggedUser')!
+    return JSON.parse(data);
   }
 
-  setUser(user: register) {
+  setUser(response: any) {
+
+    var user: register = {
+      name: response.name,
+      company: response._org.name,
+      email: response.email
+    }
+
     localStorage.setItem('loggedUser', JSON.stringify(user));
   }
 
-  // set local storage data
-  setUsersList(userData: register) {
- 
-    let list = this.getUsersList();
-    list.push(userData);
+  setToken(token: string) {
 
-    localStorage.setItem('registeredUserList', JSON.stringify(list));
+    console.log(typeof(token))
+    localStorage.setItem('token',token)
+  }
+
+  getToken() {
+    return localStorage.getItem('token')
+  }
+
+  clearStorage() {
+    
+    localStorage.removeItem('loggedUser');
+    localStorage.removeItem('token');
   }
 }
 
-interface register {
-  fullName: string;
+export interface register {
+  name: string;
   email: string;
-  companyName: string;
-  password: string;
-  token: string;
+  company: string;
 }

@@ -7,10 +7,9 @@ import {
   CanActivateChild,
   UrlTree,
 } from "@angular/router";
-import { Observable } from "rxjs";
 import { UsersdataService } from "../services/usersdata.service";
 import { Router } from "@angular/router";
-import { MyProfileComponent } from "../home/my-profile/my-profile.component";
+import { LayoutAppComponent } from "../layouts/app/app.component";
 
 @Injectable({
   providedIn: "root",
@@ -22,12 +21,12 @@ export class LoginGuardsGuard implements CanActivateChild {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    console.log("Auth child");
-    let user = this.usersData.getUser();
-    if (user == null || user== undefined) {
+
+    let token = localStorage.getItem('token');
+    if (token === undefined || token === null) {
       return true;
     } else {
-      this.router.navigate(["/my-profile"]);
+      this.router.navigate(["/app/my-profile"]);
       return false;
     }
   }
@@ -36,18 +35,17 @@ export class LoginGuardsGuard implements CanActivateChild {
 @Injectable({
   providedIn: "root",
 })
-export class CanLogOutGuard implements CanDeactivate<MyProfileComponent> {
+export class CanLogOutGuard implements CanDeactivate<LayoutAppComponent> {
   constructor(private usersData: UsersdataService, private router: Router) {}
 
-  canDeactivate(component: MyProfileComponent): boolean {
-    let user = this.usersData.getUser();
+  canDeactivate(component: LayoutAppComponent): boolean {
+    
+    let token = localStorage.getItem('token');
 
-    console.log(user);
-
-    if (user == null || user == undefined) {
+    if (token === null || token === undefined) {
       return true;
     } else {
-      this.router.navigate(["/my-profile"]);
+      this.router.navigate(["/app/my-profile"]);
       return false;
     }
   }
@@ -63,9 +61,10 @@ export class ShouldOpenProfileGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    let user = this.usersData.getUser();
 
-    if (user == null || user == undefined) {
+    let token = localStorage.getItem('token');
+
+    if (token ==  null || token == undefined) {
       this.router.navigate(["/auth/login"]);
       return false;
     } else {

@@ -1,0 +1,223 @@
+<div
+  class="login-form d-flex justify-content-center align-items-center flex-column flex-md-row py-5 px-3 py-md-0 px-md-0"
+>
+  <div
+    class="empty-div d-flex flex-column justify-content-center mb-5 mb-md-0 p-0 ps-md-5"
+  >
+    <div class="logo-block" style="width: 300px">
+      <img
+        style="height: 100%; width: 100%"
+        src="../../../assets/ComivVerse-Logo.svg"
+      />
+    </div>
+    <div class="sub-title mt-3 mt-md-4">
+      Welcome to the world of comic books where you will gets all of super hero
+      comics and mangas, To get started please register your self
+    </div>
+  </div>
+  <div
+    class="login-card-main-div d-flex justify-content-center align-items-center"
+  >
+    <div
+      class="login-form-card d-flex justify-content-between align-items-center flex-column py-5"
+    >
+      <div class="form-title">
+        {{ "Registration" | uppercase }}
+      </div>
+
+      <form
+        [formGroup]="registerForm"
+        class="form-block flex-column justify-content-end align-items-end"
+      >
+        <!-- full name -->
+        <div
+          class="fullname-block block position-relative d-flex align-items-center mt-4"
+        >
+          <input
+            type="text"
+            class="fullname-field field"
+            formControlName="name"
+            placeholder="Enter Full Name"
+          />
+          <label for="fullname-field" class="label">Full Name</label>
+        </div>
+        <!-- Full Name Validation -->
+        <div
+          class="validations"
+          *ngIf="getName?.touched && getName?.hasError('pattern')"
+        >
+          User Name should not contain special characters and digits
+        </div>
+
+        <!-- email -->
+        <div
+          class="email-block block position-relative d-flex align-items-center mt-4"
+        >
+          <input
+            type="email"
+            class="email-field field"
+            formControlName="email"
+            placeholder="Enter Email"
+          />
+          <label for="email-field" class="label">Email</label>
+        </div>
+        <!-- Email Validation -->
+        <div
+          class="validations"
+          *ngIf="getEmail?.touched && getEmail?.hasError('pattern')"
+        >
+          Invalid Email id
+        </div>
+
+        <!-- company name -->
+        <div
+          class="companyname-block block position-relative d-flex align-items-center mt-4"
+        >
+          <input
+            type="text"
+            class="companyname-field field"
+            formControlName="company"
+            placeholder="Enter Company Name"
+          />
+          <label for="companyname-field" class="label">Company Name</label>
+        </div>
+        <!-- Company Name Validation -->
+        <div
+          class="validations"
+          *ngIf="getCompName?.touched && getCompName?.hasError('pattern')"
+        >
+          Company Name should not have special characters and digits
+        </div>
+
+        <!-- password -->
+        <div
+          class="password-block block position-relative d-flex align-items-center mt-4"
+        >
+          <input
+            [type]="checked ? 'text' : 'password'"
+            class="password-field field"
+            formControlName="password"
+            placeholder="Enter Password"
+          />
+          <label for="password-field" class="label">Password</label>
+        </div>
+        <!-- Password Validation -->
+        <div
+          class="validations"
+          *ngIf="
+            getPass?.touched && getPass?.hasError('pattern');
+            else passVal1
+          "
+        >
+          Password should atleast have a uppercase letter along with 1 digit and
+          special symbol
+        </div>
+        <ng-template #passVal1
+          ><div
+            class="validations"
+            *ngIf="
+              getPass?.touched &&
+              getPass?.hasError('maxlength') &&
+              !getPass?.hasError('touched')
+            "
+          >
+            Entered password is invalid
+          </div>
+        </ng-template>
+
+        <!-- toggle passowrd btn -->
+        <div class="toggle-checkbox-block d-flex align-items-center">
+          <input
+            type="checkbox"
+            class="toggle-checkbox"
+            (click)="showPasswordToggle()"
+            style="
+              cursor: pointer;
+              box-sizing: border-box;
+              margin-right: 10px;
+              background-color: black;
+            "
+          />
+          Show Password
+        </div>
+
+        <!-- confirm password btn -->
+        <div
+          class="confpassword-block block position-relative d-flex align-items-center mt-4"
+        >
+          <input
+            type="password"
+            class="confpassword-field field"
+            formControlName="confPassword"
+            placeholder="Enter Confirm Password"
+          />
+          <label for="confpassword-field" class="label">Confirm Password</label>
+        </div>
+        <div
+          class="validations"
+          *ngIf="
+            getConfPass?.touched && getConfPass?.hasError('pattern');
+            else confPassVal1
+          "
+        >
+          Password should atleast have a uppercase letter along with 1 digit and
+          special symbol
+        </div>
+        <ng-template #confPassVal1>
+          <div
+            class="validations"
+            *ngIf="
+              getConfPass?.touched && getPass?.value !== getConfPass?.value
+            "
+          >
+            Given password does not match with above password
+          </div>
+        </ng-template>
+
+        <!-- Captcha Block -->
+        <div
+          class="captcha-block d-flex justify-content-around align-items-center w-100 mt-3"
+          style="background-color: rgba(128, 128, 128,0.1); border-radius: 5px"
+        >
+          <div class="captcha-checkbox" style="font-size: 0.8rem">
+            <input
+              class="me-2"
+              type="checkbox"
+              formControlName="captcha"
+              style="accent-color: black"
+              (click)="onCaptchaChecked()"
+            />
+            I am not a robot
+          </div>
+          <div class="captcha-img-block">
+            <img width="70" src="../../../../assets/captcha-img.png" />
+          </div>
+        </div>
+
+        <!-- register btn -->
+        <div class="submit-btn-block" style="width: 100%">
+          <button
+            class="btn btn-primary submit-btn"
+            type="submit"
+            (click)="registerAUser()"
+            (mouseover)="onCaptchaChecked()"
+          >
+            Register
+          </button>
+        </div>
+
+        <div class="go-to-login-text">
+          Already have Login and Password?
+          <span [routerLink]="'/auth/login'">Sign in</span>
+        </div>
+        <!-- Wave Btn  -->
+        <!-- <div class="wrapper">
+          <div class="wave-btn"><span>wave</span></div>
+        </div> -->
+      </form>
+    </div>
+  </div>
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>
+
+<!-- [disabled]="registerForm.invalid" -->
