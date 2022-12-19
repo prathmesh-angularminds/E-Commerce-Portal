@@ -4,6 +4,7 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { RouterModule } from '@angular/router';
 import { UsersComponent } from './users/users.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { UsersComponent } from './users/users.component';
     CommonModule,
     HomeRoutingModule,
     RouterModule,
+    ReactiveFormsModule
   ]
 })
 export class HomeModule { }

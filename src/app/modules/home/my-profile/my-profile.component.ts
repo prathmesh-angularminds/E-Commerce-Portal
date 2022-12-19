@@ -15,6 +15,7 @@ export class MyProfileComponent implements OnInit {
   this.httpService.getDBData().subscribe(data => {
       this.usersData.setUser(data)
       this.loggedInUser = this.usersData.getUser();
+      console.log(this.loggedInUser);
     });
 
   }

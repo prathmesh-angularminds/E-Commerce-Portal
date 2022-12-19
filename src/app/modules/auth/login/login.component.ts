@@ -85,6 +85,7 @@ export class LoginComponent implements OnInit {
 
     if(this.loginForm.valid) {
 
+      console.log(this.loginForm.value);
       let url = "/auth/login";
       this.httpService.setToDB(this.loginForm.value,url).subscribe((data: any) => {
         this.usersdata.setToken(data.token)
