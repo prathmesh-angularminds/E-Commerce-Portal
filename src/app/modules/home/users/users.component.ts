@@ -8,7 +8,7 @@ import { HttpServiceService } from "src/app/services/http-service.service";
   styleUrls: ["./users.component.scss"],
 })
 export class UsersComponent implements OnInit {
-
+  loggedUser: any;
   updateSellerForm: FormGroup;
   id: string;
   sellerForm: FormGroup;
@@ -25,28 +25,9 @@ export class UsersComponent implements OnInit {
   constructor(private httpService: HttpServiceService) {}
 
   ngOnInit(): void {
-    this.sellerForm = new FormGroup({
-      name: new FormControl("", [
-        Validators.required,
-        Validators.pattern("[a-zA-Z ]*$"),
-      ]),
-
-      email: new FormControl("", [
-        Validators.required,
-        Validators.pattern("[a-z0-9]+@[a-z]+.[a-z]{2,3}"), // Validator for email
-      ]),
-      password: new FormControl("", [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(14),
-        Validators.pattern(
-          "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}"
-        ),
-      ]),
-      role: new FormControl("", [Validators.required]),
-    });
-
-    this.setSellerForm({name: "",password: "",email: ""});
+    this.setNewForm();
+    this.loggedUser = localStorage.getItem("loggedUser");
+    this.setUpdateForm({ name: "", password: "", email: "" });
 
     this.setSellerList(`limit=5`);
   }
@@ -81,19 +62,26 @@ export class UsersComponent implements OnInit {
   }
 
   setSellerList(params: string) {
-    this.httpService.getSellers(params).subscribe((data: any) => {
-      this.completeResp = data;
-      this.sellerList = data.results;
-      console.log(data);
+
+    const url: string = "/users?";
+    this.httpService.get(url,params).subscribe({
+      next: (res: any) => {
+        this.completeResp = res;
+        this.sellerList = res.results;
+        console.log("res: ", res);
+      },
+      error: (err: any) => {
+        console.log("res: ", err);
+      },  
     });
   }
 
-  // This function helps in showing and hidding password
+  // This function helps in showing and hiding password [Completed]
   showPasswordToggle() {
     this.checked = !this.checked;
   }
 
-  // show popup code
+  // show popup code [Completed]
   showPop(message: string) {
     this.errorMsgClass.show = true;
     this.errorMsg = message;
@@ -102,17 +90,18 @@ export class UsersComponent implements OnInit {
     }, 3000);
   }
 
-  // Set Page limit
+  // Set Page limit [Completed]
   setDataLimit(limit: number) {
-    
     this.limit = limit;
-    console.log(limit)
+    console.log(limit);
     this.setSellerList(`limit=${limit}`);
   }
 
-  // Delete Seller
+  // Delete Seller [Completed]
   deleteSeller(id: string) {
-    this.httpService.deleteSeller(id).subscribe({
+
+    const params: string = `/users/${id}`;
+    this.httpService.delete(params).subscribe({
       next: (res: any) => {
         console.log(res);
       },
@@ -122,24 +111,50 @@ export class UsersComponent implements OnInit {
   }
 
   applyPagination(page: number) {
-
     console.log(page);
-    
     let params = `page=${page}&limit=${this.limit}`;
     this.setSellerList(params);
   }
 
-  setSellerRole(id: string,role: string) {
-
-    this.httpService.updateSeller(id,'/users/role',{role}).subscribe({
+  // [Completed]
+  setSellerRole(id: string, role: string) {
+    const url: string = '/users/role/';
+    this.httpService.patch(url,id, { role }).subscribe({
       next: (res: any) => {
-        console.log(res);
+        console.log("res:", res);
       },
-      error: (err: any) => {},
+      error: (err: any) => {
+        console.log("err:", err);
+      },
     });
     this.setSellerList(`limit=${this.limit}`);
   }
 
+  // New Seller Data Form [Completed]
+  setNewForm() {
+    this.sellerForm = new FormGroup({
+      name: new FormControl("", [
+        Validators.required,
+        Validators.pattern("[a-zA-Z ]*$"),
+      ]),
+
+      email: new FormControl("", [
+        Validators.required,
+        Validators.pattern("[a-z0-9]+@[a-z]+.[a-z]{2,3}"), // Validator for email
+      ]),
+      password: new FormControl("", [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(14),
+        Validators.pattern(
+          "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}"
+        ),
+      ]),
+      role: new FormControl("", [Validators.required]),
+    });
+  }
+
+  // Add New Seller In List [Completed]
   addSeller() {
     if (this.sellerForm.valid) {
       this.httpService
@@ -149,7 +164,7 @@ export class UsersComponent implements OnInit {
             console.log(res);
           },
           error: (err: any) => {
-            console.log(err)
+            console.log(err);
           },
         });
       this.setSellerList(`limit=${this.limit}`);
@@ -161,8 +176,8 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  setSellerForm(seller: any) {
-
+  // Update Seller Data Form
+  setUpdateForm(seller: any) {
     this.id = seller._id;
 
     this.updateSellerForm = new FormGroup({
@@ -187,20 +202,18 @@ export class UsersComponent implements OnInit {
   }
 
   updateSeller() {
-
     const seller = this.updateSellerForm.value;
+    const url: string = `/users/`;
 
     if (this.updateSellerForm.valid) {
-      this.httpService
-        .updateSeller(this.id,'/users/',seller)
-        .subscribe({
-          next: (res: any) => {
-            console.log(res);
-          },
-          error: (err: any) => {
-            console.log(err)
-          },
-        });
+      this.httpService.patch(url,this.id, seller).subscribe({
+        next: (res: any) => {
+          console.log("res: ", res);
+        },
+        error: (err: any) => {
+          console.log("err: ", err);
+        },
+      });
       this.setSellerList(`limit=${this.limit}`);
       this.showPop("Seller added successfully");
       this.updateSellerForm.reset();

@@ -161,9 +161,11 @@
         </form>
       </div>
       <div class="modal-footer">
-        <div class="submit-btn-block d-flex justify-content-between mt-3">
+        <div class="submit-btn-block d-flex justify-content-between align-items-center mt-0"
+          style="width: 93%"
+        >
           <button
-            class="btn btn-primary submit-btn"
+            class="btn btn-primary submit-btn m-0"
             type="submit"
             data-bs-dismiss="modal"
             (click)="addSeller()"
@@ -298,9 +300,11 @@
         </form>
       </div>
       <div class="modal-footer">
-        <div class="submit-btn-block d-flex justify-content-between mt-3">
+        <div class="submit-btn-block d-flex justify-content-between align-items-center mt-0"
+        style="width: 93%"
+        >
           <button
-            class="btn btn-primary submit-btn"
+            class="btn btn-primary submit-btn m-0"
             type="submit"
             data-bs-dismiss="modal"
             (click)="updateSeller()"
@@ -335,6 +339,7 @@
         style="text-align: center"
       >
         {{ seller.role }}
+        <!-- *ngIf="loggedUser.role === 'admin'" -->
         <div class="role-select-block" >
           <select
             class="form-select"
@@ -374,7 +379,7 @@
               <a class="dropdown-item">Delete</a>
             </li>
             <li
-              (click)="setSellerForm(seller)"
+              (click)="setUpdateForm(seller)"
               style="cursor: pointer"
               data-bs-toggle="modal"
               data-bs-target="#exampleModal1"

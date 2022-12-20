@@ -1,7 +1,48 @@
+<!-- Modal 1: Change Password -->
+
 <div
   class="profile-div w-100 d-flex justify-content-center align-items-center"
   style="height: 91.5vh"
 >
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form
+            class="form-block flex-column justify-content-end align-items-end"
+          >
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div
     class="profile-card w-25 h-50 d-flex align-items-center flex-column"
     style="border-radius: 10px; border: 2px solid black"
@@ -31,10 +72,34 @@
       </div>
     </div>
     <div class=""><b>Admin Name:</b> {{ loggedInUser?.name }}</div>
-    <div class=""><b>Company Name:</b> {{ loggedInUser?.company }}</div>
+    <div class=""><b>Company Name:</b> {{ loggedInUser?._org.name }}</div>
     <div class=""><b>Email:</b> {{ loggedInUser?.email }}</div>
+    <div class=" d-flex flex-column mt-2">
+      <!-- Add before using 
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal" 
+      -->
+      <button
+        class="btn btn-dark"
+        (click)="changePassword()"
+      >
+        Change Password
+      </button>
+      <button
+        class="btn btn-dark mt-1"
+        (click)="verifyCompanyEmail()"
+      >
+        Verify Password
+      </button>
+      <button
+        class="btn btn-dark mt-1"
+        (click)="updateCompanyInfo()"
+      >
+        Update Company Info
+      </button>
+    </div>
     <button
-    routerLink="/auth/login"
+      routerLink="/auth/login"
       (click)="userLoggedOut()"
       class="btn btn-danger mt-3"
     >

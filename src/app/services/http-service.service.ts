@@ -20,32 +20,38 @@ export class HttpServiceService {
     return this.http.post(`${this.baseUrl}${url}`, userData);
   }
 
-  getDBData() {
-    return this.http.get(`${this.baseUrl}/auth/self`,this.headerObject);
-  }
-
   // Set seller to database
   setSellerToDB(sellerData: any, url: string) {
     return this.http.post(`${this.baseUrl}${url}`, sellerData,this.headerObject);
   }
 
-  getSellers(params: string) {
+  // Get Function
+  get(url: string,params: string = "") {
 
-    const url="/users?";
     const completePath = `${this.baseUrl}${url}${params}`;
     return this.http.get(completePath,this.headerObject);
   }
 
-  deleteSeller(userId: string) {
+  // Post Function
+  post(url:string,params:string = "",payload: object = {}) {
 
-    const url=`/users/${userId}`;
-    return this.http.delete(`${this.baseUrl}${url}`,this.headerObject);
+    const completePath = `${this.baseUrl}${url}`;
+    console.log(payload)
+    return this.http.post(completePath,payload,this.headerObject);
   }
 
-  updateSeller(userId:string,url: string,payload: any) {
+  // Delete Function
+  delete(params: string) {
 
-    const finalUrl = `${url}${userId}`;
-    return this.http.patch(`${this.baseUrl}${finalUrl}`,payload,this.headerObject)
+    const completePath = `${this.baseUrl}${params}`;
+    return this.http.delete(completePath,this.headerObject);
+  }
+
+  // Patch Function
+  patch(url: string,params: string,payload: any) {
+
+    const completePath = `${this.baseUrl}${url}${params}`;
+    return this.http.patch(completePath,payload,this.headerObject)
   }
 }
 

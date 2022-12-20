@@ -17,13 +17,7 @@ export class UsersdataService {
 
   setUser(response: any) {
 
-    var user: register = {
-      name: response.name,
-      company: response._org.name,
-      email: response.email
-    }
-
-    localStorage.setItem('loggedUser', JSON.stringify(user));
+    localStorage.setItem('loggedUser', JSON.stringify(response));
   }
 
   setToken(token: string) {
