@@ -4,6 +4,7 @@ import { LayoutAuthComponent } from './auth/auth.component';
 import { LayoutAppComponent } from './app/app.component';
 import { RouterModule } from '@angular/router';
 import {NavbarComponent} from './../components/navbar/navbar.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import {NavbarComponent} from './../components/navbar/navbar.component';
   imports: [
     CommonModule,
     RouterModule,
+    ReactiveFormsModule
   ],
   exports: [LayoutAppComponent, LayoutAuthComponent]
 })

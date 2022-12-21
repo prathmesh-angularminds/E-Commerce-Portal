@@ -8,10 +8,11 @@ import { HttpServiceService } from "src/app/services/http-service.service";
   styleUrls: ["./users.component.scss"],
 })
 export class UsersComponent implements OnInit {
+  
   loggedUser: any;
-  updateSellerForm: FormGroup;
   id: string;
   sellerForm: FormGroup;
+  updateSellerForm: FormGroup;
   checked: boolean = false;
   errorMsg: string = "";
   errorMsgClass: { snackbar: boolean; show: boolean } = {
@@ -21,15 +22,15 @@ export class UsersComponent implements OnInit {
   sellerList: any;
   completeResp: any;
   limit: number = 5;
+  searchedValue: string = ""
+  toggleForm: string = "";
 
   constructor(private httpService: HttpServiceService) {}
 
   ngOnInit(): void {
     this.setNewForm();
     this.loggedUser = localStorage.getItem("loggedUser");
-    this.setUpdateForm({ name: "", password: "", email: "" });
-
-    this.setSellerList(`limit=5`);
+    this.setSellerList(`limit=${this.limit}`);
   }
 
   // Getter Methods
@@ -90,6 +91,23 @@ export class UsersComponent implements OnInit {
     }, 3000);
   }
 
+  // handles search bar input
+  sellerSearch(): void {
+    
+    if(this.searchedValue === "") {
+      const params = `limit=${this.limit}`
+      // console.log(event.target)
+      this.setSellerList(params);
+    } else {
+      const params = `name=${this.searchedValue}&limit=${this.limit}`
+      // console.log(event.target)
+      this.setSellerList(params);
+    }
+    console.log(this.searchedValue)
+    this.checked = false;
+
+  }
+
   // Set Page limit [Completed]
   setDataLimit(limit: number) {
     this.limit = limit;
@@ -104,10 +122,10 @@ export class UsersComponent implements OnInit {
     this.httpService.delete(params).subscribe({
       next: (res: any) => {
         console.log(res);
+        this.setSellerList(`limit=5`);
       },
       error: (err: any) => {},
     });
-    this.setSellerList(`limit=5`);
   }
 
   applyPagination(page: number) {
@@ -122,27 +140,32 @@ export class UsersComponent implements OnInit {
     this.httpService.patch(url,id, { role }).subscribe({
       next: (res: any) => {
         console.log("res:", res);
+        this.setSellerList(`limit=${this.limit}`);
       },
       error: (err: any) => {
         console.log("err:", err);
       },
     });
-    this.setSellerList(`limit=${this.limit}`);
+    
   }
 
   // New Seller Data Form [Completed]
-  setNewForm() {
+  setNewForm(seller: any = {name: "", password: "",email: ""}, id: string = "") {
+
+    this.toggleForm = id === "" ? "new" : "update";
+    this.id = id === "" ? "" : id;
+
     this.sellerForm = new FormGroup({
-      name: new FormControl("", [
+      name: new FormControl(seller.name, [
         Validators.required,
         Validators.pattern("[a-zA-Z ]*$"),
       ]),
 
-      email: new FormControl("", [
+      email: new FormControl(seller.email, [
         Validators.required,
         Validators.pattern("[a-z0-9]+@[a-z]+.[a-z]{2,3}"), // Validator for email
       ]),
-      password: new FormControl("", [
+      password: new FormControl(seller.pasword, [
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(14),
@@ -162,13 +185,13 @@ export class UsersComponent implements OnInit {
         .subscribe({
           next: (res: any) => {
             console.log(res);
+            this.setSellerList(`limit=${this.limit}`);
+            this.showPop("Seller added successfully");
           },
           error: (err: any) => {
             console.log(err);
           },
         });
-      this.setSellerList(`limit=${this.limit}`);
-      this.showPop("Seller added successfully");
       this.sellerForm.reset();
     } else {
       console.log("Invalid");
@@ -176,47 +199,24 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  // Update Seller Data Form
-  setUpdateForm(seller: any) {
-    this.id = seller._id;
-
-    this.updateSellerForm = new FormGroup({
-      name: new FormControl(seller.name, [
-        Validators.required,
-        Validators.pattern("[a-zA-Z ]*$"),
-      ]),
-
-      email: new FormControl(seller.email, [
-        Validators.required,
-        Validators.pattern("[a-z0-9]+@[a-z]+.[a-z]{2,3}"), // Validator for email
-      ]),
-      password: new FormControl(seller.password, [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(14),
-        Validators.pattern(
-          "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}"
-        ),
-      ]),
-    });
-  }
-
   updateSeller() {
-    const seller = this.updateSellerForm.value;
+    const seller = this.sellerForm.value;
     const url: string = `/users/`;
+    console.log(this.id)
+    delete seller['role']
 
-    if (this.updateSellerForm.valid) {
+    if (seller?.role === undefined || this.sellerForm.valid) {
       this.httpService.patch(url,this.id, seller).subscribe({
         next: (res: any) => {
           console.log("res: ", res);
+          this.setSellerList(`limit=${this.limit}`);
+          this.showPop("Seller added successfully");
         },
         error: (err: any) => {
           console.log("err: ", err);
         },
       });
-      this.setSellerList(`limit=${this.limit}`);
-      this.showPop("Seller added successfully");
-      this.updateSellerForm.reset();
+      this.sellerForm.reset();
     } else {
       console.log("Invalid");
       // this.showPop("Invalid Form Filled");

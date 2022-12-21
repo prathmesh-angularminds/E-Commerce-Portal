@@ -11,6 +11,58 @@
   visibility: hidden;
 }
 
+.block {
+    width: 50%;
+    height: 40px;
+
+    .field {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background-color: transparent;
+      border: 1px solid black;
+      outline: none;
+      z-index: 1;
+      padding: 0px 5px 0px 21px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+
+    .field::placeholder {
+      color: #000;
+      font-size: 0.9rem;
+    }
+
+    .label {
+      position: absolute;
+      top: 8px;
+      font-weight: 400;
+      font-size: 0.9rem;
+      color: rgba(87, 87, 87, 0);
+      transition: 0.5s;
+      z-index: -1;
+      box-sizing: border-box;
+      margin-left: 21px;
+    }
+
+    .field:focus + .label {
+      display: flex;
+      z-index: 2;
+      top: -10px;
+      background-color: white;
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: black;
+      box-sizing: border-box;
+      margin-left: 15px;
+      padding: 0px 5px 0px 5px;
+    }
+
+    .field:focus {
+      border: 1px solid black;
+    }
+  }
+
 // Input Field
 .form-block {
   width: 80%;

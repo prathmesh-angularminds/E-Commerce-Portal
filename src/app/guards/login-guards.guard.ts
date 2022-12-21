@@ -68,6 +68,7 @@ export class ShouldOpenProfileGuard implements CanActivate {
       this.router.navigate(["/auth/login"]);
       return false;
     } else {
+      console.log("Hello3")
       return true;
     }
   }

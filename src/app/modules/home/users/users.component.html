@@ -1,140 +1,245 @@
-<!-- Button trigger modal -->
-<button
-  type="button"
-  class="btn btn-dark"
-  data-bs-toggle="modal"
-  data-bs-target="#exampleModal"
->
-  Add New Seller
-</button>
-
-<!-- Modal 1-->
 <div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
+  class="seller-info-page w-100 d-flex flex-column align-items-center"
+  style="height: 93vh; overflow: auto"
 >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Seller</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
+  <div
+    class="submit-btn-block seller-search-create-block d-flex justify-content-between align-items-center m-4"
+    style="width: 93%"
+  >
+    <div
+      class="fullname-block block position-relative d-flex align-items-center"
+    >
+      <input
+        type="text"
+        class="fullname-field field"
+        placeholder="Search Seller By Name"
+        [(ngModel)]="searchedValue"
+        (keyup)="sellerSearch()"
+      />
+      <label for="fullname-field" class="label">Search Seller By Name</label>
+    </div>
+    <!-- Button trigger modal -->
+    <button
+      type="button"
+      class="btn submit-btn m-0"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      (click)="setNewForm()"
+    >
+      Add New Seller
+    </button>
+  </div>
 
-      <div class="modal-body">
-        <form
-          [formGroup]="sellerForm"
-          class="form-block d-flex flex-column justify-content-center align-items-center"
-        >
-          <!-- full name -->
-          <div
-            class="fullname-block block position-relative d-flex align-items-center mt-4"
-          >
-            <input
-              type="text"
-              class="fullname-field field"
-              formControlName="name"
-              placeholder="Enter User Name"
-            />
-            <label for="fullname-field" class="label">Full Name</label>
-          </div>
-          <!-- Full Name Validation -->
-          <div
-            class="validations"
-            *ngIf="getName?.touched && getName?.hasError('pattern')"
-          >
-            User Name should not contain special characters and digits
-          </div>
+  <!-- Modal 1-->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <!-- New Seller -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{this.toggleForm}} Seller</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
 
-          <!-- email -->
-          <div
-            class="email-block block position-relative d-flex align-items-center mt-4"
+        <div class="modal-body">
+          <form
+            [formGroup]="sellerForm"
+            class="form-block d-flex flex-column justify-content-center align-items-center"
           >
-            <input
-              type="email"
-              class="email-field field"
-              formControlName="email"
-              placeholder="Enter Email"
-            />
-            <label for="email-field" class="label">Enter Email</label>
-          </div>
-          <!-- Email Validation -->
-          <div
-            class="validations"
-            *ngIf="getEmail?.touched && getEmail?.hasError('pattern')"
-          >
-            Invalid Email id
-          </div>
-
-          <!-- password -->
-          <div
-            class="password-block block position-relative d-flex align-items-center mt-4"
-          >
-            <input
-              [type]="checked ? 'text' : 'password'"
-              class="password-field field"
-              formControlName="password"
-              placeholder="Enter Password"
-              autocomplete
-            />
-            <label for="password-field" class="label">Password</label>
-          </div>
-
-          <!-- Password Validation -->
-          <div
-            class="validations"
-            *ngIf="
-              getPass?.touched && getPass?.hasError('pattern');
-              else fullNameVal1
-            "
-          >
-            Password should atleast have a uppercase letter along with 1 digit
-            and special symbol
-          </div>
-          <ng-template #fullNameVal1
-            ><div
-              class="validations"
-              *ngIf="getPass?.touched && getPass?.hasError('maxlength')"
+            <!-- full name -->
+            <div
+              class="fullname-block block position-relative d-flex align-items-center mt-4"
             >
-              Invalid Password
-            </div>
-          </ng-template>
-
-          <!-- toggle password btn -->
-          <div
-            class="toggle-checkbox-block d-flex align-items-center justify-content-between"
-            style="font-size: 0.8rem; font-weight: 400"
-          >
-            <div class="toggle-block d-flex">
               <input
-                type="checkbox"
-                class="toggle-checkbox"
-                style="
-                  cursor: pointer;
-                  box-sizing: border-box;
-                  margin-right: 10px;
-                "
-                (click)="showPasswordToggle()"
+                type="text"
+                class="fullname-field field"
+                formControlName="name"
+                placeholder="Enter User Name"
               />
-              Show Password
+              <label for="fullname-field" class="label">Full Name</label>
             </div>
-          </div>
+            <!-- Full Name Validation -->
+            <div
+              class="validations"
+              *ngIf="getName?.touched && getName?.hasError('pattern')"
+            >
+              User Name should not contain special characters and digits
+            </div>
 
-          <div
-            class="user-role-block d-flex align-items-center justify-content-between justify-content-md-start"
-            style="width: 90%"
-          >
-            <div class="title me-2" style="font-size: 0.9rem !important">
-              Select User Role
+            <!-- email -->
+            <div
+              class="email-block block position-relative d-flex align-items-center mt-4"
+            >
+              <input
+                type="email"
+                class="email-field field"
+                formControlName="email"
+                placeholder="Enter Email"
+              />
+              <label for="email-field" class="label">Enter Email</label>
             </div>
-            <div class="role-select-block">
+            <!-- Email Validation -->
+            <div
+              class="validations"
+              *ngIf="getEmail?.touched && getEmail?.hasError('pattern')"
+            >
+              Invalid Email id
+            </div>
+
+            <!-- password -->
+            <div
+              class="password-block block position-relative d-flex align-items-center mt-4"
+            >
+              <input
+                [type]="checked ? 'text' : 'password'"
+                class="password-field field"
+                formControlName="password"
+                placeholder="Enter Password"
+                autocomplete
+              />
+              <label for="password-field" class="label">Password</label>
+            </div>
+
+            <!-- Password Validation -->
+            <div
+              class="validations"
+              *ngIf="
+                getPass?.touched && getPass?.hasError('pattern');
+                else fullNameVal1
+              "
+            >
+              Password should atleast have a uppercase letter along with 1 digit
+              and special symbol
+            </div>
+            <ng-template #fullNameVal1
+              ><div
+                class="validations"
+                *ngIf="getPass?.touched && getPass?.hasError('maxlength')"
+              >
+                Invalid Password
+              </div>
+            </ng-template>
+
+            <!-- toggle password btn -->
+            <div
+              class="toggle-checkbox-block d-flex align-items-center justify-content-between"
+              style="font-size: 0.8rem; font-weight: 400"
+            >
+              <div class="toggle-block d-flex">
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  style="
+                    cursor: pointer;
+                    box-sizing: border-box;
+                    margin-right: 10px;
+                  "
+                  (click)="showPasswordToggle()"
+                />
+                Show Password
+              </div>
+            </div>
+
+            <div
+              class="user-role-block d-flex align-items-center justify-content-between justify-content-md-start"
+              style="width: 90%"
+              *ngIf="this.toggleForm === 'new'"
+            >
+              <div class="title me-2" style="font-size: 0.9rem !important">
+                Select User Role
+              </div>
+              <div class="role-select-block">
+                <select
+                  class="form-select"
+                  aria-label="Default select example"
+                  style="
+                    outline: none;
+                    border: 1px solid black;
+                    font-size: 0.9rem !important;
+                  "
+                  formControlName="role"
+                >
+                  <option selected value="admin">admin</option>
+                  <option value="user">user</option>
+                </select>
+              </div>
+            </div>
+            <div
+              class="validations"
+              *ngIf="getRole?.touched && getRole?.invalid"
+            >
+              Please Select Users Role
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <div
+            class="submit-btn-block d-flex justify-content-between align-items-center mt-0"
+            style="width: 93%"
+          >
+            <button
+              class="btn btn-primary submit-btn m-0"
+              type="submit"
+              data-bs-dismiss="modal"
+              (click)="this.toggleForm === 'new' ? addSeller() : updateSeller()"
+            >
+              {{this.toggleForm === "new" ? 'Add Seller':'Update Seller'}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    <table class="table" style="width: 100vw; overflow-x: auto">
+      <thead class="table-secondary">
+        <tr>
+          <th class="" style="text-align: center; width: 10%" scope="col">#</th>
+          <th class="" style="text-align: center; width: 22%" scope="col">
+            Name
+          </th>
+          <th class="" style="text-align: center; width: 22%" scope="col">
+            Email
+          </th>
+          <th class="" style="text-align: center; width: 22%" scope="col">
+            Role
+          </th>
+          <th
+            class=""
+            style="text-align: center; width: 22%"
+            scope="col"
+            *ngIf="loggedUser['role'] !== 'user'"
+          >
+            Action
+          </th>
+        </tr>
+      </thead>
+      <div *ngIf="sellerList === undefined">Data is empty</div>
+      <tbody>
+        <tr *ngFor="let seller of sellerList; index as sr">
+          <td style="text-align: center">{{ sr + 1 }}</td>
+          <td style="text-align: center">{{ seller.name }}</td>
+          <td style="text-align: center">{{ seller.email }}</td>
+          <td
+            class="d-flex justify-content-evenly align-items-center"
+            style="text-align: center"
+          >
+            {{ seller.role }}
+            <div
+              class="role-select-block"
+              *ngIf="loggedUser['role'] !== 'user'"
+            >
               <select
                 class="form-select"
                 aria-label="Default select example"
@@ -143,281 +248,87 @@
                   border: 1px solid black;
                   font-size: 0.9rem !important;
                 "
-                formControlName="role"
               >
-                <option selected value="admin">admin</option>
-                <option value="user">user</option>
+                <option
+                  value="admin"
+                  (click)="setSellerRole(seller._id, 'admin')"
+                >
+                  admin
+                </option>
+                <option
+                  value="user"
+                  (click)="setSellerRole(seller._id, 'user')"
+                >
+                  user
+                </option>
               </select>
             </div>
-          </div>
-          <div class="validations" *ngIf="getRole?.touched && getRole?.invalid">
-            Please Select Users Role
-          </div>
-
-          <!-- Wave Btn  -->
-          <!-- <div class="wrapper">
-              <div class="wave-btn"><span>wave</span></div>
-            </div> -->
-        </form>
-      </div>
-      <div class="modal-footer">
-        <div class="submit-btn-block d-flex justify-content-between align-items-center mt-0"
-          style="width: 93%"
-        >
-          <button
-            class="btn btn-primary submit-btn m-0"
-            type="submit"
-            data-bs-dismiss="modal"
-            (click)="addSeller()"
-          >
-            Add Seller
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
-</div>
-
-<!-- Modal 2-->
-<div
-  class="modal fade"
-  id="exampleModal1"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update Seller</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-
-      <div class="modal-body">
-        <form
-          [formGroup]="updateSellerForm"
-          class="form-block d-flex flex-column justify-content-center align-items-center"
-        >
-          <!-- full name -->
-          <div
-            class="fullname-block block position-relative d-flex align-items-center mt-4"
-          >
-            <input
-              type="text"
-              class="fullname-field field"
-              formControlName="name"
-              placeholder="Enter User Name"
-            />
-            <label for="fullname-field" class="label">Full Name</label>
-          </div>
-          <!-- Full Name Validation -->
-          <div
-            class="validations"
-            *ngIf="getName1?.touched && getName1?.hasError('pattern')"
-          >
-            User Name should not contain special characters and digits
-          </div>
-
-          <!-- email -->
-          <div
-            class="email-block block position-relative d-flex align-items-center mt-4"
-          >
-            <input
-              type="email"
-              class="email-field field"
-              formControlName="email"
-              placeholder="Enter Email"
-            />
-            <label for="email-field" class="label">Enter Email</label>
-          </div>
-          <!-- Email Validation -->
-          <div
-            class="validations"
-            *ngIf="getEmail1?.touched && getEmail1?.hasError('pattern')"
-          >
-            Invalid Email id
-          </div>
-
-          <!-- password -->
-          <div
-            class="password-block block position-relative d-flex align-items-center mt-4"
-          >
-            <input
-              [type]="checked ? 'text' : 'password'"
-              class="password-field field"
-              formControlName="password"
-              placeholder="Enter Password"
-              autocomplete
-            />
-            <label for="password-field" class="label">Password</label>
-          </div>
-
-          <!-- Password Validation -->
-          <div
-            class="validations"
-            *ngIf="
-              getPass1?.touched && getPass1?.hasError('pattern');
-              else fullNameVal1
-            "
-          >
-            Password should atleast have a uppercase letter along with 1 digit
-            and special symbol
-          </div>
-          <ng-template #fullNameVal1
-            ><div
-              class="validations"
-              *ngIf="getPass1?.touched && getPass1?.hasError('maxlength')"
-            >
-              Invalid Password
+          </td>
+          <td style="text-align: center" *ngIf="loggedUser['role'] !== 'user'">
+            <div class="w-100 d-flex justify-content-evenly">
+              <button
+                class="btn btn-dark"
+                (click)="setNewForm(seller,seller._id)"
+                style="cursor: pointer"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                Update
+              </button>
+              <button
+                class="btn btn-danger"
+                (click)="deleteSeller(seller._id)"
+                style="cursor: pointer"
+              >
+                Delete
+              </button>
             </div>
-          </ng-template>
-
-          <!-- toggle password btn -->
-          <div
-            class="toggle-checkbox-block d-flex align-items-center justify-content-between"
-            style="font-size: 0.8rem; font-weight: 400"
-          >
-            <div class="toggle-block d-flex">
-              <input
-                type="checkbox"
-                class="toggle-checkbox"
-                style="
-                  cursor: pointer;
-                  box-sizing: border-box;
-                  margin-right: 10px;
-                "
-                (click)="showPasswordToggle()"
-              />
-              Show Password
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <div class="submit-btn-block d-flex justify-content-between align-items-center mt-0"
-        style="width: 93%"
-        >
-          <button
-            class="btn btn-primary submit-btn m-0"
-            type="submit"
-            data-bs-dismiss="modal"
-            (click)="updateSeller()"
-          >
-            Update Seller
-          </button>
-        </div>
-      </div>
-    </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
-</div>
 
-<table class="table">
-  <thead class="table-dark">
-    <tr>
-      <th class="" style="text-align: center" scope="col">#</th>
-      <th class="" style="text-align: center" scope="col">Name</th>
-      <th class="" style="text-align: center" scope="col">Email</th>
-      <th class="" style="text-align: center" scope="col">Role</th>
-      <th class="" style="text-align: center" scope="col">Action</th>
-    </tr>
-  </thead>
-  <div *ngIf="sellerList === undefined">Data is empty</div>
-  <tbody>
-    <tr *ngFor="let seller of sellerList; index as sr">
-      <td style="text-align: center">{{ sr + 1 }}</td>
-      <td style="text-align: center">{{ seller.name }}</td>
-      <td style="text-align: center">{{ seller.email }}</td>
-      <td
-        class="d-flex justify-content-evenly align-items-center"
-        style="text-align: center"
+  <!-- Limit & Pagination -->
+  <div
+    class="limit_pagination d-flex justify-content-between align-items-center"
+    style="width: 93%"
+  >
+    <div class="limit-block">
+      Limit:
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        style="
+          outline: none;
+          border: 1px solid black;
+          font-size: 0.9rem !important;
+        "
       >
-        {{ seller.role }}
-        <!-- *ngIf="loggedUser.role === 'admin'" -->
-        <div class="role-select-block" >
-          <select
-            class="form-select"
-            aria-label="Default select example"
-            style="
-              outline: none;
-              border: 1px solid black;
-              font-size: 0.9rem !important;
-            "
-          >
-            <option value="admin" (click)="setSellerRole(seller._id, 'admin')">
-              admin
-            </option>
-            <option value="user" (click)="setSellerRole(seller._id, 'user')">
-              user
-            </option>
-          </select>
-        </div>
-      </td>
-      <td style="text-align: center">
-        <div class="dropdown">
-          <button
-            class="btn btn-light dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton1"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Select Action
-          </button>
-          <ul
-            class="dropdown-menu"
-            aria-labelledby="dropdownMenuButton1"
-            style="position: absolute"
-          >
-            <li (click)="deleteSeller(seller._id)" style="cursor: pointer">
-              <a class="dropdown-item">Delete</a>
-            </li>
-            <li
-              (click)="setUpdateForm(seller)"
-              style="cursor: pointer"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal1"
-            >
-              <a class="dropdown-item">Update</a>
-            </li>
-          </ul>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <option selected value="admin" (click)="setDataLimit(5)">5</option>
+        <option value="user" (click)="setDataLimit(10)">10</option>
+        <option value="user" (click)="setDataLimit(15)">15</option>
+      </select>
+    </div>
 
-Select Data Limit:
-<select
-  class="form-select"
-  aria-label="Default select example"
-  style="outline: none; border: 1px solid black; font-size: 0.9rem !important"
->
-  <option selected value="admin" (click)="setDataLimit(5)">5</option>
-  <option value="user" (click)="setDataLimit(10)">10</option>
-  <option value="user" (click)="setDataLimit(15)">15</option>
-</select>
-
-<div class="pagination-div">
-  <button
-    class="btn btn-dark"
-    [class.disabled]="completeResp?.page == 1"
-    (click)="applyPagination(completeResp?.page - 1)"
-  >
-    Prev
-  </button>
-  {{ completeResp?.page }}
-  <button
-    class="btn btn-dark"
-    (click)="applyPagination(completeResp?.page + 1)"
-    [class.disabled]="completeResp?.page == completeResp?.totalPages"
-  >
-    Next
-  </button>
+    <div class="pagination-block">
+      <button
+        class="btn btn-dark"
+        [class.disabled]="completeResp?.page == 1"
+        (click)="applyPagination(completeResp?.page - 1)"
+      >
+        Prev
+      </button>
+      {{ completeResp?.page }}
+      <button
+        class="btn btn-dark"
+        (click)="applyPagination(completeResp?.page + 1)"
+        [class.disabled]="completeResp?.page == completeResp?.totalPages"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
 </div>
+

@@ -31,7 +31,6 @@ export class UsersdataService {
   }
 
   clearStorage() {
-    
     localStorage.removeItem('loggedUser');
     localStorage.removeItem('token');
   }

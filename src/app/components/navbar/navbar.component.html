@@ -1,21 +1,256 @@
-<div class="navbar px-3" style="height: 7%; background-color: black">
-  <div
-    class="navbar-img h-100 d-flex justify-content-start align-items-center"
-    style="color: white; font-weight: 800"
-  >
-     {{"Comic Verse" }}
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-dark d-flex justify-content-between"
+  style="justify-content: space-between !important"
+>
+  <div class="container-fluid">
+    <a
+      class="navbar-brand"
+      style="font-size: 1.4rem; font-weight: bold !important"
+      style="color: white !important"
+      >{{ "Comic Verse" }}</a
+    >
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            role="button"
+            style="color: white !important"
+            aria-current="page"
+            routerLink="/app/my-profile"
+            >Company Profile</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            role="button"
+            style="color: white !important"
+            routerLink="/app/users"
+            >Sellers Detail</a
+          >
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            style="color: white !important"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Settings
+          </a>
+          <ul
+            class="dropdown-menu"
+            aria-labelledby="navbarDropdownMenuLink"
+            style="cursor: pointer"
+          >
+            <li>
+              <a
+                class="dropdown-item"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal1"
+                (click)="setForm({ _org: {} }, 'pass')"
+                >Change Password</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal1"
+                (click)="setForm(user, 'info')"
+              >
+                Update Company Info
+              </a>
+            </li>
+            <li><a class="dropdown-item"> Log out </a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div style="color: white; cursor: pointer;" routerLink="/app/users">Users</div>
-  <div style="color: white; cursor: pointer;" routerLink="/app/my-profile">Profile</div>
+</nav>
 
-  <div class="btn-group">
-    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-      s
-    </button>
-    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-      <li><button class="dropdown-item" type="button">Action</button></li>
-      <li><button class="dropdown-item" type="button">Another action</button></li>
-      <li><button class="dropdown-item" type="button">Something else here</button></li>
-    </ul>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal1"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Change {{ formType === "info" ? "Information" : "Password" }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          [formGroup]="updateForm"
+          class="form-block flex-column justify-content-center align-items-center"
+          style="width: 100%"
+        >
+          <!-- full name -->
+          <div
+            *ngIf="formType === 'info'"
+            class="fullname-block block position-relative d-flex align-items-center mt-2"
+          >
+            <input
+              type="text"
+              class="fullname-field field"
+              formControlName="name"
+              placeholder="Enter Full Name"
+            />
+            <label for="fullname-field" class="label">Company Name</label>
+          </div>
+          <!-- Full Name Validation -->
+          <div
+            class="validations"
+            *ngIf="getName?.touched && getName?.hasError('pattern')"
+          >
+            User Name should not contain special characters and digits
+          </div>
+
+          <!-- email -->
+          <div
+            *ngIf="formType === 'info'"
+            class="email-block block position-relative d-flex align-items-center mt-4"
+          >
+            <input
+              type="email"
+              class="email-field field"
+              formControlName="email"
+              placeholder="Enter Email"
+            />
+            <label for="email-field" class="label">Email</label>
+          </div>
+          <!-- Email Validation -->
+          <div
+            class="validations"
+            *ngIf="getEmail?.touched && getEmail?.hasError('pattern')"
+          >
+            Invalid Email id
+          </div>
+
+          <!-- password -->
+          <div
+            class="password-block block position-relative d-flex align-items-center mt-4"
+            *ngIf="formType === 'pass'"
+          >
+            <input
+              [type]="checked ? 'text' : 'password'"
+              class="password-field field"
+              formControlName="old_password"
+              placeholder="Enter Old Password"
+            />
+            <label for="password-field" class="label">Old Password</label>
+          </div>
+          <!-- Password Validation -->
+          <div
+            class="validations"
+            *ngIf="
+              getOld?.touched && getOld?.hasError('pattern');
+              else passVal1
+            "
+          >
+            Password should atleast have a uppercase letter along with 1 digit
+            and special symbol
+          </div>
+          <ng-template #passVal1
+            ><div
+              class="validations"
+              *ngIf="
+                getOld?.touched &&
+                getOld?.hasError('maxlength') &&
+                !getOld?.hasError('touched')
+              "
+            >
+              Entered password is invalid
+            </div>
+          </ng-template>
+
+          <!-- password -->
+          <div
+            *ngIf="formType === 'pass'"
+            class="password-block block position-relative d-flex align-items-center mt-4"
+          >
+            <input
+              [type]="checked ? 'text' : 'password'"
+              class="password-field field"
+              formControlName="new_password"
+              placeholder="Enter New Password"
+            />
+            <label for="password-field" class="label">New Password</label>
+          </div>
+          <!-- Password Validation -->
+          <div
+            class="validations"
+            *ngIf="
+              getNew?.touched && getNew?.hasError('pattern');
+              else passVal1
+            "
+          >
+            Password should atleast have a uppercase letter along with 1 digit
+            and special symbol
+          </div>
+          <ng-template #passVal1
+            ><div
+              class="validations"
+              *ngIf="
+                getNew?.touched &&
+                getNew?.hasError('maxlength') &&
+                !getNew?.hasError('touched')
+              "
+            >
+              Entered password is invalid
+            </div>
+          </ng-template>
+
+          <!-- toggle password btn -->
+          <div
+            class="toggle-checkbox-block d-flex align-items-center"
+            *ngIf="formType === 'pass'"
+          >
+            <input
+              type="checkbox"
+              class="toggle-checkbox"
+              (click)="showPasswordToggle()"
+              style="
+                cursor: pointer;
+                box-sizing: border-box;
+                margin-right: 10px;
+                background-color: black;
+              "
+            />
+            Show Password
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div
+          class="submit-btn-block d-flex justify-content-between align-items-center mt-0"
+          style="width: 93%"
+        >
+          <button
+            class="btn btn-primary submit-btn m-0"
+            type="submit"
+            data-bs-dismiss="modal"
+            (click)="formType === 'info' ? updateInfo() : changePassword()"
+          >
+            {{ formType === "pass" ? "Change Pass" : "Update Info" }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

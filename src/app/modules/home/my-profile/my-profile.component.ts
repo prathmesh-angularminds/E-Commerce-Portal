@@ -14,26 +14,12 @@ export class MyProfileComponent implements OnInit {
     private usersData: UsersdataService,
     private httpService: HttpServiceService
   ) {
+    
+  }
+
+  ngOnInit(): void {
+
     this.getCompanyInfo();
-  }
-
-  ngOnInit(): void {}
-
-  userLoggedOut(): void {
-    console.log("ErrorComponent");
-    this.usersData.clearStorage();
-  }
-
-  // Change Password
-  changePassword() {
-
-    console.log("error")
-    // New Password: ViratK@123
-    const url = "/auth/change-password";
-    this.httpService.post(url,"",{old_password: "Virat@123",new_password: "ViratK@123"}).subscribe({
-      next: res => console.log(res),
-      error: err => console.log(err)
-    });
   }
 
   // Function to get Company Info
@@ -52,11 +38,11 @@ export class MyProfileComponent implements OnInit {
 
   // Email Verification 
   verifyCompanyEmail(): void {
-    const url: string = "/auth/";
+    const url: string = "/auth/send-verification-email";
     const email: string = this.loggedInUser.email;
     console.log(email);
 
-    this.httpService.post(url, email).subscribe({
+    this.httpService.post(url).subscribe({
       next: (res) => console.log(res),
       error: (err) => console.log(err),
     });
