@@ -124,6 +124,8 @@
     width: 100%;
     font-size: 0.8rem;
     color: red;
+    box-sizing: border-box;
+    margin-top: 1%;
   }
 
   .toggle-checkbox-block {
@@ -140,7 +142,7 @@
   }
 
   .submit-btn-block {
-    width: 80%;
+    width: 100%;
     box-sizing: border-box;
     
     margin-top: 2%;
@@ -164,7 +166,7 @@
 }
 
 .submit-btn-block {
-  width: 80%;
+  width: 100%;
   box-sizing: border-box;
   margin-top: 2%;
 

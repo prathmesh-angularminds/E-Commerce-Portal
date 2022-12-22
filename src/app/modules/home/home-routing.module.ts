@@ -6,7 +6,11 @@ import { CanLogOutGuard, ShouldOpenProfileGuard } from '../../guards/login-guard
 import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
-  
+  {
+    path: '',
+    redirectTo: '/app/my-profile',
+    pathMatch: 'full'
+  },
   {
     path: 'my-profile',
     component: MyProfileComponent,

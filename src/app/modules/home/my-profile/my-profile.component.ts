@@ -13,12 +13,9 @@ export class MyProfileComponent implements OnInit {
   constructor(
     private usersData: UsersdataService,
     private httpService: HttpServiceService
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit(): void {
-
     this.getCompanyInfo();
   }
 
@@ -32,11 +29,11 @@ export class MyProfileComponent implements OnInit {
         this.loggedInUser = this.usersData.getUser();
         console.log(this.loggedInUser);
       },
-      error: err => console.log(err)
+      error: (err) => console.log(err),
     });
   }
 
-  // Email Verification 
+  // Email Verification
   verifyCompanyEmail(): void {
     const url: string = "/auth/send-verification-email";
     const email: string = this.loggedInUser.email;
@@ -57,10 +54,13 @@ export class MyProfileComponent implements OnInit {
           email: "viratkohli18@gmail.com",
         })
         .subscribe({
-          next: (res) => console.log(res),
+          next: (res) => {
+            console.log(res);
+            location.reload();
+          },
           error: (err) => console.log(err),
         });
-        this.getCompanyInfo();
+      this.getCompanyInfo();
     } else {
       console.log("Form is invalid");
     }

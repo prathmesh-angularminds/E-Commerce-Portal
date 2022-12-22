@@ -26,7 +26,7 @@
       class="login-form-card d-flex justify-content-between align-items-center flex-column py-5"
     >
       <div class="form-title">
-        {{ "Login" | uppercase }}
+        {{ "Login" | uppercase }}<i class="bi bi-exclamation-circle-fill"></i>
       </div>
 
       <form
@@ -34,11 +34,9 @@
         class="form-block d-flex flex-column justify-content-center align-items-center"
       >
         <!-- email -->
-        <div class="email-block block 
-            position-relative
-            d-flex align-items-center
-            mt-4
-            ">
+        <div
+          class="email-block block position-relative d-flex align-items-center mt-4"
+        >
           <input
             type="email"
             class="email-field field"
@@ -49,18 +47,16 @@
         </div>
         <!-- Email Validation -->
         <div
-          class="validations"
+          class="validations d-flex align-items-center"
           *ngIf="getEmail?.touched && getEmail?.hasError('pattern')"
         >
           Invalid Email id
         </div>
 
         <!-- password -->
-        <div class="password-block block
-            position-relative
-            d-flex align-items-center
-            mt-4
-        ">
+        <div
+          class="password-block block position-relative d-flex align-items-center mt-4"
+        >
           <input
             [type]="checked ? 'text' : 'password'"
             class="password-field field"
@@ -109,13 +105,23 @@
             />
             Show Password
           </div>
-          <div class="forget-pass-block">Forget Password ?</div>
+          <div
+            class="forget-pass-block"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Forget Password ?
+          </div>
         </div>
 
         <!-- Captcha Block -->
         <div
           class="captcha-block d-flex justify-content-around align-items-center"
-          style="width: 80%;background-color: rgba(128, 128, 128,0.1); border-radius: 5px"
+          style="
+            width: 80%;
+            background-color: rgba(128, 128, 128, 0.1);
+            border-radius: 5px;
+          "
         >
           <div class="captcha-checkbox" style="font-size: 0.8rem">
             <input
@@ -151,6 +157,8 @@
           </button>
         </div>
 
+        <!-- <div (click)="googleSignIn()">Google</div> -->
+
         <!-- Wave Btn  -->
         <!-- <div class="wrapper">
           <div class="wave-btn"><span>wave</span></div>
@@ -159,4 +167,60 @@
     </div>
   </div>
   <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Forget Password</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="passForm" class="form-block w-100">
+          <!-- email -->
+          <div
+            class="email-block block position-relative d-flex align-items-center mt-2"
+          >
+            <input
+              type="email"
+              class="email-field field"
+              placeholder="Enter Email"
+              formControlName="email"
+            />
+            <label for="email-field" class="label">Enter Email</label>
+          </div>
+          <!-- Email Validation -->
+          <div
+            class="validations"
+            *ngIf="forgetPassEmail?.touched && forgetPassEmail?.hasError('pattern')"
+          >
+            Invalid Email id
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer submit-btn-block w-100">
+        <button
+          [class.disabled]="passForm.invalid"
+          class="btn btn-primary submit-btn"
+          type="submit"
+          (click)="forgetPassword()"
+        >
+          Login
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

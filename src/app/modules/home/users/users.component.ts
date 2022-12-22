@@ -21,15 +21,15 @@ export class UsersComponent implements OnInit {
   };
   sellerList: any;
   completeResp: any;
-  limit: number = 5;
+  limit: number = 3;
   searchedValue: string = ""
-  toggleForm: string = "";
+  // toggleForm: string = "";
 
   constructor(private httpService: HttpServiceService) {}
 
   ngOnInit(): void {
     this.setNewForm();
-    this.loggedUser = localStorage.getItem("loggedUser");
+    this.loggedUser = JSON.parse(localStorage.getItem("loggedUser")!);
     this.setSellerList(`limit=${this.limit}`);
   }
 
@@ -109,10 +109,10 @@ export class UsersComponent implements OnInit {
   }
 
   // Set Page limit [Completed]
-  setDataLimit(limit: number) {
+  setDataLimit(limit: number,page: number) {
     this.limit = limit;
     console.log(limit);
-    this.setSellerList(`limit=${limit}`);
+    this.setSellerList(`limit=${limit}&page=${page}`);
   }
 
   // Delete Seller [Completed]
@@ -152,10 +152,10 @@ export class UsersComponent implements OnInit {
   // New Seller Data Form [Completed]
   setNewForm(seller: any = {name: "", password: "",email: ""}, id: string = "") {
 
-    this.toggleForm = id === "" ? "new" : "update";
+    // this.toggleForm = id === "" ? "new" : "update";
     this.id = id === "" ? "" : id;
 
-    this.sellerForm = new FormGroup({
+    this.sellerForm = new FormGroup({ 
       name: new FormControl(seller.name, [
         Validators.required,
         Validators.pattern("[a-zA-Z ]*$"),

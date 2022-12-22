@@ -15,13 +15,14 @@ export class NavbarComponent implements OnInit {
   formType: string = "";
   user: any;
   checked: boolean = false;
+  demo: Router;
 
   constructor(
     private userData: UsersdataService,
     private httpService: HttpServiceService,
     private router: Router,
   ) {
-    
+   this.demo = this.router
   }
 
   ngOnInit(): void {
@@ -100,6 +101,7 @@ export class NavbarComponent implements OnInit {
   // Logout a user
   logoutUser(): void {
     this.userData.clearStorage();
+    this.router.navigate(['/auth/login'])
   }
 
   changePassword() {
@@ -133,7 +135,7 @@ export class NavbarComponent implements OnInit {
           console.log('sucess');
           console.log("res: ", res);
           this.ngOnInit();
-          // this.router.navigate(['/app/my-profile']);
+          this.router.navigate(['/app']);
           console.log("Hello")
         },
         error: (err) => console.log("err", err),

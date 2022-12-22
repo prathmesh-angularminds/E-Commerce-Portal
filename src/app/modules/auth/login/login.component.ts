@@ -3,8 +3,8 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { UsersdataService } from "src/app/services/usersdata.service";
 import { Router } from "@angular/router";
 import { HttpServiceService } from "src/app/services/http-service.service";
-import { ReCaptchaV3Service } from 'ng-recaptcha';
-
+import { ReCaptchaV3Service } from "ng-recaptcha";
+import { GoogleLoginProvider, SocialAuthService } from "angularx-social-login";
 
 @Component({
   selector: "app-login",
@@ -19,15 +19,39 @@ export class LoginComponent implements OnInit {
     snackbar: true,
     show: false,
   };
+  passForm: FormGroup;
 
   constructor(
     private usersdata: UsersdataService,
     private router: Router,
     private httpService: HttpServiceService,
-    private recaptchaV3Service: ReCaptchaV3Service  
-  ) { }
+    private recaptchaV3Service: ReCaptchaV3Service,
+    private authService: SocialAuthService
+  ) {}
 
   ngOnInit(): void {
+    this.setLoginForm();
+  }
+
+  get getEmail() {
+    return this.loginForm.get("email");
+  }
+
+  get getPass() {
+    return this.loginForm.get("password");
+  }
+
+  get getCaptcha() {
+    return this.loginForm.get("captcha");
+  }
+
+  get forgetPassEmail() {
+
+    return this.passForm.get('email');
+  }
+
+  setLoginForm() {
+
     this.loginForm = new FormGroup({
       email: new FormControl("", [
         Validators.required,
@@ -41,27 +65,45 @@ export class LoginComponent implements OnInit {
           "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}"
         ),
       ]),
-      captcha: new FormControl((''),[Validators.required])
+      captcha: new FormControl("", [Validators.required]),
     });
+
+    // Forget Pass Form
+    this.passForm = new FormGroup({
+      email: new FormControl("", [
+        Validators.required,
+        Validators.pattern("[a-z0-9]+@[a-z]+.[a-z]{2,3}"), // Validator for email
+      ]),
+    })
   }
 
-  get getEmail() {
-    return this.loginForm.get("email");
-  }
+  // googleSignIn() {
+  //   this.authService
+  //     .signIn(GoogleLoginProvider.PROVIDER_ID)
+  //     // .then((data) =>
+  //     //   localStorage.setItem("loggedInUser", JSON.stringify(data))
+  //     // );
+  // }
 
-  get getPass() {
-    return this.loginForm.get("password");
-  }
+  forgetPassword() {
 
-  get getCaptcha() {
+    console.log(this.passForm.value.email)
+    const url:string = '/auth/forgot-password';
+    const payload = {
+      email: this.passForm.value.email,
+    }
 
-    return this.loginForm.get('captcha');
+    this.httpService.post(url,"",payload).subscribe({
+      next: res => {console.log("res: ",res)},
+      error: err => {console.log("err: ",err)}
+    });
   }
 
   // captcha function
   public onCaptchaChecked(): void {
-    this.recaptchaV3Service.execute('importantAction')
-      .subscribe((token: any) => this.loginForm.value.captcha = token);
+    this.recaptchaV3Service
+      .execute("importantAction")
+      .subscribe((token: any) => {this.loginForm.value.captcha = token; localStorage.clear()});
   }
 
   // function which check whether user is present or not
@@ -82,19 +124,18 @@ export class LoginComponent implements OnInit {
   }
 
   logAUser(): void {
-
-    if(this.loginForm.valid) {
-
+    if (this.loginForm.valid) {
       console.log(this.loginForm.value);
       let url = "/auth/login";
-      this.httpService.setToDB(this.loginForm.value,url).subscribe((data: any) => {
-        this.usersdata.setToken(data.token)
-        this.router.navigate(["/app/my-profile"]);
-      },
+      this.httpService.setToDB(this.loginForm.value, url).subscribe(
+        (data: any) => {
+          this.usersdata.setToken(data.token);
+          this.router.navigate(["/app/my-profile"]);
+        },
         (err) => {
-            this.showPop(err.error.message);
+          this.showPop(err.error.message);
         }
-      )
+      );
     } else {
       this.showPop("Invalid Users please register");
     }

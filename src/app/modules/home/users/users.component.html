@@ -6,25 +6,35 @@
     class="submit-btn-block seller-search-create-block d-flex justify-content-between align-items-center m-4"
     style="width: 93%"
   >
-    <div
-      class="fullname-block block position-relative d-flex align-items-center"
-    >
-      <input
-        type="text"
-        class="fullname-field field"
-        placeholder="Search Seller By Name"
-        [(ngModel)]="searchedValue"
-        (keyup)="sellerSearch()"
-      />
-      <label for="fullname-field" class="label">Search Seller By Name</label>
+    <div class="search-block d-flex align-items-center w-50">
+      <div
+        class="w-50 fullname-block block position-relative d-flex align-items-center"
+      >
+        <input
+          type="text"
+          class="fullname-field field"
+          placeholder="Search Seller By Name"
+          [(ngModel)]="searchedValue"
+          (keyup)="searchedValue === '' ? sellerSearch() : ''"
+        />
+        <label for="fullname-field" class="label">Search Seller By Name</label>
+      </div>
+      <button
+        type="button"
+        class="btn submit-btn m-0 ms-4"
+        (click)="sellerSearch()"
+      >
+        Search
+      </button>
     </div>
+
     <!-- Button trigger modal -->
     <button
       type="button"
       class="btn submit-btn m-0"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
-      (click)="setNewForm()"
+      (click)="setNewForm('new')"
     >
       Add New Seller
     </button>
@@ -42,7 +52,9 @@
       <!-- New Seller -->
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{this.toggleForm}} Seller</h5>
+          <h5 class="modal-title" id="exampleModalLabel">
+            {{ id === '' ? 'New' : 'Update'}} Seller
+          </h5>
           <button
             type="button"
             class="btn-close"
@@ -151,9 +163,8 @@
             </div>
 
             <div
-              class="user-role-block d-flex align-items-center justify-content-between justify-content-md-start"
-              style="width: 90%"
-              *ngIf="this.toggleForm === 'new'"
+              class="user-role-block w-100 d-flex align-items-center justify-content-between justify-content-md-start"
+              *ngIf="id === ''"
             >
               <div class="title me-2" style="font-size: 0.9rem !important">
                 Select User Role
@@ -184,16 +195,15 @@
         </div>
         <div class="modal-footer">
           <div
-            class="submit-btn-block d-flex justify-content-between align-items-center mt-0"
-            style="width: 93%"
+            class="w-100 submit-btn-block d-flex justify-content-between align-items-center mt-0"
           >
             <button
               class="btn btn-primary submit-btn m-0"
               type="submit"
               data-bs-dismiss="modal"
-              (click)="this.toggleForm === 'new' ? addSeller() : updateSeller()"
+              (click)="id === '' ? addSeller() : updateSeller()"
             >
-              {{this.toggleForm === "new" ? 'Add Seller':'Update Seller'}}
+              {{ id === "" ? "Add Seller" : "Update Seller" }}
             </button>
           </div>
         </div>
@@ -228,7 +238,9 @@
       <div *ngIf="sellerList === undefined">Data is empty</div>
       <tbody>
         <tr *ngFor="let seller of sellerList; index as sr">
-          <td style="text-align: center">{{ sr + 1 }}</td>
+          <td style="text-align: center">
+            {{ completeResp.page === 1 ? sr + 1 : limit + sr + 1 }}
+          </td>
           <td style="text-align: center">{{ seller.name }}</td>
           <td style="text-align: center">{{ seller.email }}</td>
           <td
@@ -268,7 +280,7 @@
             <div class="w-100 d-flex justify-content-evenly">
               <button
                 class="btn btn-dark"
-                (click)="setNewForm(seller,seller._id)"
+                (click)="setNewForm(seller, seller._id)"
                 style="cursor: pointer"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
@@ -305,15 +317,28 @@
           font-size: 0.9rem !important;
         "
       >
-        <option selected value="admin" (click)="setDataLimit(5)">5</option>
-        <option value="user" (click)="setDataLimit(10)">10</option>
-        <option value="user" (click)="setDataLimit(15)">15</option>
+        <option
+          selected
+          value="admin"
+          (click)="setDataLimit(3, completeResp.page)"
+        >
+          3
+        </option>
+        <option value="user" (click)="setDataLimit(5, completeResp.page)">
+          5
+        </option>
+        <option value="user" (click)="setDataLimit(8, completeResp.page)">
+          8
+        </option>
+        <option value="user" (click)="setDataLimit(8, completeResp.page)">
+          10
+        </option>
       </select>
     </div>
 
     <div class="pagination-block">
       <button
-        class="btn btn-dark"
+        class="btn btn-dark me-1"
         [class.disabled]="completeResp?.page == 1"
         (click)="applyPagination(completeResp?.page - 1)"
       >
@@ -321,7 +346,7 @@
       </button>
       {{ completeResp?.page }}
       <button
-        class="btn btn-dark"
+        class="btn btn-dark ms-1"
         (click)="applyPagination(completeResp?.page + 1)"
         [class.disabled]="completeResp?.page == completeResp?.totalPages"
       >
@@ -331,4 +356,3 @@
   </div>
   <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
 </div>
-
