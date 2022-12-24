@@ -35,14 +35,25 @@ export class MyProfileComponent implements OnInit {
 
   // Email Verification
   verifyCompanyEmail(): void {
-    const url: string = "/auth/send-verification-email";
+    const url: string = `/auth/${this.loggedInUser.email}`;
     const email: string = this.loggedInUser.email;
     console.log(email);
 
-    this.httpService.post(url).subscribe({
-      next: (res) => console.log(res),
-      error: (err) => console.log(err),
-    });
+    this.httpService
+      .post(
+        "/auth/verify-email",
+        ``,
+        {'token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2ExZWNlY2I5ZDlmMGVkMjYxOGNmNzAiLCJpYXQiOjE2NzE4ODgxMTcsImV4cCI6MTY3MTg5MTcxNywidHlwZSI6InZlcmlmeUVtYWlsIn0.q0iT2FCwNZsTmyIS7xKIxucFNwTmlcz2dvwHfeLN1SY'}
+      )
+      .subscribe({
+        next: (res) => console.log("res: ", res),
+        error: (err) => console.log("err: ", err),
+      });
+
+    // this.httpService.post(url).subscribe({
+    //   next: (res) => console.log("res: ",res),
+    //   error: (err) => console.log("err: ",err),
+    // });
   }
 
   // For Updating company info
