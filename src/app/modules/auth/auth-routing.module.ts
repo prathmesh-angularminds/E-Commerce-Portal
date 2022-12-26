@@ -4,6 +4,7 @@ import { Routes , RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from "ng-recaptcha";
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 const routes: Routes = [
@@ -19,7 +20,10 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegistrationComponent,
-  },
+  },{
+    path: 'reset-password',
+    component: ResetPasswordComponent
+  }
 ];
 
 @NgModule({

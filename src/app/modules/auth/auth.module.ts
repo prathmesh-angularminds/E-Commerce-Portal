@@ -7,11 +7,12 @@ import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RECAPTCHA_V3_SITE_KEY, ReCaptchaV3Service } from "ng-recaptcha";
 import { GoogleLoginProvider, SocialAuthService, SocialAuthServiceConfig, SocialLoginModule } from "angularx-social-login";
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const google_clientid = "893913805202-rg7o6somctq21ike6dk1u0d696t64e0q.apps.googleusercontent.com";
 
 @NgModule({
-  declarations: [LoginComponent, RegistrationComponent],
+  declarations: [LoginComponent, RegistrationComponent, ResetPasswordComponent],
   imports: [CommonModule, AuthRoutingModule, RouterModule, ReactiveFormsModule,SocialLoginModule],
   providers: [
     ReCaptchaV3Service,
