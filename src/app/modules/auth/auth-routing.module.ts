@@ -5,6 +5,8 @@ import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from "ng-recaptcha";
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { LoginGuardsGuard } from 'src/app/guards/login-guards.guard';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 
 const routes: Routes = [
@@ -16,13 +18,21 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [LoginGuardsGuard],
   },
   {
     path: 'register',
     component: RegistrationComponent,
-  },{
+    canActivate: [LoginGuardsGuard],
+  },
+  {
     path: 'reset-password',
-    component: ResetPasswordComponent
+    component: ResetPasswordComponent,
+    canActivate: [LoginGuardsGuard],
+  },
+  {
+    path: 'verify-email',
+    component: VerifyEmailComponent,
   }
 ];
 

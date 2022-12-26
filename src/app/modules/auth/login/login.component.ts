@@ -46,12 +46,10 @@ export class LoginComponent implements OnInit {
   }
 
   get forgetPassEmail() {
-
-    return this.passForm.get('email');
+    return this.passForm.get("email");
   }
 
   setLoginForm() {
-
     this.loginForm = new FormGroup({
       email: new FormControl("", [
         Validators.required,
@@ -74,28 +72,33 @@ export class LoginComponent implements OnInit {
         Validators.required,
         Validators.pattern("[a-z0-9]+@[a-z]+.[a-z]{2,3}"), // Validator for email
       ]),
-    })
+    });
   }
 
-  // googleSignIn() {
-  //   this.authService
-  //     .signIn(GoogleLoginProvider.PROVIDER_ID)
-  //     // .then((data) =>
-  //     //   localStorage.setItem("loggedInUser", JSON.stringify(data))
-  //     // );
-  // }
+  googleSignIn() {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
+      this.httpService
+        .post("/auth/login/google", "", { token: data.idToken })
+        .subscribe({
+          next: (res) => {
+            localStorage.setItem("token", res.token),
+              this.router.navigate(["/app/my-profile"]);
+          },
+          error: (err) => this.showPop(err.error.message),
+        });
+    });
+  }
 
   forgetPassword() {
-
-    console.log(this.passForm.value.email)
-    const url:string = '/auth/forgot-password';
+    console.log(this.passForm.value.email);
+    const url: string = "/auth/forgot-password";
     const payload = {
       email: this.passForm.value.email,
-    }
+    };
 
-    this.httpService.post(url,"",payload).subscribe({
-      next: res => {console.log("res: ",res)},
-      error: err => {console.log("err: ",err)}
+    this.httpService.post(url, "", payload).subscribe({
+      next: (res) => this.showPop("Mail is send on Entereal"),
+      error: (err) => this.showPop(err.error.message),
     });
   }
 
@@ -103,7 +106,10 @@ export class LoginComponent implements OnInit {
   public onCaptchaChecked(): void {
     this.recaptchaV3Service
       .execute("importantAction")
-      .subscribe((token: any) => {this.loginForm.value.captcha = token; localStorage.clear()});
+      .subscribe((token: any) => {
+        this.loginForm.value.captcha = token;
+        localStorage.clear();
+      });
   }
 
   // function which check whether user is present or not
@@ -125,17 +131,16 @@ export class LoginComponent implements OnInit {
 
   logAUser(): void {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
       let url = "/auth/login";
-      this.httpService.setToDB(this.loginForm.value, url).subscribe(
-        (data: any) => {
+      this.httpService.post(url, "", this.loginForm.value).subscribe({
+        next: (data: any) => {
           this.usersdata.setToken(data.token);
           this.router.navigate(["/app/my-profile"]);
         },
-        (err) => {
+        error: (err) => {
           this.showPop(err.error.message);
-        }
-      );
+        },
+      });
     } else {
       this.showPop("Invalid Users please register");
     }

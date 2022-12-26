@@ -1,3 +1,4 @@
+<!-- Users Component -->
 <div
   class="seller-info-page w-100 d-flex flex-column align-items-center"
   style="height: 93vh; overflow: auto"
@@ -40,7 +41,7 @@
     </button>
   </div>
 
-  <!-- Modal 1-->
+  <!-- Modal-->
   <div
     class="modal fade"
     id="exampleModal"
@@ -53,7 +54,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">
-            {{ id === '' ? 'New' : 'Update'}} Seller
+            {{ id === "" ? "New" : "Update" }} Seller
           </h5>
           <button
             type="button"
@@ -211,7 +212,7 @@
     </div>
   </div>
 
-  <div class="">
+  <div class="Seller Table">
     <table class="table" style="width: 100vw; overflow-x: auto">
       <thead class="table-secondary">
         <tr>
@@ -248,10 +249,7 @@
             style="text-align: center"
           >
             {{ seller.role }}
-            <div
-              class="role-select-block"
-              *ngIf="loggedUser['role'] !== 'user'"
-            >
+            <div class="role-select-block">
               <select
                 class="form-select"
                 aria-label="Default select example"

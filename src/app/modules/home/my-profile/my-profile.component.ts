@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { UsersdataService } from "src/app/services/usersdata.service";
 import { HttpServiceService } from "src/app/services/http-service.service";
-import { LoginGuardsGuard } from "src/app/guards/login-guards.guard";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-my-profile",
@@ -10,9 +10,16 @@ import { LoginGuardsGuard } from "src/app/guards/login-guards.guard";
 })
 export class MyProfileComponent implements OnInit {
   loggedInUser: any;
+  errorMsg: string = "";
+  errorMsgClass: { snackbar: boolean; show: boolean } = {
+    snackbar: true,
+    show: false,
+  };
+
   constructor(
     private usersData: UsersdataService,
-    private httpService: HttpServiceService
+    private httpService: HttpServiceService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -33,27 +40,28 @@ export class MyProfileComponent implements OnInit {
     });
   }
 
+  // show popup code
+  showPop(message: string) {
+    this.errorMsgClass.show = true;
+    this.errorMsg = message;
+    setTimeout(() => {
+      this.errorMsgClass.show = false;
+    }, 3000);
+  }
+
   // Email Verification
   verifyCompanyEmail(): void {
-    const url: string = `/auth/${this.loggedInUser.email}`;
-    const email: string = this.loggedInUser.email;
-    console.log(email);
+    const url: string = `/auth/send-verification-email`;
 
-    this.httpService
-      .post(
-        "/auth/verify-email",
-        ``,
-        {'token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2ExZWNlY2I5ZDlmMGVkMjYxOGNmNzAiLCJpYXQiOjE2NzE4ODgxMTcsImV4cCI6MTY3MTg5MTcxNywidHlwZSI6InZlcmlmeUVtYWlsIn0.q0iT2FCwNZsTmyIS7xKIxucFNwTmlcz2dvwHfeLN1SY'}
-      )
-      .subscribe({
-        next: (res) => console.log("res: ", res),
-        error: (err) => console.log("err: ", err),
-      });
-
-    // this.httpService.post(url).subscribe({
-    //   next: (res) => console.log("res: ",res),
-    //   error: (err) => console.log("err: ",err),
-    // });
+    this.httpService.post(url).subscribe({
+      next: (res) => {
+        this.showPop("Mail is send in Ethereal");
+      },
+      error: (err) => {
+        this.showPop("Can't verify account");
+        console.log("Err:", err);
+      },
+    });
   }
 
   // For Updating company info

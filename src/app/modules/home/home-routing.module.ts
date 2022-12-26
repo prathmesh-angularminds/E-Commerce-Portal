@@ -4,7 +4,6 @@ import { RouterModule , Routes } from '@angular/router';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { CanLogOutGuard, ShouldOpenProfileGuard } from '../../guards/login-guards.guard';
 import { UsersComponent } from './users/users.component';
-import { VerifyAccountComponent } from './verify-account/verify-account.component';
 
 const routes: Routes = [
   {
@@ -21,10 +20,6 @@ const routes: Routes = [
     path: 'users',
     component: UsersComponent,
   },
-  {
-    path: 'verify-email',
-    component: VerifyAccountComponent
-  }
 ];
 
 @NgModule({

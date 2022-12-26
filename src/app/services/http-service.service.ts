@@ -19,17 +19,6 @@ export class HttpServiceService {
     this.headerObject = {headers: { Authorization: `Bearer ${this.token}` }}
   }
 
-  setToDB(userData: any, url: string) {
-    return this.http.post(`${this.baseUrl}${url}`, userData);
-  }
-
-  // Set seller to database
-  setSellerToDB(sellerData: any, url: string) {
-
-    this.setHeader();
-    return this.http.post(`${this.baseUrl}${url}`, sellerData,this.headerObject);
-  }
-
   // Get Function
   get(url: string,params: string = ""): Observable<any> {
 
@@ -42,9 +31,7 @@ export class HttpServiceService {
   post(url:string,params:string = "",payload: object = {}): Observable<any> {
 
     this.setHeader();
-    console.log(this.headerObject)
-    const completePath = `${this.baseUrl}${url}`;
-    console.log(completePath)
+    const completePath = `${this.baseUrl}${url}${params}`;
     return this.http.post(completePath,payload,this.headerObject);
   }
 

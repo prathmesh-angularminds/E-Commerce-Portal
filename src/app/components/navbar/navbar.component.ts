@@ -16,13 +16,18 @@ export class NavbarComponent implements OnInit {
   user: any;
   checked: boolean = false;
   demo: Router;
+  errorMsg: string = "Show Something";
+  errorMsgClass: { snackbar: boolean; show: boolean } = {
+    snackbar: true,
+    show: false,
+  };
 
   constructor(
     private userData: UsersdataService,
     private httpService: HttpServiceService,
-    private router: Router,
+    private router: Router
   ) {
-   this.demo = this.router
+    this.demo = this.router;
   }
 
   ngOnInit(): void {
@@ -51,12 +56,10 @@ export class NavbarComponent implements OnInit {
   // Function to get Company Info
   getCompanyInfo() {
     const url: string = "/auth/self";
-    console.log('get info');
     this.httpService.get(url).subscribe({
       next: (res) => {
         this.userData.setUser(res);
         this.user = this.userData.getUser();
-        console.log(this.user);
       },
       error: (err) => console.log(err),
     });
@@ -101,9 +104,19 @@ export class NavbarComponent implements OnInit {
   // Logout a user
   logoutUser(): void {
     this.userData.clearStorage();
-    this.router.navigate(['/auth/login'])
+    this.router.navigate(["/auth/login"]);
   }
 
+  // show popup code
+  showPop(message: string) {
+    this.errorMsgClass.show = true;
+    this.errorMsg = message;
+    setTimeout(() => {
+      this.errorMsgClass.show = false;
+    }, 3000);
+  }
+
+  // Change Password
   changePassword() {
     let seller = this.updateForm.value;
     delete seller["name"];
@@ -114,16 +127,20 @@ export class NavbarComponent implements OnInit {
         .post("/users/auth/change-password", "", seller)
         .subscribe({
           next: (res) => {
-            console.log("res: ", res);
+            this.showPop("Password Changed Successfully");
             this.getCompanyInfo();
           },
-          error: (err) => console.log("err", err),
+          error: (err) => {
+            console.log("err", err);
+            this.showPop(err.error.message);
+          },
         });
     } else {
-      console.log("Invalid");
+      this.showPop("Invaid Form");
     }
   }
 
+  // Update Info
   updateInfo() {
     let seller = this.updateForm.value;
     delete seller["new_password"];
@@ -132,16 +149,16 @@ export class NavbarComponent implements OnInit {
     if (seller.name !== "" && seller.email !== "") {
       this.httpService.patch("/users/org", "", seller).subscribe({
         next: (res) => {
-          console.log('sucess');
           console.log("res: ", res);
-          this.ngOnInit();
-          this.router.navigate(['/app']);
-          console.log("Hello")
+          this.showPop("Seller Info Updated Successfully");
         },
-        error: (err) => console.log("err", err),
+        error: (err) => {
+          console.log("err", err);
+          this.showPop(err.error.message);
+        },
       });
     } else {
-      console.log("Invalid");
+      this.showPop("Invaid Form");
     }
   }
 }

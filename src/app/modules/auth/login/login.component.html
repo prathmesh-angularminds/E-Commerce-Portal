@@ -156,8 +156,11 @@
             Register
           </button>
         </div>
-
-        <!-- <div (click)="googleSignIn()">Google</div> -->
+        <div class="social-auth d-flex justify-content-between mt-4" style="width: 80%">
+          <cool-google-button color="dark" (click)="googleSignIn()">
+            Login with Google
+          </cool-google-button> 
+        </div>
 
         <!-- Wave Btn  -->
         <!-- <div class="wrapper">
@@ -217,8 +220,9 @@
           class="btn btn-primary submit-btn"
           type="submit"
           (click)="forgetPassword()"
+          data-bs-dismiss="modal"
         >
-          Login
+          Send Email
         </button>
       </div>
     </div>

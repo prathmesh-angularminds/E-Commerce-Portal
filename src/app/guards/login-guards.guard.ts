@@ -14,10 +14,10 @@ import { LayoutAppComponent } from "../layouts/app/app.component";
 @Injectable({
   providedIn: "root",
 })
-export class LoginGuardsGuard implements CanActivateChild {
+export class LoginGuardsGuard implements CanActivate {
   constructor(private usersData: UsersdataService, private router: Router) {}
 
-  canActivateChild(
+  canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
