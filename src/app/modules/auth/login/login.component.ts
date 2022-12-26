@@ -76,6 +76,8 @@ export class LoginComponent implements OnInit {
   }
 
   googleSignIn() {
+
+    console.log(this.authService)
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
       this.httpService
         .post("/auth/login/google", "", { token: data.idToken })

@@ -19,7 +19,6 @@ export class MyProfileComponent implements OnInit {
   constructor(
     private usersData: UsersdataService,
     private httpService: HttpServiceService,
-    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -34,11 +33,13 @@ export class MyProfileComponent implements OnInit {
       next: (res) => {
         this.usersData.setUser(res);
         this.loggedInUser = this.usersData.getUser();
-        console.log(this.loggedInUser);
+        console.log("res profile:",this.loggedInUser);
       },
       error: (err) => console.log(err),
     });
   }
+
+  // 98500 42148
 
   // show popup code
   showPop(message: string) {

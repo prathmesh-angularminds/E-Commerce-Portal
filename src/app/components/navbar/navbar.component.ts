@@ -128,6 +128,7 @@ export class NavbarComponent implements OnInit {
         .subscribe({
           next: (res) => {
             this.showPop("Password Changed Successfully");
+            localStorage.setItem("loggedUser", JSON.stringify(res));
             this.getCompanyInfo();
           },
           error: (err) => {
@@ -150,7 +151,10 @@ export class NavbarComponent implements OnInit {
       this.httpService.patch("/users/org", "", seller).subscribe({
         next: (res) => {
           console.log("res: ", res);
-          this.showPop("Seller Info Updated Successfully");
+          this.userData.setUser(res);
+          this.user = this.userData.getUser();
+          localStorage.setItem("loggedUser", JSON.stringify(res));
+          // this.showPop("Seller Info Updated Successfully");
         },
         error: (err) => {
           console.log("err", err);
@@ -158,7 +162,7 @@ export class NavbarComponent implements OnInit {
         },
       });
     } else {
-      this.showPop("Invaid Form");
+      this.showPop("Invalid Form");
     }
   }
 }

@@ -240,7 +240,7 @@
       <tbody>
         <tr *ngFor="let seller of sellerList; index as sr">
           <td style="text-align: center">
-            {{ completeResp.page === 1 ? sr + 1 : limit + sr + 1 }}
+            {{ completeResp.page === 1 ? sr + 1 : limit * (completeResp.page-1) + sr + 1 }}
           </td>
           <td style="text-align: center">{{ seller.name }}</td>
           <td style="text-align: center">{{ seller.email }}</td>
