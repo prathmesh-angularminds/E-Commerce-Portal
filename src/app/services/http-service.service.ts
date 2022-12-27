@@ -13,42 +13,32 @@ export class HttpServiceService {
 
   constructor(private http: HttpClient, private userData: UsersdataService) {}
 
-  setHeader() {
-
-    this.token = this.userData.getToken()!;
-    this.headerObject = {headers: { Authorization: `Bearer ${this.token}` }}
-  }
-
   // Get Function
   get(url: string,params: string = ""): Observable<any> {
 
-    this.setHeader();
     const completePath = `${this.baseUrl}${url}${params}`;
-    return this.http.get(completePath,this.headerObject);
+    return this.http.get(completePath);
   }
 
   // Post Function
   post(url:string,params:string = "",payload: object = {}): Observable<any> {
 
-    this.setHeader();
     const completePath = `${this.baseUrl}${url}${params}`;
-    return this.http.post(completePath,payload,this.headerObject);
+    return this.http.post(completePath,payload);
   }
 
   // Delete Function
   delete(params: string): Observable<any> {
 
-    this.setHeader();
     const completePath = `${this.baseUrl}${params}`;
-    return this.http.delete(completePath,this.headerObject);
+    return this.http.delete(completePath);
   }
 
   // Patch Function
   patch(url: string,params: string,payload: any): Observable<any> {
 
-    this.setHeader();
     const completePath = `${this.baseUrl}${url}${params}`;
-    return this.http.patch(completePath,payload,this.headerObject)
+    return this.http.patch(completePath,payload)
   }
 }
 

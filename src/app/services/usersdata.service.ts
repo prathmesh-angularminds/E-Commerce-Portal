@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +9,8 @@ import { Injectable } from '@angular/core';
 //////////////////////////// Service to work on users data
 export class UsersdataService {
 
-  constructor() {}
+  constructor(private router: Router) {}
+  updateDetails: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   // get user from local storage
   getUser() {
@@ -22,7 +25,6 @@ export class UsersdataService {
 
   setToken(token: string) {
 
-    console.log(typeof(token))
     localStorage.setItem('token',token)
   }
 
@@ -33,6 +35,7 @@ export class UsersdataService {
   clearStorage() {
     localStorage.removeItem('loggedUser');
     localStorage.removeItem('token');
+    this.router.navigate(['/auh/login'])
   }
 }
 
