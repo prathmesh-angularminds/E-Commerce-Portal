@@ -53,6 +53,11 @@ export class NavbarComponent implements OnInit {
     return this.updateForm.get("new_password");
   }
 
+  get getConf() {
+
+    return this.updateForm.get("confirm_password");
+  }
+
   // Function to get Company Info
   getCompanyInfo() {
     const url: string = "/auth/self";
@@ -93,6 +98,14 @@ export class NavbarComponent implements OnInit {
           "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}"
         ),
       ]),
+      confirm_password: new FormControl("", [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(14),
+        Validators.pattern(
+          "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}"
+        ),
+      ]),
     });
   }
 
@@ -121,6 +134,8 @@ export class NavbarComponent implements OnInit {
     let seller = this.updateForm.value;
     delete seller["name"];
     delete seller["email"];
+    delete seller['confirm_password'];
+
 
     if (seller.old_password !== "" && seller.new_password !== "") {
       this.httpService
@@ -146,6 +161,7 @@ export class NavbarComponent implements OnInit {
     let seller = this.updateForm.value;
     delete seller["new_password"];
     delete seller["old_password"];
+    delete seller['confirm_password'];
 
     if (seller.name !== "" && seller.email !== "") {
       this.httpService.patch("/users/org", "", seller).subscribe({
@@ -155,6 +171,10 @@ export class NavbarComponent implements OnInit {
           this.user = this.userData.getUser();
           localStorage.setItem("loggedUser", JSON.stringify(res));
           // this.showPop("Seller Info Updated Successfully");
+          this.userData.updateDetails.next(true);
+          setTimeout(() => {
+            this.userData.updateDetails.next(false);
+          },200)
         },
         error: (err) => {
           console.log("err", err);

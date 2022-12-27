@@ -4,9 +4,10 @@ import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { ErrorComponent } from "./components/error/error.component";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LayoutsModule } from "./layouts/layouts.module";
 import { FormsModule } from "@angular/forms";
+import { CommonInterceptor } from "./services/common.interceptor";
 
 @NgModule({
   declarations: [AppComponent, ErrorComponent],
@@ -17,7 +18,7 @@ import { FormsModule } from "@angular/forms";
     LayoutsModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS,useClass: CommonInterceptor,multi: true}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

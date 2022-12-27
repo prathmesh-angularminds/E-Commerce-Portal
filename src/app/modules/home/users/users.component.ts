@@ -8,6 +8,7 @@ import { HttpServiceService } from "src/app/services/http-service.service";
   styleUrls: ["./users.component.scss"],
 })
 export class UsersComponent implements OnInit {
+  
   loggedUser: any;
   id: string;
   sellerForm: FormGroup;

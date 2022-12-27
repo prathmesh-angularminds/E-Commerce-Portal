@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
     show: false,
   };
   passForm: FormGroup;
+  captchaToken: string;
 
   constructor(
     private usersdata: UsersdataService,
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.onCaptchaChecked();
     this.setLoginForm();
   }
 
@@ -63,7 +65,7 @@ export class LoginComponent implements OnInit {
           "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}"
         ),
       ]),
-      captcha: new FormControl("", [Validators.required]),
+      captcha: new FormControl(""),
     });
 
     // Forget Pass Form
@@ -76,8 +78,6 @@ export class LoginComponent implements OnInit {
   }
 
   googleSignIn() {
-
-    console.log(this.authService)
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
       this.httpService
         .post("/auth/login/google", "", { token: data.idToken })
@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit {
     };
 
     this.httpService.post(url, "", payload).subscribe({
-      next: (res) => this.showPop("Mail is send on Entereal"),
+      next: (res) => this.showPop("Mail is send on Ethereal"),
       error: (err) => this.showPop(err.error.message),
     });
   }
@@ -109,8 +109,7 @@ export class LoginComponent implements OnInit {
     this.recaptchaV3Service
       .execute("importantAction")
       .subscribe((token: any) => {
-        this.loginForm.value.captcha = token;
-        localStorage.clear();
+        this.captchaToken = token;
       });
   }
 
@@ -133,6 +132,7 @@ export class LoginComponent implements OnInit {
 
   logAUser(): void {
     if (this.loginForm.valid) {
+      this.loginForm.value.captcha = this.captchaToken;
       let url = "/auth/login";
       this.httpService.post(url, "", this.loginForm.value).subscribe({
         next: (data: any) => {
@@ -141,8 +141,11 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           this.showPop(err.error.message);
+          this.onCaptchaChecked();
         },
       });
+
+      localStorage.clear();
     } else {
       this.showPop("Invalid Users please register");
     }

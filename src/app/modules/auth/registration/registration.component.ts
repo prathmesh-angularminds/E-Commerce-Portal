@@ -19,6 +19,7 @@ export class RegistrationComponent implements OnInit {
     snackbar: true,
     show: false,
   };
+  captchaToken = "";
 
   constructor(
     private usersData: UsersdataService,
@@ -28,6 +29,7 @@ export class RegistrationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.onCaptchaChecked();
     this.setRegisterForm();
   }
 
@@ -88,15 +90,16 @@ export class RegistrationComponent implements OnInit {
           "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}"
         ),
       ]),
-      captcha: new FormControl("", [Validators.required]),
+      captcha: new FormControl(""),
     });
   }
 
   // captcha function
   public onCaptchaChecked(): void {
-    this.recaptchaV3Service
-      .execute("importantAction")
-      .subscribe((token) => (this.registerForm.value.captcha = token));
+    this.recaptchaV3Service.execute("importantAction").subscribe((token) => {
+
+      this.captchaToken = token;      
+    });
   }
 
   // show popup code
@@ -110,22 +113,27 @@ export class RegistrationComponent implements OnInit {
 
   // Function which is called when a user clicks on register btn
   registerAUser() {
+
+    console.log(this.captchaToken);
     if (this.registerForm.invalid) {
       this.showPop("Form submitted is invalid");
+    
     } else {
       let url = "/auth/register";
       let registerValue = this.registerForm.value;
+      this.registerForm.value.captcha = this.captchaToken;
 
       // removing captcha and password btn
       delete registerValue.confPassword;
 
-      this.httpService.post(url,"",registerValue).subscribe({
+      this.httpService.post(url, "", registerValue).subscribe({
         next: (res) => {
           this.showPop("User Registered Successfully");
           setTimeout(() => this.router.navigate(["/auth/login"]), 3000);
         },
         error: (err) => {
           this.showPop(err.error.message);
+          this.onCaptchaChecked();
         },
       });
     }

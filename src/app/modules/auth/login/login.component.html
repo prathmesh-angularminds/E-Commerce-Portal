@@ -114,34 +114,9 @@
           </div>
         </div>
 
-        <!-- Captcha Block -->
-        <div
-          class="captcha-block d-flex justify-content-around align-items-center"
-          style="
-            width: 80%;
-            background-color: rgba(128, 128, 128, 0.1);
-            border-radius: 5px;
-          "
-        >
-          <div class="captcha-checkbox" style="font-size: 0.8rem">
-            <input
-              class="me-2"
-              type="checkbox"
-              formControlName="captcha"
-              style="accent-color: black"
-              (click)="onCaptchaChecked()"
-            />
-            I am not a robot
-          </div>
-          <div class="captcha-img-block">
-            <img width="70" src="../../../../assets/captcha-img.png" />
-          </div>
-        </div>
-
-        <!-- register btn -->
-        <div class="submit-btn-block d-flex justify-content-between mt-3">
+        <div class="submit-btn-block d-flex justify-content-between align-items-center m-0">
           <button
-            class="btn btn-primary submit-btn"
+            class="btn btn-primary submit-btn m-0"
             type="submit"
             (click)="logAUser()"
           >
@@ -149,7 +124,7 @@
           </button>
 
           <button
-            class="btn btn-primary submit-btn"
+            class="btn btn-primary submit-btn m-0"
             type="submit"
             [routerLink]="'/auth/register'"
           >

@@ -15,11 +15,13 @@
           <a
             class="nav-link active"
             role="button"
-            [ngStyle]="{'color':'white','font-weight': (demo.url === '/app/my-profile'?'700':'')}"
+            [ngStyle]="{
+              color: 'white',
+              'font-weight': demo.url === '/app/my-profile' ? '700' : ''
+            }"
             aria-current="page"
             routerLink="/app/my-profile"
             [routerLinkActive]="['is-active']"
-            
             >Company Profile</a
           >
         </li>
@@ -27,7 +29,10 @@
           <a
             class="nav-link active"
             role="button"
-            [ngStyle]="{'color':'white','font-weight': (demo.url === '/app/users'?'700':'')}"
+            [ngStyle]="{
+              color: 'white',
+              'font-weight': demo.url === '/app/users' ? '700' : ''
+            }"
             routerLink="/app/users"
             >Sellers Detail</a
           >
@@ -67,7 +72,9 @@
                 Update Company Info
               </a>
             </li>
-            <li (click)="logoutUser()"><a class="dropdown-item"> Log out </a></li>
+            <li (click)="logoutUser()">
+              <a class="dropdown-item"> Log out </a>
+            </li>
           </ul>
         </li>
       </ul>
@@ -194,6 +201,7 @@
             />
             <label for="password-field" class="label">New Password</label>
           </div>
+
           <!-- Password Validation -->
           <div
             class="validations"
@@ -236,12 +244,48 @@
             />
             Show Password
           </div>
+
+          <!-- confirm password btn -->
+          <div
+            class="confpassword-block block position-relative d-flex align-items-center mt-4"
+            *ngIf="formType === 'pass'"
+          >
+            <input
+              type="password"
+              class="confpassword-field field"
+              formControlName="confirm_password"
+              placeholder="Enter Confirm Password"
+            />
+            <label for="confpassword-field" class="label"
+              >Confirm Password</label
+            >
+          </div>
+          <div
+            class="validations"
+            *ngIf="
+              getConf?.touched && getConf?.hasError('pattern');
+              else confPassVal1
+            "
+          >
+            Password should atleast have a uppercase letter along with 1 digit
+            and special symbol
+          </div>
+          <ng-template #confPassVal1>
+            <div
+              class="validations"
+              *ngIf="
+                getConf?.touched && getNew?.value !== getConf?.value
+              "
+            >
+              Given password does not match with above password
+            </div>
+          </ng-template>
         </form>
       </div>
       <div class="modal-footer">
         <div
           class="submit-btn-block d-flex justify-content-between align-items-center mt-0"
-          style="width: 93%"
+          style="width: 100%"
         >
           <button
             class="btn btn-primary submit-btn m-0"

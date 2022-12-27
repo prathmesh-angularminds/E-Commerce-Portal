@@ -9,6 +9,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 // Google Api Login Imports
+import { RecaptchaModule } from "ng-recaptcha";
 import { RECAPTCHA_V3_SITE_KEY, ReCaptchaV3Service } from "ng-recaptcha";
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from "angularx-social-login";
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
@@ -18,7 +19,8 @@ const google_clientid = "893913805202-rg7o6somctq21ike6dk1u0d696t64e0q.apps.goog
 
 @NgModule({
   declarations: [LoginComponent, RegistrationComponent, ResetPasswordComponent, VerifyEmailComponent],
-  imports: [CommonModule, AuthRoutingModule, RouterModule, ReactiveFormsModule,SocialLoginModule,CoolSocialLoginButtonsModule],
+  imports: [CommonModule, AuthRoutingModule, RouterModule, ReactiveFormsModule,SocialLoginModule,CoolSocialLoginButtonsModule,    RecaptchaModule
+  ],
   providers: [
     ReCaptchaV3Service,
     {

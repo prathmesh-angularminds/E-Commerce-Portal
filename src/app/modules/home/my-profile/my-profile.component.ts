@@ -23,6 +23,10 @@ export class MyProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCompanyInfo();
+    this.usersData.updateDetails.subscribe(data => {
+      if(data === true)   
+        this.getCompanyInfo();
+    })
   }
 
   // Function to get Company Info
@@ -38,8 +42,6 @@ export class MyProfileComponent implements OnInit {
       error: (err) => console.log(err),
     });
   }
-
-  // 98500 42148
 
   // show popup code
   showPop(message: string) {

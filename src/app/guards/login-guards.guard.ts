@@ -4,8 +4,6 @@ import {
   CanActivate,
   CanDeactivate,
   RouterStateSnapshot,
-  CanActivateChild,
-  UrlTree,
 } from "@angular/router";
 import { UsersdataService } from "../services/usersdata.service";
 import { Router } from "@angular/router";
@@ -15,7 +13,7 @@ import { LayoutAppComponent } from "../layouts/app/app.component";
   providedIn: "root",
 })
 export class LoginGuardsGuard implements CanActivate {
-  constructor(private usersData: UsersdataService, private router: Router) {}
+  constructor(private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -36,7 +34,7 @@ export class LoginGuardsGuard implements CanActivate {
   providedIn: "root",
 })
 export class CanLogOutGuard implements CanDeactivate<LayoutAppComponent> {
-  constructor(private usersData: UsersdataService, private router: Router) {}
+  constructor(private router: Router) {}
 
   canDeactivate(component: LayoutAppComponent): boolean {
     
@@ -55,7 +53,7 @@ export class CanLogOutGuard implements CanDeactivate<LayoutAppComponent> {
   providedIn: "root",
 })
 export class ShouldOpenProfileGuard implements CanActivate {
-  constructor(private usersData: UsersdataService, private router: Router) {}
+  constructor(private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
