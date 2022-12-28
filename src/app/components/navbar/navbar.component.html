@@ -37,6 +37,18 @@
             >Sellers Detail</a
           >
         </li>
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            role="button"
+            [ngStyle]="{
+              color: 'white',
+              'font-weight': demo.url === '/app/product/product-list' ? '700' : ''
+            }"
+            routerLink="/app/product/product-list"
+            >Product List</a
+          >
+        </li>
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"

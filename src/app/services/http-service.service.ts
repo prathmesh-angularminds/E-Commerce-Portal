@@ -28,9 +28,9 @@ export class HttpServiceService {
   }
 
   // Delete Function
-  delete(params: string): Observable<any> {
+  delete(url: string): Observable<any> {
 
-    const completePath = `${this.baseUrl}${params}`;
+    const completePath = `${this.baseUrl}${url}`;
     return this.http.delete(completePath);
   }
 

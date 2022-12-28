@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule , Routes } from '@angular/router';
 import { MyProfileComponent } from './my-profile/my-profile.component';
-import { CanLogOutGuard, ShouldOpenProfileGuard } from '../../guards/login-guards.guard';
 import { UsersComponent } from './users/users.component';
+import { LayoutAppComponent } from 'src/app/layouts/app/app.component';
 
 const routes: Routes = [
   {
@@ -16,10 +16,18 @@ const routes: Routes = [
     component: MyProfileComponent,
   },
   {
-
     path: 'users',
     component: UsersComponent,
   },
+  {
+    path: 'product',
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./products/products.module').then((m) => {return m.ProductsModule})
+      }
+    ]
+  }
 ];
 
 @NgModule({

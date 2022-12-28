@@ -32,7 +32,7 @@ export class CommonInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    // this.token = this.userData.getToken()!;
+    this.token = this.userData.getToken()!;
     this.header = { Authorization: `Bearer ${this.token}` };
 
     return next.handle(request.clone({ setHeaders: this.header })).pipe(

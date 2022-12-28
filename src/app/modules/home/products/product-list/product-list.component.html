@@ -1,0 +1,201 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="productForm" class="w-100">
+          <!-- full name -->
+          <div
+            class="fullname-block block position-relative d-flex align-items-center w-100"
+          >
+            <input
+              type="text"
+              class="fullname-field field"
+              formControlName="name"
+              placeholder="Enter Product Name"
+            />
+            <label for="fullname-field" class="label">Product Name</label>
+          </div>
+          <!-- Full Name Validation -->
+          <div class="validations" *ngIf="getName?.touched && getName?.invalid">
+            Product Name is required
+          </div>
+
+          <!-- description -->
+          <div
+            class="fullname-block block position-relative d-flex align-items-center mt-3 w-100"
+            style="height: 20vh"
+          >
+            <textarea
+              type="text"
+              class="fullname-field field py-2"
+              formControlName="description"
+              placeholder="Enter Product Description"
+            ></textarea>
+
+            <label for="fullname-field" class="label">Product Desc</label>
+          </div>
+          <!-- Description Validation -->
+          <div class="validations" *ngIf="getDesc?.touched && getDesc?.invalid">
+            Desc is required
+          </div>
+
+          <!-- price -->
+          <div
+            class="fullname-block block position-relative d-flex align-items-center w-25 mt-3"
+          >
+            <input
+              type="tel"
+              class="fullname-field field"
+              formControlName="price"
+              placeholder="Enter Price"
+            />
+            <label for="fullname-field" class="label">Price</label>
+          </div>
+
+          <!-- Price Validation -->
+          <div
+            class="validations"
+            *ngIf="getPrice?.touched && getPrice?.invalid"
+          >
+            Price is required
+          </div>
+
+          <!-- Images -->
+          <div class="input-group mt-3">
+            <input
+              type="file"
+              class="form-control"
+              id="inputGroupFile02 "
+              name="img"
+              accept="image/*"
+              multiple="multiple"
+              (change)="getSelectedImage($event)"
+            />
+            <label class="input-group-text" for="inputGroupFile02"
+              >Upload</label
+            >
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div
+          class="w-100 submit-btn-block d-flex justify-content-between align-items-center mt-0"
+        >
+          <button
+            class="btn btn-primary submit-btn m-0"
+            type="submit"
+            data-bs-dismiss="modal"
+            [disabled]="productForm.invalid"
+            (click)="submitForm()"
+          >
+            Add Product
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="product-list-block d-flex justify-content-center align-items-center"
+  class="w-100"
+  style="height: 92.9vh"
+>
+  <div
+    class="search-sort-product d-flex justify-content-between align-items-center py-3 px-2"
+  >
+    <div class="sort-block d-flex justify-content-center align-items-center" style="width: 20%">
+        Sort By: 
+      <select
+        class="form-select ms-2"
+        style="width: 50%"
+        aria-label="Default select example"
+      >
+        <option value="name" (click)="getProductList('name')">name</option>
+        <option value="price" (click)="getProductList('price')">price</option>
+      </select>
+    </div>
+
+    <div class="submit-btn-block m-0">
+      <button
+        class="btn btn-dark submit-btn m-0 position-relative"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        Add Product
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="productList === undefined">No Product Present</div>
+  <div
+    class="product-list-container d-flex justify-content-between gap-4 overflow-scroll mx-auto mt-4"
+    style="height: 80vh; width: 85%; flex-wrap: wrap"
+    *ngIf="productList !== undefined || null"
+  >
+    <div
+      class="products-list"
+      style="width: 300px"
+      *ngFor="let product of productList"
+    >
+      <div class="card">
+        <div
+          class="card-image d-flex justify-content-center align-items-center"
+          style="width: 100%; height: 40vh; background-color: #f6f6f6"
+        >
+          <img
+            src="{{ product.images[0].url }}"
+            class="card-img-top"
+            style="width: 90%; height: 90%"
+            alt="..."
+          />
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">
+            {{ product.description }}
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            Price: <b>{{ product.price | currency : "INR" }}</b>
+          </li>
+        </ul>
+        <div
+          class="card-body submit-btn-block d-flex justify-content-between align-items-center"
+        >
+          <button
+            class="btn btn-dark btn-sm"
+            routerLink="/app/product/product-details"
+          >
+            View Details
+          </button>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="deleteProduct(product._id)"
+          >
+            Delete Product
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>
