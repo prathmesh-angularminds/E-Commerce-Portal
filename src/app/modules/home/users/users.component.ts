@@ -117,7 +117,6 @@ export class UsersComponent implements OnInit {
 
   // function to apply pagination
   applyPagination(page: number) {
-
     
     let params = `limit=${this.limit}&page=${page}`;
     this.setSellerList(params);

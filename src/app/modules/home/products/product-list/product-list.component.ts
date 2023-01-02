@@ -16,12 +16,17 @@ export class ProductListComponent implements OnInit {
     snackbar: true,
     show: false,
   };
-  productList: any;
+  products: any;
+  limit: number = 2;
+  sortBy: string = "name";
+  searched: string = "";
 
   constructor(private httpService: HttpServiceService) {}
 
   ngOnInit(): void {
-    this.getProductList();
+    const params = `page=${1}&limit=${this.limit}&sortBy=${this.sortBy}`;
+
+    this.getProductList(params);
     this.setProductForm();
   }
 
@@ -38,12 +43,24 @@ export class ProductListComponent implements OnInit {
     return this.productForm.get("price");
   }
 
-  // gget product list
-  getProductList(sort:string = "name",page:number = 1) {
-    const url = `/products?sortBy=${sort}&page=${page}`;
+  // Set Page limit [Completed]
+  setDataLimit(limit: number, page: number) {
+    if (this.products.results.length < limit) {
+      page = page - 1;
+    }
+    this.limit = limit;
+    this.getProductList(`limit=${limit}&page=${page}&sortBt=${this.sortBy}`);
+  }
 
-    this.httpService.get(url).subscribe({
-      next: (res) => (this.productList = res.results),
+  // get product list
+  getProductList(params: string = "") {
+    const url = `/products?`;
+
+    this.httpService.get(url, params).subscribe({
+      next: (res) => {
+        this.products = res;
+        console.log(this.products);
+      },
       error: (err) => {
         console.log(err);
       },
@@ -81,20 +98,32 @@ export class ProductListComponent implements OnInit {
   // Delete Product
   deleteProduct(id: string) {
     const url = `/products/${id}`;
+    const params = `page=${this.products.page}&limit=${
+      this.limit
+    }&sortBy=${"name"}`;
+
     this.httpService.delete(url).subscribe({
       next: (res) => {
         this.showPop("Product Deleted Successfully");
-        this.getProductList();
+        this.getProductList(params);
       },
       error: (err) => console.log(err),
     });
-    console.log(id);
+  }
+
+  // function to apply pagination
+  applyPagination(page: number) {
+    let params = `limit=${this.limit}&page=${page}`;
+    this.getProductList(params);
   }
 
   submitForm() {
     let productForm = this.productForm.value;
     let productData: FormData = new FormData();
     const url = "/products";
+    const params = `page=${this.products.page}&limit=${
+      this.limit
+    }&sortBy=${"name"}`;
 
     productData.append("name", productForm.name);
     productData.append("description", productForm.description);
@@ -105,9 +134,29 @@ export class ProductListComponent implements OnInit {
     this.httpService.post(url, "", productData).subscribe({
       next: (res) => {
         this.showPop("Product Added Successfully");
-        this.getProductList();
+        this.getProductList(params);
       },
       error: (err) => this.showPop(err.error.message),
     });
+  }
+
+  getSelected(event: any, page: number, type: string) {
+    this.sortBy = type === "sortBy" ? event.target.value : "name";
+    this.limit = type === "limit" ? event.target.value : 2;
+
+    const params =
+      type === "sortBy"
+        ? `sortBy=${this.sortBy}&page=${page}&limit=${this.products.limit}`
+        : `limit=${this.limit}&page=${page}&sortBy=${this.sortBy}`;
+
+    this.getProductList(params);
+  }
+
+  getSearched() {
+    const params =
+      this.searched === ""
+        ? `page=${1}&limit=${this.limit}&sortBy=${this.sortBy}`
+        : `name=${this.searched}`;
+    this.getProductList(params);
   }
 }

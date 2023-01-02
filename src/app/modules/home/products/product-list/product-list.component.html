@@ -115,60 +115,119 @@
 <div
   class="product-list-block d-flex justify-content-center align-items-center"
   class="w-100"
-  style="height: 92.9vh"
+  style="height: 92.6vh"
 >
   <div
-    class="search-sort-product d-flex justify-content-between align-items-center py-3 px-2"
+    class="search-sortproduct d-flex justify-content-between align-items-center py-3 px-2 mx-auto"
+    style="width: 95%"
   >
-    <div class="sort-block d-flex justify-content-center align-items-center" style="width: 20%">
-        Sort By: 
-      <select
-        class="form-select ms-2"
-        style="width: 50%"
-        aria-label="Default select example"
-      >
-        <option value="name" (click)="getProductList('name')">name</option>
-        <option value="price" (click)="getProductList('price')">price</option>
-      </select>
+    <div
+      class="email-block block position-relative d-flex align-items-center"
+      style="height: 35px; width: 30%;"
+    >
+      <input
+        type="email"
+        class="email-field field"
+        placeholder="Search Comic Name"
+        style="border-radius: 5px"
+        [(ngModel)] ="searched"
+        (keyup)="getSearched()"
+      />
     </div>
 
-    <div class="submit-btn-block m-0">
-      <button
-        class="btn btn-dark submit-btn m-0 position-relative"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        Add Product
-      </button>
+    <div class="sort-add-block d-flex" style="width:320px;">
+      <div class="sort-block d-flex align-items-center" style="width: 53%">
+        Sort By:
+        <select
+          class="form-select form-select-sm ms-2"
+          style="width: 50%"
+          aria-label="Default select example"
+          (change)="getSelected($event, products.page, 'sortBy')"
+        >
+          <option [value]="'name'">name</option>
+          <option [value]="'price'">price</option>
+        </select>
+      </div>
+
+      <div class="submit-btn-block m-0" style="width: 10.7%">
+        <button
+          class="btn btn-dark submit-btn m-0 position-relative btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Add Product
+        </button>
+      </div>
     </div>
   </div>
 
-  <div *ngIf="productList === undefined">No Product Present</div>
+  <!-- If page not found -->
   <div
-    class="product-list-container d-flex justify-content-between gap-4 overflow-scroll mx-auto mt-4"
-    style="height: 80vh; width: 85%; flex-wrap: wrap"
-    *ngIf="productList !== undefined || null"
+    class="mx-auto d-flex flex-column justify-content-center align-items-center"
+    style="width: 95%; height: 75vh;"
+    *ngIf="products?.results.length === 0"
+  >
+  <iframe src="https://embed.lottiefiles.com/animation/96253"></iframe>
+    <h5>Data not found</h5>
+  </div>
+
+  <div
+    class="product-list-container d-flex justify-content-start overflow-scroll mx-auto gap-4 mt-2 mx-auto"
+    style="height: 75vh; width: 95%;column-count: 5; flex-wrap: wrap"
+    *ngIf="products?.results.length!== 0"
   >
     <div
-      class="products-list"
-      style="width: 300px"
-      *ngFor="let product of productList"
+      class="product-card"
+      style="width: 270px; height: 75%"
+      *ngFor="let product of products.results"
     >
-      <div class="card">
+      <div
+        class="main-card mb-0 m-0 gap-0"
+        style="border: 1.5px solid #f6f6f6; border-radius: 5px"
+      >
         <div
           class="card-image d-flex justify-content-center align-items-center"
-          style="width: 100%; height: 40vh; background-color: #f6f6f6"
+          style="
+            width: 100%;
+            height: 30vh;
+            background-color: #f6f6f6;
+            border-radius: 5px;
+          "
         >
           <img
             src="{{ product.images[0].url }}"
             class="card-img-top"
-            style="width: 90%; height: 90%"
+            style="width: 90%; height: 90%; border-radius: 5px"
             alt="..."
           />
         </div>
         <div class="card-body">
-          <h5 class="card-title">{{ product.name }}</h5>
-          <p class="card-text">
+          <h6
+            class="card-title"
+            style="
+              overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-word;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+            "
+          >
+            <b>
+              {{ product.name }}
+            </b>
+          </h6>
+          <p
+            class="card-text"
+            style="
+              overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-word;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+            "
+          >
             {{ product.description }}
           </p>
         </div>
@@ -183,6 +242,7 @@
           <button
             class="btn btn-dark btn-sm"
             routerLink="/app/product/product-details"
+            [state]="[product._id]"
           >
             View Details
           </button>
@@ -196,6 +256,46 @@
       </div>
     </div>
   </div>
-  
+
+  <!-- Limit & Pagination -->
+  <div
+    class="limit_pagination d-flex justify-content-between align-items-center mx-auto mt-2"
+    style="width: 95%"
+    *ngIf="products?.results.length !== 0"
+  >
+    <div class="limit-block d-flex align-items-center w-25">
+      Page Limit:
+      <select
+        class="form-select form-select-sm w-25 ms-2"
+        aria-label="Default select example"
+        style="outline: none; font-size: 0.9rem !important"
+        (change)="getSelected($event, products.page, 'limit')"
+      >
+        <option selected [value]="2">2</option>
+        <option [value]="4">4</option>
+        <option [value]="6">6</option>
+        <option [value]="8">8</option>
+      </select>
+    </div>
+
+    <div class="pagination-block">
+      <button
+        class="btn btn-dark me-1 btn-sm"
+        [class.disabled]="products?.page == 1"
+        (click)="applyPagination(products?.page - 1)"
+      >
+        Prev
+      </button>
+      {{ products?.page }}
+      <button
+        class="btn btn-dark ms-1 btn-sm"
+        (click)="applyPagination(products?.page + 1)"
+        [class.disabled]="products?.page == products?.totalPages"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+
   <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
 </div>
