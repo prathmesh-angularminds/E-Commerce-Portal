@@ -1,0 +1,58 @@
+<div class="profile-update w-100 h-100 pt-5 ps-3">
+  <div class="title h5">Update Profile</div>
+  <div class="form-block w-75">
+    <form class="form w-100" [formGroup]="updateInfoForm">
+      <!-- full name -->
+      <div
+        class="fullname-block block position-relative d-flex align-items-center mt-4"
+      >
+        <input
+          type="text"
+          class="fullname-field field"
+          formControlName="name"
+          placeholder="Enter Full Name"
+        />
+        <label for="fullname-field" class="label">Full Name</label>
+      </div>
+      <!-- Full Name Validation -->
+      <div
+        class="validations"
+        *ngIf="getName?.touched && getName?.hasError('pattern')"
+      >
+        User Name should not contain special characters and digits
+      </div>
+
+      <!-- email -->
+      <div
+        class="email-block block position-relative d-flex align-items-center mt-4"
+      >
+        <input
+          type="email"
+          class="email-field field"
+          formControlName="email"
+          placeholder="Enter Email"
+        />
+        <label for="email-field" class="label">Email</label>
+      </div>
+      <!-- Email Validation -->
+      <div
+        class="validations"
+        *ngIf="getEmail?.touched && getEmail?.hasError('pattern')"
+      >
+        Invalid Email id
+      </div>
+      <!-- register btn -->
+      <div class="submit-btn-block" style="width: 100%">
+        <button
+          class="btn btn-primary submit-btn"
+          type="submit"
+          (click)="submitUpdatedInfo()"
+          [disabled]="this.updateInfoForm.invalid"
+        >
+          Update Info
+        </button>
+      </div>
+    </form>
+  </div>
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>

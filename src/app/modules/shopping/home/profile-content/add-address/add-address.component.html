@@ -1,0 +1,122 @@
+<div class="add-new-address w-100 h-100 pt-5 ps-3">
+  <div class="title h5">Add New Address</div>
+  <div class="form-block w-75">
+    <form class="form w-100" [formGroup]="addressForm">
+      <!-- Street -->
+      <div
+        class="fullname-block block position-relative d-flex align-items-center mt-4"
+      >
+        <input
+          type="text"
+          class="fullname-field field"
+          formControlName="street"
+          placeholder="Street"
+        />
+        <label for="fullname-field" class="label">Street</label>
+      </div>
+      <!-- Street Validation -->
+      <div
+        class="validations"
+        *ngIf="getStreet?.touched && getStreet?.hasError('required')"
+      >
+        Street must be provided
+      </div>
+
+      <!-- Line -->
+      <div
+        class="fullname-block block position-relative d-flex align-items-center mt-4"
+      >
+        <input
+          type="text"
+          class="fullname-field field"
+          formControlName="addressLine2"
+          placeholder="Address Line"
+        />
+        <label for="fullname-field" class="label">Address Line</label>
+      </div>
+      <!-- Address Line Validation -->
+      <div
+        class="validations"
+        *ngIf="getLine?.touched && getLine?.hasError('required')"
+      >
+        Address Line must be provided
+      </div>
+
+      <div
+        class="select-address-block d-flex justify-content-between mt-4"
+        style="font-size: 1rem !important"
+      >
+        <select
+          class="form-select form-select-lg mb-3"
+          style="
+            width: 30%;
+            border: 1px solid black;
+            font-size: 0.9rem;
+            color: lightslategray;
+          "
+          aria-label=".form-select-lg example"
+          formControlName="city"
+          (change)="getSelected($event, 'city')"
+        >
+          <option selected>Select City</option>
+          <option [value]="'Pune'">Pune</option>
+          <option [value]="'Mumbai'">Mumbai</option>
+          <option [value]="'Nashik'">Nashik</option>
+        </select>
+
+        <select
+          class="form-select form-select-lg mb-3"
+          style="
+            width: 30%;
+            border: 1px solid black;
+            font-size: 0.9rem;
+            color: lightslategray;
+          "
+          aria-label=".form-select-lg example"
+          formControlName="state"
+          (change)="getSelected($event, 'state')"
+        >
+          <option selected>Select State</option>
+          <option [value]="'Goa'">Goa</option>
+          <option [value]="'Maharashtra'">Maharashtra</option>
+          <option [value]="'Gujarat'">Gujarat</option>
+        </select>
+
+        <!-- Pin code -->
+        <div class="pin-block" style="width: 30%">
+          <div
+            class="fullname-block block position-relative d-flex align-items-center"
+          >
+            <input
+              type="text"
+              class="fullname-field field"
+              formControlName="pin"
+              placeholder="Pin Code"
+            />
+            <label for="fullname-field" class="label">Pin Code</label>
+          </div>
+          <!-- Pin code Validation -->
+          <div
+            class="validations w-100"
+            *ngIf="getPin?.touched && getPin?.hasError('required')"
+          >
+            Pin must be provided
+          </div>
+        </div>
+      </div>
+
+      <!-- register btn -->
+      <div class="submit-btn-block" style="width: 100%">
+        <button
+          class="btn btn-primary submit-btn"
+          type="submit"
+          (click)="addNewAddress()"
+          [disabled]="this.addressForm.invalid"
+        >
+          Add Address
+        </button>
+      </div>
+    </form>
+  </div>
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>

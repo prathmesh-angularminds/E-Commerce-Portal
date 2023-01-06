@@ -1,0 +1,108 @@
+<div class="info w-100 h-100 pt-5 ps-3 pb-3" style="overflow: scroll">
+  <div class="title h5">Personal Information</div>
+  <div class="info-main-block w-100 mt-4">
+    <div class="info-image-block d-flex align-items-center">
+      <div
+        class="image-block"
+        style="width: 220px; height: 220px; border-radius: 150px"
+      >
+        <img
+          class="info-image h-100 w-100"
+          style="border-radius: 150px"
+          src="{{ customerInfo.picture }}"
+        />
+      </div>
+      <div class="info-block mt-1 d-flex flex-column gap-2 ms-5">
+        <div class="name" style="font-size: 1.2rem">
+          <b>User Name: </b>{{ customerInfo.name }}
+        </div>
+        <div class="email" style="font-size: 1.2rem">
+          <b>Email: </b>{{ customerInfo.email }}
+        </div>
+      </div>
+    </div>
+    <div
+      class="images-button-block d-flex justify-content-end mt-2"
+      style="width: 220px"
+    >
+      <button
+        class="btn btn-secondary btn-sm d-flex justify-content-center align-items-center"
+        (click)="editImage()"
+      >
+        <img
+          style="width: 80%; height: 80%"
+          src="../../../../../../assets/edit.svg"
+        />
+      </button>
+      <button
+        class="btn btn-danger btn-sm d-flex justify-content-center align-items-center ms-1"
+        (click)="deleteImage()"
+      >
+        <img
+          style="width: 80%; height: 80%"
+          src="../../../../../../assets/trash.svg"
+        />
+      </button>
+    </div>
+    <div class="addres-block w-100 mt-4">
+      <div
+        class="address-card w-100 d-flex flex-column mt-4"
+        style="border: 0.5px solid lightgrey"
+        *ngFor="let address of addressList; index as i"
+      >
+        <div
+          class="address-card-title-block d-flex justify-content-between align-items-center w-100 p-2 ps-3"
+        >
+          <div class="address-card-title h6">Address {{ i + 1 }}</div>
+          <div class="address-card-btns-block d-flex">
+            <button
+              class="btn btn-dark btn-sm"
+              routerLink="/app/my-profile/update-address"
+              [state]="address"
+            >
+              Edit
+            </button>
+            <button
+              class="btn btn-danger btn-sm ms-2"
+              (click)="deleteAddress(address._id)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+        <div class="address-info d-flex flex-column gap-1">
+          <div class="p-2 ps-3" style="border-top: 0.5px solid lightgrey">
+            Street: {{ address.street }}
+          </div>
+          <div class="p-2 ps-3" style="border-top: 0.5px solid lightgrey">
+            Address Line: {{ address.addressLine2 }}
+          </div>
+          <div
+            class="d-flex justify-content-between"
+            style="border-top: 0.5px solid lightgrey"
+          >
+            <div
+              class="city p-2 ps-3"
+              style="border-right: 0.5px solid lightgrey; width: 33%"
+            >
+              City: {{ address.city }}
+            </div>
+            <div
+              class="state p-2 ps-3"
+              style="border-right: 0.5px solid lightgrey; width: 33%"
+            >
+              State: {{ address.state }}
+            </div>
+            <div
+              class="pin p-2 ps-3"
+              style="border-right: 0.5px solid lightgrey; width: 33%"
+            >
+              Pin: {{ address.pin }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>
