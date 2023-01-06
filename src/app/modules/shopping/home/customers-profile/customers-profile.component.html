@@ -1,0 +1,78 @@
+<div class="profile w-100 d-flex flex-column flex-md-row  justify-content-center" style="height: 92.6vh">
+  <div
+    class="profile-menu-block w-25 pt-5 px-3 d-flex flex-column"
+    style="gap: 2px"
+  >
+    <div class="user-short-info d-flex align-items-center mb-3">
+      <div
+        class="image-block me-4"
+        style="width: 80px; height: 80px; border-radius: 50px"
+      >
+        <img
+          style="width: 100%; height: 100%; border-radius: 50px"
+          src="{{ customerInfo.picture }}"
+        />
+      </div>
+      <div class="info-block">
+        <div class="name">
+          <b>{{ customerInfo.name }}</b>
+        </div>
+        <div class="email">{{ customerInfo.email }}</div>
+      </div>
+    </div>
+    <div
+      class="profile-menu py-2 ps-2"
+      [ngStyle]="
+        demo.url === '/app/my-profile'
+          ? { 'background-color': 'lightgray', 'font-weight': '700' }
+          : {}
+      "
+      role="button"
+      routerLink="/app/my-profile"
+    >
+      Your Profile
+    </div>
+    <div
+      class="profile-menu py-2 ps-2"
+      role="button"
+      [ngStyle]="
+        demo.url === '/app/my-profile/update-info'
+          ? { 'background-color': 'lightgray', 'font-weight': '700' }
+          : {}
+      "
+      routerLink="/app/my-profile/update-info"
+    >
+      Update Profile
+    </div>
+    <div
+      class="profile-menu py-2 ps-2"
+      role="button"
+      [ngStyle]="
+        demo.url === '/app/my-profile/add-address'
+          ? { 'background-color': 'lightgray', 'font-weight': '700' }
+          : {}
+      "
+      routerLink="/app/my-profile/add-address"
+    >
+      Add New Address
+    </div>
+    <div
+      class="profile-menu py-2 ps-2"
+      role="button"
+      [ngStyle]="
+        demo.url === '/app/my-profile/change-password'
+          ? { 'background-color': 'lightgray', 'font-weight': '700' }
+          : {}
+      "
+      routerLink="/app/my-profile/change-password"
+    >
+      Change Password
+    </div>
+    <div class="profile-menu py-2 ps-2" role="button" (click)="deleteAccount()">Delete Account</div>
+    <div class="profile-menu py-2 ps-2" role="button" (click)="logoutCustomer()">Logout</div>
+  </div>
+  <div class="profile-outlets" style="width: 60%">
+    <router-outlet></router-outlet>
+    <div></div>
+  </div>
+</div>

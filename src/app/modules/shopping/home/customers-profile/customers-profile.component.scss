@@ -1,0 +1,21 @@
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.profile-menu {
+    border-radius: 6px;
+}
+
+.profile-menu:hover {
+
+    background-color: lightgray;
+}
+
+.image-block {
+
+    background-image: url('../../../../../assets/no-image.webp');
+    background-position: center;
+    background-size: 280%;
+    background-repeat: no-repeat;
+}

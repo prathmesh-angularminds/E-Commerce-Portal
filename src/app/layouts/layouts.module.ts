@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { LayoutAuthComponent } from './auth/auth.component';
-import { LayoutAppComponent } from './app/app.component';
-import { RouterModule } from '@angular/router';
-import {NavbarComponent} from './../components/navbar/navbar.component';
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { ShoppingModule } from "../modules/shopping/shopping.module";
+import { SellerModule } from "../modules/seller/seller.module";
 import { ReactiveFormsModule } from '@angular/forms';
+import { SellerLayoutModule } from './seller-layout/seller-layout.module';
+import { ShoppingLayoutModule } from './shopping-layout/shopping-layout.module';
 
 @NgModule({
-  declarations: [
-    LayoutAuthComponent,
-    LayoutAppComponent,
-    NavbarComponent
+  declarations: [],
+  exports: [
+    SellerLayoutModule,
+    ShoppingLayoutModule
   ],
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  exports: [LayoutAppComponent, LayoutAuthComponent]
 })
-export class LayoutsModule { }
+
+export class LayoutsModule {}

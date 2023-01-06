@@ -17,10 +17,10 @@
             role="button"
             [ngStyle]="{
               color: 'white',
-              'font-weight': demo.url === '/app/my-profile' ? '700' : ''
+              'font-weight': demo.url === '/seller/app/my-profile' ? '700' : ''
             }"
             aria-current="page"
-            routerLink="/app/my-profile"
+            routerLink="/seller/app/my-profile"
             [routerLinkActive]="['is-active']"
             >Company Profile</a
           >
@@ -31,9 +31,9 @@
             role="button"
             [ngStyle]="{
               color: 'white',
-              'font-weight': demo.url === '/app/users' ? '700' : ''
+              'font-weight': demo.url === '/seller/app/users' ? '700' : ''
             }"
-            routerLink="/app/users"
+            routerLink="/seller/app/users"
             >Sellers Detail</a
           >
         </li>
@@ -43,9 +43,9 @@
             role="button"
             [ngStyle]="{
               color: 'white',
-              'font-weight': demo.url === '/app/product/product-list' || '/app/product/product-details' ? '700' : ''
+              'font-weight': demo.url === '/seller/app/product/product-list' || demo.url === '/seller/app/product/product-details' ? '700' : ''
             }"
-            routerLink="/app/product/product-list"
+            routerLink="/seller/app/product/product-list"
             >Product List</a
           >
         </li>
@@ -85,7 +85,7 @@
               </a>
             </li>
             <li (click)="logoutUser()">
-              <a class="dropdown-item"> Log out </a>
+              <a class="dropdown-item">Log out</a>
             </li>
           </ul>
         </li>

@@ -1,0 +1,224 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Update Product {{ formType }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          [formGroup]="formType === 'Information' ? updateForm : imageForm"
+          class="w-100"
+        >
+          <!-- full name -->
+          <div
+            class="fullname-block block position-relative d-flex align-items-center w-100"
+            *ngIf="formType === 'Information'"
+          >
+            <input
+              type="text"
+              class="fullname-field field"
+              formControlName="name"
+              placeholder="Enter Product Name"
+            />
+            <label for="fullname-field" class="label">Product Name</label>
+          </div>
+          <!-- Full Name Validation -->
+          <div class="validations" *ngIf="getName?.touched && getName?.invalid">
+            Product Name is required
+          </div>
+
+          <!-- description -->
+          <div
+            class="fullname-block block position-relative d-flex align-items-center mt-3 w-100"
+            style="height: 20vh"
+            *ngIf="formType === 'Information'"
+          >
+            <textarea
+              type="text"
+              class="fullname-field field py-2"
+              formControlName="description"
+              placeholder="Enter Product Description"
+            ></textarea>
+
+            <label for="fullname-field" class="label">Product Desc</label>
+          </div>
+          <!-- Description Validation -->
+          <div class="validations" *ngIf="getDesc?.touched && getDesc?.invalid">
+            Desc is required
+          </div>
+
+          <!-- price -->
+          <div
+            class="fullname-block block position-relative d-flex align-items-center w-25 mt-3"
+            *ngIf="formType === 'Information'"
+          >
+            <input
+              type="tel"
+              class="fullname-field field"
+              formControlName="price"
+              placeholder="Enter Price"
+            />
+            <label for="fullname-field" class="label">Price</label>
+          </div>
+
+          <!-- Price Validation -->
+          <div
+            class="validations"
+            *ngIf="getPrice?.touched && getPrice?.invalid"
+          >
+            Price is required
+          </div>
+
+          <!-- Images -->
+          <div class="input-group mt-3"
+          *ngIf="formType === 'Image'"
+          >
+            <input
+              type="file"
+              class="form-control"
+              id="inputGroupFile02 "
+              name="img"
+              accept="image/*"
+              multiple="multiple"
+              formControlName="images"
+              (change)="getSelectedImage($event)"
+            />
+            <label class="input-group-text" for="inputGroupFile02"
+              >Upload</label
+            >
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div
+          class="w-100 submit-btn-block d-flex justify-content-between align-items-center mt-0"
+        >
+          <button
+            class="btn btn-primary submit-btn m-0"
+            type="submit"
+            data-bs-dismiss="modal"
+            [disabled]="
+              formType === 'Information'
+                ? updateForm.invalid
+                : imageForm.invalid
+            "
+            (click)="formType === 'Information' ? updateProduct() : updateImage()"
+          >
+            Update {{ formType }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="product-details w-100" style="height: 92vh">
+  <div class="back-arrow-block w-100 p-2 d-flex justify-content-end">
+    <div
+      routerLink="/seller/app/product/product-list"
+      class="d-flex justify-content-center align-items-center"
+      style="
+        width: 40px;
+        height: 40px;
+        background-color: black;
+        border-radius: 50px;
+      "
+    >
+      <img src="../../../../../assets/back-arrow.svg" />
+    </div>
+  </div>
+  <div class="details-block d-flex flex-column flex-md-row" style="height: 92%">
+    <div class="product-imageblock d-flex h-100;" style="width: 580px">
+      <div
+        class="images-list-block d-flex align-items-center flex-column px-2 my-2"
+        style="height: 82vh; width: 32%; overflow: scroll"
+      >
+        <div
+          class="mb-2"
+          style="width: 100%"
+          *ngFor="let img of product.images; let i = index"
+          (click)="changeProfileImage(i)"
+        >
+          <div
+            class="image-block position-relative"
+            style="width: 100%; height: 25vh"
+          >
+            <img
+              class="w-100 h-100 position-absolute"
+              style="object-fit: cover"
+              src="{{ img.url }}"
+            />
+            <div
+              class="d-flex justify-content-end delete-icon-block position-absolute p-1"
+              (click)="deleteImage(img.public_id)"
+              style="
+                background-color: rgba(58, 57, 57, 0.5);
+                border-radius: 50px;
+              "
+            >
+              <img src="./../../../../../assets/three-dot.svg" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="main-image-block h-100 w-75 p-2"
+        style="border: 1px solid grey"
+      >
+        <img
+          class="selected-image w-100 h-100"
+          src="{{ profileImage }}"
+          alt="selected product"
+        />
+      </div>
+    </div>
+
+    <div
+      class="product-descblock h-100 p-4"
+      style="width: 65%; overflow: scroll; box-sizing: border-box"
+    >
+      <div class="product-title h2 mb-4">{{ product.name }}</div>
+      <div class="product-description mb-4">{{ product.description }}</div>
+      <div class="product-price mb-4">
+        Price: <b class="ms-2">{{ product.price | currency : "INR" }}</b>
+      </div>
+      <div
+        class="update-delete-block d-flex justify-content-between align-items-center"
+        style="width: 300px"
+      >
+        <button
+          class="btn btn-dark btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          (click)="formType = 'Information'"
+        >
+          Update Product
+        </button>
+        <button
+          class="btn btn-dark btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          (click)="formType = 'Image'"
+        >
+          Add Images
+        </button>
+      </div>
+    </div>
+  </div>
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>

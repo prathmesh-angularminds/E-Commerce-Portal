@@ -63,8 +63,8 @@ export class NavbarComponent implements OnInit {
     const url: string = "/auth/self";
     this.httpService.get(url).subscribe({
       next: (res) => {
-        this.userData.setUser(res);
-        this.user = this.userData.getUser();
+        this.userData.setUser(res,"loggedUser");
+        this.user = this.userData.getUser("loggedUser");
       },
       error: (err) => console.log(err),
     });
@@ -109,15 +109,16 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  // This function helps in showing and hidding password
+  // This function helps in showing and hiding password
   showPasswordToggle() {
     this.checked = !this.checked;
   }
 
   // Logout a user
   logoutUser(): void {
-    this.userData.clearStorage();
-    this.router.navigate(["/auth/login"]);
+    console.log("e")
+    localStorage.clear();
+    this.router.navigate(["/seller/auth/login"]);
   }
 
   // show popup code
@@ -167,8 +168,8 @@ export class NavbarComponent implements OnInit {
       this.httpService.patch("/users/org", "", seller).subscribe({
         next: (res) => {
           console.log("res: ", res);
-          this.userData.setUser(res);
-          this.user = this.userData.getUser();
+          this.userData.setUser(res,"loggedUser");
+          this.user = this.userData.getUser("loggedUser");
           localStorage.setItem("loggedUser", JSON.stringify(res));
           // this.showPop("Seller Info Updated Successfully");
           this.userData.updateDetails.next(true);

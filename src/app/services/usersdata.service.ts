@@ -13,23 +13,23 @@ export class UsersdataService {
   updateDetails: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   // get user from local storage
-  getUser() {
-    let data = localStorage.getItem('loggedUser')!
+  getUser(type: string) {
+    let data = localStorage.getItem(type)!
     return JSON.parse(data);
   }
 
-  setUser(response: any) {
+  setUser(response: any,type: string) {
 
-    localStorage.setItem('loggedUser', JSON.stringify(response));
+    localStorage.setItem(type, JSON.stringify(response));
   }
 
-  setToken(token: string) {
+  setToken(token: string,type: string) {
 
-    localStorage.setItem('token',token)
+    localStorage.setItem(type,token)
   }
 
-  getToken() {
-    return localStorage.getItem('token')
+  getToken(type: string) {
+    return localStorage.getItem(type)
   }
 
   clearStorage() {

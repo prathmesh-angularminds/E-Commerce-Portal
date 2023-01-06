@@ -1,70 +1,30 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { ErrorComponent } from "./components/error/error.component";
-import {
-  LoginGuardsGuard,
-  CanLogOutGuard,
-  ShouldOpenProfileGuard,
-} from "./guards/login-guards.guard";
-import { LayoutAppComponent } from "./layouts/app/app.component";
-import { LayoutAuthComponent } from "./layouts/auth/auth.component";
 
 const routes: Routes = [
-  // Routing if path is '/' or '/auth'
-  // {
-  //   path: '',
-  //   redirectTo: 'auth/login',
-  //   pathMatch: 'full',
-  // },
-  // {
-  //   path: 'auth',
-  //   redirectTo: 'auth/login',
-  //   pathMatch: 'full'
-  // },
-
-  // // Lazy Loading
-  // {
-  //   path: 'auth',
-  //   loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule),
-  //   canActivateChild: [LoginGuardsGuard]
-  // },{
-  //   path: 'home',
-  //   loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
-  // },
-  // {
-  //   path:"**",
-  //   component: ErrorComponent
-  // }
-
   {
     path: "",
-    redirectTo: "auth",
+    redirectTo: "",
     pathMatch: "full",
   },
+
+  // Shopping Module
   {
-    path: "auth",
-    component: LayoutAuthComponent,
-    children: [
-      {
-        path: "",
-        loadChildren: () =>
-          import("./modules/auth/auth.module").then((m) => m.AuthModule),
-      },
-    ],
+    path: "",
+    loadChildren: () =>
+      import("./modules/shopping/shopping.module").then(
+        (m) => m.ShoppingModule
+      ),
   },
+
+  // Seller Module
   {
-    path: "app",
-    component: LayoutAppComponent,
-    children: [
-      {
-        path: "",
-        loadChildren: () =>
-          import("./modules/home/home.module").then((m) => m.HomeModule),
-          canActivate: [ShouldOpenProfileGuard],
-          canDeactivate: [CanLogOutGuard]
-      },
-    ],
+    path: "seller",
+    loadChildren: () =>
+      import("./modules/seller/seller.module").then((m) => m.SellerModule),
   },
+
   {
     path: "**",
     component: ErrorComponent,

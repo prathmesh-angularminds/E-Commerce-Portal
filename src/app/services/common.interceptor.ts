@@ -23,7 +23,7 @@ export class CommonInterceptor implements HttpInterceptor {
   handleAuthError(err: any): Observable<any> {
     if (err.status === 401) {
       this.userData.clearStorage();
-      this.router.navigate(['auth/login']);
+      this.router.navigate(["auth/login"]);
     }
     return throwError(err);
   }
@@ -32,7 +32,12 @@ export class CommonInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    this.token = this.userData.getToken()!;
+    
+    var type =
+      request.url.substring(29, 38) === "customers"
+        ? "customerToken"
+        : "sellerToken";
+    this.token = this.userData.getToken(type)!;
     this.header = { Authorization: `Bearer ${this.token}` };
 
     return next.handle(request.clone({ setHeaders: this.header })).pipe(

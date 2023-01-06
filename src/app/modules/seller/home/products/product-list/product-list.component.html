@@ -1,0 +1,301 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="productForm" class="w-100">
+          <!-- full name -->
+          <div
+            class="fullname-block block position-relative d-flex align-items-center w-100"
+          >
+            <input
+              type="text"
+              class="fullname-field field"
+              formControlName="name"
+              placeholder="Enter Product Name"
+            />
+            <label for="fullname-field" class="label">Product Name</label>
+          </div>
+          <!-- Full Name Validation -->
+          <div class="validations" *ngIf="getName?.touched && getName?.invalid">
+            Product Name is required
+          </div>
+
+          <!-- description -->
+          <div
+            class="fullname-block block position-relative d-flex align-items-center mt-3 w-100"
+            style="height: 20vh"
+          >
+            <textarea
+              type="text"
+              class="fullname-field field py-2"
+              formControlName="description"
+              placeholder="Enter Product Description"
+            ></textarea>
+
+            <label for="fullname-field" class="label">Product Desc</label>
+          </div>
+          <!-- Description Validation -->
+          <div class="validations" *ngIf="getDesc?.touched && getDesc?.invalid">
+            Desc is required
+          </div>
+
+          <!-- price -->
+          <div
+            class="fullname-block block position-relative d-flex align-items-center w-25 mt-3"
+          >
+            <input
+              type="tel"
+              class="fullname-field field"
+              formControlName="price"
+              placeholder="Enter Price"
+            />
+            <label for="fullname-field" class="label">Price</label>
+          </div>
+
+          <!-- Price Validation -->
+          <div
+            class="validations"
+            *ngIf="getPrice?.touched && getPrice?.invalid"
+          >
+            Price is required
+          </div>
+
+          <!-- Images -->
+          <div class="input-group mt-3">
+            <input
+              type="file"
+              class="form-control"
+              id="inputGroupFile02 "
+              name="img"
+              accept="image/*"
+              multiple="multiple"
+              (change)="getSelectedImage($event)"
+            />
+            <label class="input-group-text" for="inputGroupFile02"
+              >Upload</label
+            >
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div
+          class="w-100 submit-btn-block d-flex justify-content-between align-items-center mt-0"
+        >
+          <button
+            class="btn btn-primary submit-btn m-0"
+            type="submit"
+            data-bs-dismiss="modal"
+            [disabled]="productForm.invalid"
+            (click)="submitForm()"
+          >
+            Add Product
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="product-list-block d-flex justify-content-center align-items-center"
+  class="w-100"
+  style="height: 92.6vh"
+>
+  <div
+    class="search-sortproduct d-flex justify-content-between align-items-center py-3 px-2 mx-auto"
+    style="width: 95%"
+  >
+    <div
+      class="email-block block position-relative d-flex align-items-center"
+      style="height: 35px; width: 30%;"
+    >
+      <input
+        type="email"
+        class="email-field field"
+        placeholder="Search Comic Name"
+        style="border-radius: 5px"
+        [(ngModel)] ="searched"
+        (keyup)="getSearched()"
+      />
+    </div>
+
+    <div class="sort-add-block d-flex" style="width:320px;">
+      <div class="sort-block d-flex align-items-center" style="width: 53%">
+        Sort By:
+        <select
+          class="form-select form-select-sm ms-2"
+          style="width: 50%"
+          aria-label="Default select example"
+          (change)="getSelected($event, products.page, 'sortBy')"
+        >
+          <option [value]="'name'">name</option>
+          <option [value]="'price'">price</option>
+        </select>
+      </div>
+
+      <div class="submit-btn-block m-0" style="width: 10.7%">
+        <button
+          class="btn btn-dark submit-btn m-0 position-relative btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Add Product
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- If page not found -->
+  <div
+    class="mx-auto d-flex flex-column justify-content-center align-items-center"
+    style="width: 95%; height: 75vh;"
+    *ngIf="products?.results.length === 0"
+  >
+  <iframe src="https://embed.lottiefiles.com/animation/96253"></iframe>
+    <h5>Data not found</h5>
+  </div>
+
+  <div
+    class="product-list-container d-flex justify-content-start overflow-scroll mx-auto gap-4 mt-2 mx-auto"
+    style="height: 75vh; width: 95%;column-count: 5; flex-wrap: wrap"
+    *ngIf="products?.results.length!== 0"
+  >
+    <div
+      class="product-card"
+      style="width: 270px; height: 75%"
+      *ngFor="let product of products.results"
+    >
+      <div
+        class="main-card mb-0 m-0 gap-0"
+        style="border: 1.5px solid #f6f6f6; border-radius: 5px"
+      >
+        <div
+          class="card-image d-flex justify-content-center align-items-center"
+          style="
+            width: 100%;
+            height: 30vh;
+            background-color: #f6f6f6;
+            border-radius: 5px;
+          "
+        >
+          <img
+            src="{{ product.images[0].url }}"
+            class="card-img-top"
+            style="width: 90%; height: 90%; border-radius: 5px"
+            alt="..."
+          />
+        </div>
+        <div class="card-body">
+          <h6
+            class="card-title"
+            style="
+              overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-word;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+            "
+          >
+            <b>
+              {{ product.name }}
+            </b>
+          </h6>
+          <p
+            class="card-text"
+            style="
+              overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-word;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+            "
+          >
+            {{ product.description }}
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            Price: <b>{{ product.price | currency : "INR" }}</b>
+          </li>
+        </ul>
+        <div
+          class="card-body submit-btn-block d-flex justify-content-between align-items-center"
+        >
+          <button
+            class="btn btn-dark btn-sm"
+            routerLink="/seller/app/product/product-details"
+            [state]="[product._id]"
+          >
+            View Details
+          </button>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="deleteProduct(product._id)"
+          >
+            Delete Product
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Limit & Pagination -->
+  <div
+    class="limit_pagination d-flex justify-content-between align-items-center mx-auto mt-2"
+    style="width: 95%"
+    *ngIf="products?.results.length !== 0"
+  >
+    <div class="limit-block d-flex align-items-center w-25">
+      Page Limit:
+      <select
+        class="form-select form-select-sm w-25 ms-2"
+        aria-label="Default select example"
+        style="outline: none; font-size: 0.9rem !important"
+        (change)="getSelected($event, products.page, 'limit')"
+      >
+        <option selected [value]="2">2</option>
+        <option [value]="4">4</option>
+        <option [value]="6">6</option>
+        <option [value]="8">8</option>
+      </select>
+    </div>
+
+    <div class="pagination-block">
+      <button
+        class="btn btn-dark me-1 btn-sm"
+        [class.disabled]="products?.page == 1"
+        (click)="applyPagination(products?.page - 1)"
+      >
+        Prev
+      </button>
+      {{ products?.page }}
+      <button
+        class="btn btn-dark ms-1 btn-sm"
+        (click)="applyPagination(products?.page + 1)"
+        [class.disabled]="products?.page == products?.totalPages"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>

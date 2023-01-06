@@ -40,5 +40,12 @@ export class HttpServiceService {
     const completePath = `${this.baseUrl}${url}${params}`;
     return this.http.patch(completePath,payload)
   }
+
+  // Put Function
+  put(url: string, params: string="",payload: any={}): Observable<any> {
+
+    const completePath = `${this.baseUrl}${url}`;
+    return this.http.put(completePath,payload);
+  }
 }
 

@@ -1,0 +1,339 @@
+.login-form {
+  width: 100%;
+  height: 100vh;
+  // background-image: url("../../../../../assets/Comics.jpg");
+  background-image: url('../../../../../assets/Comics.jpg');
+  .empty-div {
+    width: 55%;
+    height: 100%;
+
+    // Completed
+    // box-sizing: border-box;
+    // padding-left: 5%;
+  }
+
+  .login-card-main-div {
+    width: 750px;
+    height: 100%;
+
+    .login-form-card {
+      
+      width: 80%;
+      background-color: white;
+      border-radius: 10px;
+      // Completed
+      // box-sizing: border-box;
+      // padding: 7% 0%;
+
+      .form-title {
+        width: 80%;
+
+        font-size: 1.2rem;
+        font-weight: 800;
+      }
+
+      .form-block {
+        width: 100%;
+        box-sizing: border-box;
+
+        .block {
+          width: 80%;
+          height: 40px;
+
+          // Completed
+          //  position: relative;
+          //  display: flex;
+          //  align-items: center;
+          //  margin-top: 5%;
+          // box-sizing: border-box;
+
+          .field {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: transparent;
+            border: 1px solid black;
+            outline: none;
+            z-index: 1;
+            padding: 0px 5px 0px 21px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+          }
+
+          .field::placeholder {
+            color: #000;
+            font-size: 0.9rem;
+          }
+
+          .label {
+            position: absolute;
+            top: 8px;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: rgba(87, 87, 87, 0);
+            transition: 0.5s;
+            z-index: -1;
+            box-sizing: border-box;
+            margin-left: 21px;
+          }
+
+          .field:focus + .label {
+            display: flex;
+            z-index: 2;
+            top: -10px;
+            background-color: white;
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: black;
+            box-sizing: border-box;
+            margin-left: 15px;
+            padding: 0px 5px 0px 5px;
+          }
+
+          .field:focus {
+            border: 1px solid black;
+          }
+        }
+
+        .validations {
+          width: 80%;
+          font-size: 0.8rem;
+          color: red;
+        }
+
+        .toggle-checkbox-block {
+
+          width: 80%;
+          font-size: 0.8rem;
+          font-weight: 400;
+          box-sizing: border-box;
+          margin: 20px 0px;
+          color: black;
+          accent-color: black;
+
+          .forget-pass-block {
+            cursor: pointer; transition: 0.05s;
+          }
+
+          .forget-pass-block:hover {
+            font-weight: 800;
+            transition: 0.05s;
+          }
+        }
+
+        .submit-btn-block {
+
+          width: 80%;
+          box-sizing: border-box; 
+          margin-top: 2%;
+        
+          .submit-btn {
+
+            width: 150px;
+            color: black;
+            border: 1px solid black;
+            background-color: transparent;
+            transition: 0.5s;
+            font-weight: 400;
+          }
+
+          .submit-btn:hover {
+            color: white !important;
+            background-color: black !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.snackbar {
+  display: none;
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+.show {
+  display: flex;
+  justify-content: center;
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+
+// Media queries
+
+@media only screen and (max-width: 1024px) {
+
+  .login-form {
+    .empty-div {
+
+      .logo-block {
+
+        width: 250px !important;
+      }
+
+      .sub-title {
+
+        font-size: 1rem !important; 
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+
+  .login-form {
+
+    // Completed
+    // flex-direction: column !important;
+    // box-sizing: border-box;
+    // padding: 8% 3%; 
+
+    .empty-div {
+
+      width: 100%;
+      height: auto !important;
+      // Completed
+      // padding: 0%;
+      // margin-bottom: 4% !important;
+      .logo-block {
+
+        width: 250px !important;
+      }
+
+      .sub-title {
+
+        width: 100% !important;
+        font-size: 0.9rem !important;
+        
+        // Completed
+        // box-sizing: border-box;
+        // margin-top: 3% !important;
+      }
+    }
+
+    .login-card-main-div {
+
+      width: 100%;
+      height: auto;
+
+      .login-form-card {
+
+        width: 500px;
+
+        .submit-btn-block {
+
+          .submit-btn {
+
+            width: 120px !important;
+            font-size: 0.9rem
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  
+  .login-form {
+
+    // Completed
+    .empty-div {
+
+      // Completed
+      // margin-bottom: 10%!important;
+      .logo-block {
+
+        width: 200px !important;
+      }
+
+      .sub-title {
+      
+        font-size: 0.9rem
+      }
+    }
+
+    .login-card-main-div {
+
+      // Completed
+      .login-form-card {
+
+        width: 100%;
+
+        .form-block {
+
+          .validations {
+            font-size: 0.8rem !important;
+          }
+
+          .submit-btn-block {
+
+            .submit-btn {
+
+              width: 120px !important;
+              font-size: 0.9rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
