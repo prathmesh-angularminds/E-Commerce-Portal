@@ -27,6 +27,7 @@ export class ProfileInfoComponent implements OnInit {
   }
 
   getAddress() {
+    console.log("Hello")
     const url = "/customers/address";
     this.httpService.get(url).subscribe({
       next: (res) => {

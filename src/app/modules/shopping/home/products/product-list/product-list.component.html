@@ -41,7 +41,7 @@
   <div
     class="mx-auto d-flex flex-column justify-content-center align-items-center"
     style="width: 95%; height: 75vh;"
-    *ngIf="products?.results.length === 0"
+    *ngIf="products === undefined"
   >
   <iframe src="https://embed.lottiefiles.com/animation/96253"></iframe>
     <h5>Data not found</h5>
@@ -50,7 +50,7 @@
   <div
     class="product-list-container d-flex justify-content-start overflow-scroll mx-auto gap-4 mt-2 mx-auto"
     style="height: 75vh; width: 95%;column-count: 5; flex-wrap: wrap"
-    *ngIf="products?.results.length!== 0"
+    *ngIf="products !== undefined"
   >
     <div
       class="product-card"

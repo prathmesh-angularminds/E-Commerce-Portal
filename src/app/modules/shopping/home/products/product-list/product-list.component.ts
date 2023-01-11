@@ -49,7 +49,7 @@ export class ProductListComponent implements OnInit {
       page = page - 1;
     }
     this.limit = limit;
-    this.getProductList(`limit=${limit}&page=${page}&sortBt=${this.sortBy}`);
+    this.getProductList(`limit=${limit}&page=${page}&sortBy=${this.sortBy}`);
   }
 
   // get product list

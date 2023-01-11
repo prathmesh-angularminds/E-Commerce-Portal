@@ -1,9 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { UsersdataService } from "src/app/services/usersdata.service";
 import { Router } from "@angular/router";
 import { HttpServiceService } from "src/app/services/http-service.service";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { AddressServiceService } from "src/app/services/address-service.service";
 // import { ReCaptchaV3Service } from "ng-recaptcha";
 
 @Component({
@@ -12,6 +11,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
   styleUrls: ["./registration.component.scss"],
 })
 export class RegistrationComponent implements OnInit {
+
   // Instance of FormGroup for form
   registerForm: FormGroup;
   checked: boolean = false;
@@ -20,39 +20,19 @@ export class RegistrationComponent implements OnInit {
     snackbar: true,
     show: false,
   };
-  captchaToken = "";
+  citiesList: any;
+  stateList: any;
 
   constructor(
-    private usersData: UsersdataService,
     private router: Router,
-    private httpService: HttpServiceService, // private recaptchaV3Service: ReCaptchaV3Service
-    private http: HttpClient
+    private httpService: HttpServiceService, 
+    private http: AddressServiceService
   ) {}
 
   ngOnInit(): void {
-    
-    // var headers = new Headers();
-    // headers.append('X-CSCAPI-KEY',)
 
-    // var httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Content-type':'application/json',
-    //     'X-CSCAPI-KEY': 'de'
-    //   })
-    // }
-
-    // this.http
-    //   .get("https://api.countrystatecity.in/v1/countries/IN/states",{
-    //     headers: {
-    //       'X-CSCAPI-KEY': 'API_KEY'
-    //     }
-    //   })
-    //   .subscribe({
-    //     next: (res) => console.log(res),
-    //     error: (err) => console.log(err),
-    //   });
-
-    this.onCaptchaChecked();
+    this.getstateList();
+    this.getCityList('JK');
     this.setRegisterForm();
   }
 
@@ -127,17 +107,10 @@ export class RegistrationComponent implements OnInit {
       ]),
       street: new FormControl("", [Validators.required]),
       addressLine2: new FormControl("", [Validators.required]),
-      city: new FormControl("select city", [Validators.required]),
-      state: new FormControl("select state", [Validators.required]),
+      city: new FormControl("", [Validators.required]),
+      state: new FormControl("", [Validators.required]),
       pin: new FormControl("", [Validators.required]),
     });
-  }
-
-  // captcha function
-  public onCaptchaChecked(): void {
-    // this.recaptchaV3Service.execute("importantAction").subscribe((token) => {
-    //   this.captchaToken = token;
-    // });
   }
 
   // show popup code
@@ -151,7 +124,7 @@ export class RegistrationComponent implements OnInit {
 
   // Function which is called when a user clicks on register btn
   registerAUser() {
-    console.log(this.captchaToken);
+
     if (this.registerForm.invalid) {
       this.showPop("Form submitted is invalid");
     } else {
@@ -177,7 +150,6 @@ export class RegistrationComponent implements OnInit {
         },
         error: (err) => {
           this.showPop(err.error.message);
-          this.onCaptchaChecked();
         },
       });
     }
@@ -192,11 +164,27 @@ export class RegistrationComponent implements OnInit {
   getSelected(event: any,type: String) {
 
     if(type === 'city') {
-      this.registerForm.value['city'] = event.target.value;      
+      this.registerForm.value['city'] = event.target.value;
+
     } else {
       this.registerForm.value['state'] = event.target.value;
     }
+  }
 
-    console.log(this.registerForm.value);
+  // Getting State List
+  getstateList() {
+
+    this.http.get("/states").subscribe({
+      next: (res) => this.stateList = res,
+      error: (err) => console.log(err),
+    });
+
+  }
+  // Getting Cities List
+  getCityList(state: string) {
+    this.http.get(`/states/${state}/cities`).subscribe({
+      next: (res) => this.citiesList = res,
+      error: err => console.log(err)
+    });
   }
 }

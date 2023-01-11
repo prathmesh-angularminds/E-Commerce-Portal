@@ -208,10 +208,10 @@
             formControlName="city"
             (change)="getSelected($event, 'city')"
           >
-            <option selected>Select City</option>
-            <option [value]="'Pune'">Pune</option>
-            <option [value]="'Mumbai'">Mumbai</option>
-            <option [value]="'Nashik'">Nashik</option>
+            <option disabled value="" selected>Select City</option>
+            <option [ngValue]="city.name" *ngFor="let city of citiesList">
+              {{ city.name }}
+            </option>
           </select>
 
           <select
@@ -226,10 +226,14 @@
             formControlName="state"
             (change)="getSelected($event, 'state')"
           >
-            <option selected>Select State</option>
-            <option [value]="'Goa'">Goa</option>
-            <option [value]="'Maharashtra'">Maharashtra</option>
-            <option [value]="'Gujarat'">Gujarat</option>
+            <option disabled value="" selected>Select State</option>
+            <option
+              (click)="getCityList(state.iso2)"
+              [ngValue]="state.name"
+              *ngFor="let state of stateList"
+            >
+              {{ state.name }}
+            </option>
           </select>
 
           <!-- Pin code -->

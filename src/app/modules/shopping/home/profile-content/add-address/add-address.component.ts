@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpServiceService } from 'src/app/services/http-service.service';
 import { Router } from '@angular/router';
+import { AddressServiceService } from 'src/app/services/address-service.service';
 
 @Component({
   selector: 'app-add-address',
@@ -16,12 +17,16 @@ export class AddAddressComponent implements OnInit {
     snackbar: true,
     show: false,
   };
+  citiesList: any;
+  stateList: any;
 
-  constructor(private httpService: HttpServiceService, private router: Router) { }
+  constructor(private httpService: HttpServiceService, private router: Router, 
+    private http: AddressServiceService) { }
 
   ngOnInit(): void {
 
-
+    this.getstateList();
+    this.getCityList('JK');
     this.setAddressForm();
   }
 
@@ -99,5 +104,22 @@ export class AddAddressComponent implements OnInit {
     } else {
       this.addressForm.value['state'] = event.target.value;
     }
+  }
+
+  // Getting State List
+  getstateList() {
+
+    this.http.get("/states").subscribe({
+      next: (res) => this.stateList = res,
+      error: (err) => console.log(err),
+    });
+
+  }
+  // Getting Cities List
+  getCityList(state: string) {
+    this.http.get(`/states/${state}/cities`).subscribe({
+      next: (res) => this.citiesList = res,
+      error: err => console.log(err)
+    });
   }
 }

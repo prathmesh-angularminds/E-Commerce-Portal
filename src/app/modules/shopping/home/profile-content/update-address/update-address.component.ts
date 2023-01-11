@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { HttpServiceService } from "src/app/services/http-service.service";
-import { Router, TitleStrategy } from "@angular/router";
+import { Router } from "@angular/router";
+import { AddressServiceService } from "src/app/services/address-service.service";
 
 @Component({
   selector: "app-update-address",
@@ -16,11 +17,16 @@ export class UpdateAddressComponent implements OnInit {
     snackbar: true,
     show: false,
   };
+  citiesList: any;
+  stateList: any;
 
-  constructor(private httpService: HttpServiceService, private router: Router) {
+  constructor(private httpService: HttpServiceService, private router: Router,private http: AddressServiceService) {
   }
 
   ngOnInit(): void {
+
+    this.getstateList();
+    this.getCityList('JK');
     this.setUpdateAddressForm();
   }
 
@@ -30,8 +36,8 @@ export class UpdateAddressComponent implements OnInit {
     this.updateAddressForm = new FormGroup({
       street: new FormControl(address.street, [Validators.required]),
       addressLine2: new FormControl(address.addressLine2, [Validators.required]),
-      city: new FormControl(address.city, [Validators.required]),
-      state: new FormControl(address.state, [Validators.required]),
+      city: new FormControl("", [Validators.required]),
+      state: new FormControl("", [Validators.required]),
       pin: new FormControl(address.pin, [Validators.required]),
     });
   }
@@ -93,5 +99,22 @@ export class UpdateAddressComponent implements OnInit {
       next: res => this.showPop("Address is update Successfully"),
       error: err => this.showPop(err.error.message)
     })
+  }
+
+  // Getting State List
+  getstateList() {
+
+    this.http.get("/states").subscribe({
+      next: (res) => this.stateList = res,
+      error: (err) => console.log(err),
+    });
+
+  }
+  // Getting Cities List
+  getCityList(state: string) {
+    this.http.get(`/states/${state}/cities`).subscribe({
+      next: (res) => this.citiesList = res,
+      error: err => console.log(err)
+    });
   }
 }

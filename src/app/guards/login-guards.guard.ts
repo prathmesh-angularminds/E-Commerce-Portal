@@ -22,6 +22,7 @@ export class LoginGuardsGuard implements CanActivate {
 
     let token = localStorage.getItem('sellerToken');
     if (token === undefined || token === null) {
+      localStorage.clear();
       return true;
     } else {
       this.router.navigate(["/seller/app/my-profile"]);
@@ -42,6 +43,7 @@ export class CanLogOutGuard implements CanDeactivate<SellerAppLayoutComponent> {
 
     if (token === null || token === undefined) {
       return true;
+      localStorage.clear();
     } else {
       this.router.navigate(["/seller/app/my-profile"]);
       return false;
@@ -66,7 +68,6 @@ export class ShouldOpenProfileGuard implements CanActivate {
       this.router.navigate(["/seller/auth/login"]);
       return false;
     } else {
-      console.log("Hello3")
       return true;
     }
   }
@@ -88,9 +89,9 @@ export class CustomerLoginGuardsGuard implements CanActivate {
     let token = localStorage.getItem('customerToken');
 
     if (token === undefined || token === null) {
+      localStorage.clear();
       return true;
     } else {
-      console.log("Here")
       this.router.navigate(["/app/my-profile"]);
       return false;
     }
@@ -107,8 +108,8 @@ export class CustomerCanLogOutGuard implements CanDeactivate<ShoppingAppLayoutCo
     
     let token = localStorage.getItem('customerToken');
 
-    console.log("Here1")
     if (token === null || token === undefined) {
+      localStorage.clear();
       return true;
     } else {
       this.router.navigate(["/app/my-profile"]);
@@ -132,11 +133,9 @@ export class CustomerShouldOpenProfileGuard implements CanActivate {
     let token = localStorage.getItem('customerToken');
 
     if (token ==  null || token == undefined) {
-      console.log("Profile")
       this.router.navigate(["/auth/login"]);  
       return false;
     } else {
-      console.log("Hello3")
       return true;
     }
   }

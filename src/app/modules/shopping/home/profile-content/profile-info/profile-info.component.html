@@ -26,7 +26,7 @@
       style="width: 220px"
     >
       <button
-        class="btn btn-secondary btn-sm d-flex justify-content-center align-items-center"
+        class="btn btn-dark btn-sm d-flex justify-content-center align-items-center"
         (click)="editImage()"
       >
         <img
@@ -40,7 +40,7 @@
       >
         <img
           style="width: 80%; height: 80%"
-          src="../../../../../../assets/trash.svg"
+          src="../../../../../../assets/trash-2.svg"
         />
       </button>
     </div>
@@ -56,17 +56,23 @@
           <div class="address-card-title h6">Address {{ i + 1 }}</div>
           <div class="address-card-btns-block d-flex">
             <button
-              class="btn btn-dark btn-sm"
+              class="btn btn-light btn-sm d-flex justify-content-center align-items-center edit-btn"
               routerLink="/app/my-profile/update-address"
               [state]="address"
             >
-              Edit
+              <img
+                style="width: 80%; height: 80%"
+                src="../../../../../../assets/edit-2.svg"
+              />
             </button>
             <button
-              class="btn btn-danger btn-sm ms-2"
+              class="btn btn-light btn-sm ms-2 d-flex justify-content-center align-items-center delete-btn"
               (click)="deleteAddress(address._id)"
             >
-              Delete
+              <img
+                style="width: 80%; height: 80%"
+                src="../../../../../../assets/trash.svg"
+              />
             </button>
           </div>
         </div>

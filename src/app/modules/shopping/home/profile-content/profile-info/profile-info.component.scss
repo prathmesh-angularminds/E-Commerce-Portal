@@ -11,3 +11,23 @@
     background-repeat: no-repeat;
     border: 1px solid gray;
 }
+
+.edit-btn:hover {
+
+    background-color: #212529 !important;
+    border-radius: 5px;
+
+    img {
+        filter: brightness(0) invert(1);    
+    }
+}
+
+.delete-btn:hover {
+
+    background-color: #DC3545 !important;
+    border-radius: 5px;
+
+    img {
+        filter: brightness(0) invert(1);    
+    }
+}
