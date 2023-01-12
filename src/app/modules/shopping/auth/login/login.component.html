@@ -131,11 +131,6 @@
             Register
           </button>
         </div>
-        <!-- <div class="social-auth d-flex justify-content-between mt-4" style="width: 80%">
-          <cool-google-button color="dark" (click)="googleSignIn()">
-            Login with Google
-          </cool-google-button> 
-        </div> -->
 
         <!-- Wave Btn  -->
         <!-- <div class="wrapper">
@@ -147,59 +142,3 @@
   <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
 </div>
 
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Forget Password</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="passForm" class="form-block w-100">
-          <!-- email -->
-          <div
-            class="email-block block position-relative d-flex align-items-center mt-2"
-          >
-            <input
-              type="email"
-              class="email-field field"
-              placeholder="Enter Email"
-              formControlName="email"
-            />
-            <label for="email-field" class="label">Enter Email</label>
-          </div>
-          <!-- Email Validation -->
-          <div
-            class="validations"
-            *ngIf="forgetPassEmail?.touched && forgetPassEmail?.hasError('pattern')"
-          >
-            Invalid Email id
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer submit-btn-block w-100">
-        <button
-          [class.disabled]="passForm.invalid"
-          class="btn btn-primary submit-btn"
-          type="submit"
-          (click)="forgetPassword()"
-          data-bs-dismiss="modal"
-        >
-          Send Email
-        </button>
-      </div>
-    </div>
-  </div>
-</div>

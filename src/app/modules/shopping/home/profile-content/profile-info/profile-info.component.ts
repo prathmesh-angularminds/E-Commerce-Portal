@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { UsersdataService } from "src/app/services/usersdata.service";
 import { HttpServiceService } from "src/app/services/http-service.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-profile-info",
@@ -18,16 +19,26 @@ export class ProfileInfoComponent implements OnInit {
 
   constructor(
     private userData: UsersdataService,
-    private httpService: HttpServiceService
+    private httpService: HttpServiceService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.customerInfo = this.userData.getUser("customerLogged");
+    this.getCustomer();
     this.getAddress();
   }
 
+  // Get User
+  getCustomer() {
+    const url = "/shop/auth/self";
+    this.httpService.get(url, "").subscribe({
+      next: (res: any) => (this.customerInfo = res),
+      error: (err: any) => console.log(err),
+    });
+  }
+
   getAddress() {
-    console.log("Hello")
+    console.log("Hello");
     const url = "/customers/address";
     this.httpService.get(url).subscribe({
       next: (res) => {
@@ -48,12 +59,22 @@ export class ProfileInfoComponent implements OnInit {
   }
 
   afterImageOperation() {
-    this.userData.setUser(this.customerInfo, "customerLogged");
-    this.customerInfo = this.userData.getUser("customerLogged");
     this.userData.updateDetails.next(true);
     setTimeout(() => {
       this.userData.updateDetails.next(false);
     }, 200);
+  }
+
+  // Delete Account
+  deleteAccount() {
+    const url = "/customers/account";
+    this.httpService.delete(url).subscribe({
+      next: (res) => {
+        localStorage.clear();
+        this.router.navigate(["/auth/login"]);
+      },
+      error: (err) => {},
+    });
   }
 
   editImage() {
@@ -61,16 +82,14 @@ export class ProfileInfoComponent implements OnInit {
     input.type = "file";
     input.onchange = (event: any) => {
       // you can use this method to get file and perform respective operations
-      // let files = Array.from(input.files);
-      // console.log(files);
       const url = "/customers/profile-picture";
       let picture: any = new FormData();
       picture.append("picture", input.files[0]);
 
       this.httpService.post(url, "", picture).subscribe({
         next: (res) => {
+          this.getCustomer();
           this.showPop("Image is updated successfully");
-          this.customerInfo.picture = res.picture;
           this.afterImageOperation();
         },
         error: (err) => console.log(err),
@@ -97,7 +116,7 @@ export class ProfileInfoComponent implements OnInit {
     this.httpService.delete("/customers/profile-picture").subscribe({
       next: (res) => {
         this.showPop("Image is deleted successfully");
-        this.customerInfo.picture = res;
+        this.getCustomer();
         this.afterImageOperation();
       },
       error: (err) => console.log(err),

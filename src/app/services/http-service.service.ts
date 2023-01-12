@@ -16,13 +16,15 @@ export class HttpServiceService {
   // Get Function
   get(url: string,params: string = ""): Observable<any> {
 
+    console.log("In get");
     const completePath = `${this.baseUrl}${url}${params}`;
-    return this.http.get(completePath);
+    return this.http.get(completePath); 
   }
 
   // Post Function
   post(url:string,params:string = "",payload: object = {}): Observable<any> {
 
+    console.log("In post");
     const completePath = `${this.baseUrl}${url}${params}`;
     return this.http.post(completePath,payload);
   }
@@ -30,12 +32,15 @@ export class HttpServiceService {
   // Delete Function
   delete(url: string): Observable<any> {
 
+    console.log("In delete");
     const completePath = `${this.baseUrl}${url}`;
     return this.http.delete(completePath);
   }
 
   // Patch Function
   patch(url: string,params: string,payload: any): Observable<any> {
+
+    console.log("In patch");
 
     const completePath = `${this.baseUrl}${url}${params}`;
     return this.http.patch(completePath,payload)
@@ -44,6 +49,7 @@ export class HttpServiceService {
   // Put Function
   put(url: string, params: string="",payload: any={}): Observable<any> {
 
+    console.log("In put");
     const completePath = `${this.baseUrl}${url}`;
     return this.http.put(completePath,payload);
   }

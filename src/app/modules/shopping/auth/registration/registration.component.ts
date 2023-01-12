@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { HttpServiceService } from "src/app/services/http-service.service";
 import { AddressServiceService } from "src/app/services/address-service.service";
-// import { ReCaptchaV3Service } from "ng-recaptcha";
 
 @Component({
   selector: "app-registration",
@@ -130,17 +129,8 @@ export class RegistrationComponent implements OnInit {
     } else {
       let url = "/shop/auth/register";
       let registerValue = this.registerForm.value;
-      // this.registerForm.value.captcha = this.captchaToken;
 
-      // removing captcha and password btn
       delete registerValue.confPassword;
-      registerValue["address"] = {
-        street: "ABC road",
-        addressLine2: "Dagdusheth Temple",
-        city: "Pune",
-        state: "Maharashtra",
-        pin: "411090",
-      };
 
       this.httpService.post(url, "", registerValue).subscribe({
         next: (res) => {
@@ -152,6 +142,8 @@ export class RegistrationComponent implements OnInit {
           this.showPop(err.error.message);
         },
       });
+
+      this.registerForm.reset();
     }
   }
 
@@ -165,7 +157,6 @@ export class RegistrationComponent implements OnInit {
 
     if(type === 'city') {
       this.registerForm.value['city'] = event.target.value;
-
     } else {
       this.registerForm.value['state'] = event.target.value;
     }

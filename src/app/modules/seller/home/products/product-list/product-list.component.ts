@@ -113,7 +113,8 @@ export class ProductListComponent implements OnInit {
 
   // function to apply pagination
   applyPagination(page: number) {
-    let params = `limit=${this.limit}&page=${page}`;
+
+    let params = `limit=${this.limit}&page=${page}&sortBy=${this.sortBy}`;
     this.getProductList(params);
   }
 

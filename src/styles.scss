@@ -6,6 +6,9 @@
   margin: 0px;
 }
 
+body {overflow-y: scroll; Scrollbar-width: none;} 
+body::-webkit-scrollbar { width: 0; height: 0;}
+
 // For Hidding grecaptcha-badge
 .grecaptcha-badge {
   visibility: hidden;

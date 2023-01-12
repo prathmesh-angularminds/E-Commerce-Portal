@@ -95,25 +95,9 @@ export class ProductListComponent implements OnInit {
     }, 3000);
   }
 
-  // Delete Product
-  deleteProduct(id: string) {
-    const url = `/products/${id}`;
-    const params = `page=${this.products.page}&limit=${
-      this.limit
-    }&sortBy=${"name"}`;
-
-    this.httpService.delete(url).subscribe({
-      next: (res) => {
-        this.showPop("Product Deleted Successfully");
-        this.getProductList(params);
-      },
-      error: (err) => console.log(err),
-    });
-  }
-
   // function to apply pagination
   applyPagination(page: number) {
-    let params = `limit=${this.limit}&page=${page}`;
+    let params = `limit=${this.limit}&page=${page}&sortBy=${this.sortBy}`;
     this.getProductList(params);
   }
 
@@ -141,6 +125,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getSelected(event: any, page: number, type: string) {
+    
     this.sortBy = type === "sortBy" ? event.target.value : "name";
     this.limit = type === "limit" ? event.target.value : 10;
 

@@ -19,3 +19,31 @@
     background-size: 280%;
     background-repeat: no-repeat;
 }
+
+@media only screen and (max-width: 768px) {
+
+    .profile {
+
+        width: 95%;
+        height: auto !important;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        margin-top: 3%;
+
+        .profile-menu-block {
+
+            height: auto;
+            width: 95% !important;
+            box-sizing: border-box;
+            padding: 0px !important;    
+        }
+        
+        .profile-outlets {
+
+            width: 95% !important;
+            box-sizing: border-box;
+        padding: 0px !important
+        }
+    }
+}

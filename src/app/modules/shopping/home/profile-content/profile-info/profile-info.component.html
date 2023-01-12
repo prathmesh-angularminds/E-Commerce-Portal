@@ -1,5 +1,57 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Are you Sure to delete account
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="deleteAccount()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="info w-100 h-100 pt-5 ps-3 pb-3" style="overflow: scroll">
-  <div class="title h5">Personal Information</div>
+  <div class="title-block d-flex justify-content-between">
+    <p class="h5">Personal Information</p>
+    <div class="d-flex justify-content-center align-items-center">
+      <button
+        class="btn btn-danger btn-sm"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        Delete Account
+      </button>
+    </div>
+  </div>
   <div class="info-main-block w-100 mt-4">
     <div class="info-image-block d-flex align-items-center">
       <div
@@ -9,15 +61,15 @@
         <img
           class="info-image h-100 w-100"
           style="border-radius: 150px"
-          src="{{ customerInfo.picture }}"
+          src="{{ customerInfo === undefined ? '' : customerInfo?.picture }}"
         />
       </div>
       <div class="info-block mt-1 d-flex flex-column gap-2 ms-5">
         <div class="name" style="font-size: 1.2rem">
-          <b>User Name: </b>{{ customerInfo.name }}
+          <b>User Name: </b>{{ customerInfo?.name }}
         </div>
         <div class="email" style="font-size: 1.2rem">
-          <b>Email: </b>{{ customerInfo.email }}
+          <b>Email: </b>{{ customerInfo?.email }}
         </div>
       </div>
     </div>
@@ -28,6 +80,7 @@
       <button
         class="btn btn-dark btn-sm d-flex justify-content-center align-items-center"
         (click)="editImage()"
+        title="Edit Image"
       >
         <img
           style="width: 80%; height: 80%"
@@ -35,6 +88,7 @@
         />
       </button>
       <button
+        title="Delete Image"
         class="btn btn-danger btn-sm d-flex justify-content-center align-items-center ms-1"
         (click)="deleteImage()"
       >
@@ -59,6 +113,7 @@
               class="btn btn-light btn-sm d-flex justify-content-center align-items-center edit-btn"
               routerLink="/app/my-profile/update-address"
               [state]="address"
+              title="Edit address"
             >
               <img
                 style="width: 80%; height: 80%"
@@ -66,6 +121,7 @@
               />
             </button>
             <button
+              title="Delete Address"
               class="btn btn-light btn-sm ms-2 d-flex justify-content-center align-items-center delete-btn"
               (click)="deleteAddress(address._id)"
             >
@@ -84,7 +140,7 @@
             Address Line: {{ address.addressLine2 }}
           </div>
           <div
-            class="d-flex justify-content-between"
+            class="d-flex justify-content-between sub-address"
             style="border-top: 0.5px solid lightgrey"
           >
             <div

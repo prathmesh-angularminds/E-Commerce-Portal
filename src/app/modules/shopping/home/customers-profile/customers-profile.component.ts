@@ -19,24 +19,23 @@ export class CustomersProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData.updateDetails.subscribe((data) => {
-      if (data === true)
-        this.customerInfo = this.userData.getUser("customerLogged");
+      if (data === true) {
+        this.getCustomer();
+      }
     });
 
-    this.customerInfo = this.userData.getUser("customerLogged");
+    this.getCustomer();
     this.demo = this.router;
   }
 
-  // Delete Account
-  deleteAccount() {
-    const url = "/customers/account";
-    this.httpService.delete(url).subscribe({
-      next: (res) => {
-        localStorage.clear();
-        this.router.navigate(["/auth/login"]);
-      },
-      error: (err) => {},
-    });
+  // Get User
+  getCustomer() {
+
+    const url = "/shop/auth/self"
+    this.httpService.get(url,"").subscribe({
+      next: (res: any) => this.customerInfo = res,
+      error: (err: any) => console.log(err)
+    })
   }
 
   // Logout Customer

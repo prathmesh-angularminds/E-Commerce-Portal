@@ -1,7 +1,8 @@
-::-webkit-scrollbar {
-    display: none;
-    scrollbar-width: none;
+.info::-webkit-scrollbar {
+    display: none !important;
+    scrollbar-width: none !important;
     overflow: scrollbars-none;
+    border: 2px solid red;
 }
 
 .image-block {
@@ -29,5 +30,29 @@
 
     img {
         filter: brightness(0) invert(1);    
+    }
+}
+
+@media only screen and (max-width: 768px) {
+
+    .info {
+
+        box-sizing: border-box;
+        padding: 0px !important;
+        margin-top: 1%;
+        padding: 0% 2% !important;
+    }
+}
+
+@media only screen and (max-width: 410px) {
+
+    .sub-address {
+        flex-direction: column !important;
+
+        div {
+            border: 0px !important;
+            border-top: 1px solid lightgray !important;
+            width: 100% !important
+        }
     }
 }

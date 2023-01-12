@@ -4,8 +4,6 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpEventType,
-  HttpErrorResponse,
 } from "@angular/common/http";
 import { catchError, Observable, throwError } from "rxjs";
 import { UsersdataService } from "./usersdata.service";
@@ -16,7 +14,10 @@ export class CommonInterceptor implements HttpInterceptor {
   token: string;
   header: any;
 
-  constructor(private userData: UsersdataService, private router: Router) {}
+  constructor(private userData: UsersdataService, private router: Router) {
+    console.log("In Interceptor Const");
+
+  }
 
   // function which handles auth error
   handleAuthError(err: any, type: string): Observable<any> {
@@ -42,15 +43,22 @@ export class CommonInterceptor implements HttpInterceptor {
       ? "sellerToken"
       : "sellerToken";
 
-    console.log(type);
 
     this.token = this.userData.getToken(type)!;
     this.header = { Authorization: `Bearer ${this.token}` };
+    console.log("In Interceptor");
 
-    return next.handle(request.clone({ setHeaders: this.header })).pipe(
+    const interceptor = next.handle(request.clone({ setHeaders: this.header })).pipe(
       catchError((err) => {
         return this.handleAuthError(err, type);
       })
     );
+
+    console.log(interceptor.subscribe({
+      next: (res) => console.log("Interceptor: ",res)
+    }));
+
+
+    return interceptor;
   }
 }

@@ -17,4 +17,9 @@ export class CustNavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Logout Customer
+  logoutCustomer() {
+    localStorage.clear();
+    this.router.navigate(["/auth/login"]);
+  }
 }

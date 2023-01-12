@@ -23,19 +23,29 @@ export class ProfileUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.info = this.userData.getUser("customerLogged");
-    console.log(this.info);
     this.setUpdateInfoForm();
+    this.getCustomer();
+  }
+
+  // Get User
+  getCustomer() {
+
+    const url = "/shop/auth/self"
+    this.httpService.get(url,"").subscribe({
+      next: (res: any) => {this.info = res; console.log(res);this.setUpdateInfoForm()},
+      error: (err: any) => console.log(err)
+    })
   }
 
   setUpdateInfoForm() {
+
     this.updateInfoForm = new FormGroup({
-      name: new FormControl(this.info.name, [
+      name: new FormControl(this.info === undefined ? "" : this.info.name, [
         Validators.required,
         Validators.pattern("[a-zA-Z ]*$"),
       ]),
 
-      email: new FormControl(this.info.email, [
+      email: new FormControl(this.info === undefined ? "" : this.info.email, [
         Validators.required,
         Validators.pattern("[a-z0-9]+@[a-z]+.[a-z]{2,3}"), // Validator for email
       ]),
@@ -69,7 +79,7 @@ export class ProfileUpdateComponent implements OnInit {
 
     this.httpService.patch(url, "", customerInfo).subscribe({
       next: (res) => {
-        this.userData.setUser(res, "customerLogged");
+        this.getCustomer();
         this.showPop("Profile Update Successfully");
         this.userData.updateDetails.next(true);
         setTimeout(()=> {

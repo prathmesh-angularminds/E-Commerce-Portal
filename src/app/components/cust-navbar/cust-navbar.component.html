@@ -2,14 +2,84 @@
   class="navbar navbar-expand-lg navbar-light bg-dark d-flex justify-content-between"
   style="justify-content: space-between !important"
 >
-  <div class="container-fluid">
+  <div class="container-fluid d-flex justify-content-between w-100">
     <a
       class="navbar-brand"
       style="font-size: 1.4rem; font-weight: bold !important"
       style="color: white !important"
       >{{ "Comic Verse" }}</a
     >
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+    <button
+      class="btn bg-transparent d-flex d-sm-none"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasRight"
+      aria-controls="offcanvasRight"
+    >
+      <img src="../../../assets/menu.svg" />
+    </button>
+
+    <div class="offcanvas offcanvas-end w-75" tabindex="-1" id="offcanvasRight">
+      <div
+        class="offcanvas-header bg-dark w-100 d-flex justify-content-end"
+        style="background-image: none"
+      >
+        <div class="bg-transparent" class="" data-bs-dismiss="offcanvas">
+          <img src="../../../assets/cross.svg" />
+        </div>
+      </div>
+      <div class="offcanvas-body bg-dark">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              role="button"
+              [ngStyle]="{
+                color: 'white',
+                'font-weight': demo.url === '/app/my-profile' ? '700' : ''
+              }"
+              aria-current="page"
+              routerLink="/app/my-profile"
+              [routerLinkActive]="['is-active']"
+              >Profile</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              role="button"
+              [ngStyle]="{
+                color: 'white',
+                'font-weight':
+                  demo.url === '/app/product/product-list' ||
+                  demo.url === '/app/product/product-details'
+                    ? '700'
+                    : ''
+              }"
+              routerLink="/app/product/product-list"
+              >Product List</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link active logout-active"
+              role="button"
+              [ngStyle]="{
+                color: 'white'
+              }"
+              (click)="logoutCustomer()"
+              >Logout</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="collapse navbar-collapse d-md-flex justify-content-start d-none"
+      id="navbarNavDropdown"
+    >
       <ul class="navbar-nav">
         <li class="nav-item">
           <a
@@ -39,6 +109,17 @@
             }"
             routerLink="/app/product/product-list"
             >Product List</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link active logout-active"
+            role="button"
+            [ngStyle]="{
+              color: 'white'
+            }"
+            (click)="logoutCustomer()"
+            >Logout</a
           >
         </li>
       </ul>

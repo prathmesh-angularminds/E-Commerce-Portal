@@ -1,42 +1,44 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { CustomersProfileComponent } from './customers-profile/customers-profile.component';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule, Routes } from "@angular/router";
+import { CustomersProfileComponent } from "./customers-profile/customers-profile.component";
 
-const routes : Routes = [
+const routes: Routes = [
   {
-    path: 'app',
+    path: "app",
     redirectTo: "product",
-    pathMatch: 'full'
+    pathMatch: "full",
   },
   {
-    path: 'product',
+    path: "product",
     children: [
       {
-        path: '',
-        loadChildren: () => import('./products/products.module').then((m) => {return m.ProductsModule})
-      }
-    ]    
+        path: "",
+        loadChildren: () =>
+          import("./products/products.module").then((m) => {
+            return m.ProductsModule;
+          }),
+      },
+    ],
   },
   {
-    path: 'my-profile',
+    path: "my-profile",
     component: CustomersProfileComponent,
     children: [
       {
-        path: '',
-        loadChildren: () => import('./profile-content/profile-content.module').then(m => m.ProfileContentModule)
-      }
-    ]
+        path: "",
+        loadChildren: () =>
+          import("./profile-content/profile-content.module").then(
+            (m) => m.ProfileContentModule
+          ),
+      },
+    ],
   },
-  
-]
+];
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes)
-  ],
-  exports: [RouterModule]
+  imports: [CommonModule, RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class HomeRoutingModule { }
+export class HomeRoutingModule {}
