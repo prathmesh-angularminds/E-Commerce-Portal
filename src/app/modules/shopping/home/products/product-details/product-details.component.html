@@ -1,1 +1,96 @@
-<p>product-details works!</p>
+
+
+<div class="product-details w-100" style="height: 92vh">
+  <div class="back-arrow-block w-100 p-2 d-flex justify-content-end">
+    <div
+      routerLink="/seller/app/product/product-list"
+      class="d-flex justify-content-center align-items-center"
+      style="
+        width: 40px;
+        height: 40px;
+        background-color: black;
+        border-radius: 50px;
+      "
+    >
+      <img src="../../../../../assets/back-arrow.svg" />
+    </div>
+  </div>
+  <div class="details-block d-flex flex-column flex-md-row" style="height: 92%">
+    <div class="product-imageblock d-flex h-100;" style="width: 580px">
+      <div
+        class="images-list-block d-flex align-items-center flex-column px-2 my-2"
+        style="height: 82vh; width: 32%; overflow: scroll"
+      >
+        <div
+          class="mb-2"
+          style="width: 100%"
+          *ngFor="let img of product.images; let i = index"
+          (click)="changeProfileImage(i)"
+        >
+          <div
+            class="image-block position-relative"
+            style="width: 100%; height: 25vh"
+          >
+            <img
+              class="w-100 h-100 position-absolute"
+              style="object-fit: cover"
+              src="{{ img.url }}"
+            />
+            <div
+              class="d-flex justify-content-end delete-icon-block position-absolute p-1"
+              style="
+                background-color: rgba(58, 57, 57, 0.5);
+                border-radius: 50px;
+              "
+            >
+              <img src="./../../../../../assets/three-dot.svg" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="main-image-block h-100 w-75 p-2"
+        style="border: 1px solid grey"
+      >
+        <img
+          class="selected-image w-100 h-100"
+          src="{{ profileImage }}"
+          alt="selected product"
+        />
+      </div>
+    </div>
+
+    <div
+      class="product-descblock h-100 p-4"
+      style="width: 65%; overflow: scroll; box-sizing: border-box"
+    >
+      <div class="product-title h2 mb-4">{{ product.name }}</div>
+      <div class="product-description mb-4">{{ product.description }}</div>
+      <div class="product-price mb-4">
+        Price: <b class="ms-2">{{ product.price | currency : "INR" }}</b>
+      </div>
+      <div
+        class="update-delete-block d-flex justify-content-between align-items-center"
+        style="width: 300px"
+      >
+        <button
+          class="btn btn-dark btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          (click)="formType = 'Information'"
+        >
+          Update Product
+        </button>
+        <button
+          class="btn btn-dark btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          (click)="formType = 'Image'"
+        >
+          Add Images
+        </button>
+      </div>
+    </div>
+  </div>
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>

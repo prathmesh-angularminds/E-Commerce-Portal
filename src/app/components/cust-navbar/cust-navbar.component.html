@@ -1,8 +1,8 @@
 <nav
-  class="navbar navbar-expand-lg navbar-light bg-dark d-flex justify-content-between"
+  class="navbar navbar-expand-lg navbar-light bg-dark d-flex justify-content-between flex-row"
   style="justify-content: space-between !important"
 >
-  <div class="container-fluid d-flex justify-content-between w-100">
+  <div class="container-fluid d-flex justify-content-between w-100 flex-row">
     <a
       class="navbar-brand"
       style="font-size: 1.4rem; font-weight: bold !important"
@@ -10,8 +10,9 @@
       >{{ "Comic Verse" }}</a
     >
 
+    <!-- Canvas Navbar -->
     <button
-      class="btn bg-transparent d-flex d-sm-none"
+      class="btn bg-transparent d-flex d-md-none"
       type="button"
       data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasRight"
@@ -20,7 +21,11 @@
       <img src="../../../assets/menu.svg" />
     </button>
 
-    <div class="offcanvas offcanvas-end w-75" tabindex="-1" id="offcanvasRight">
+    <div
+      class="offcanvas offcanvas-end w-75 d-flex d-md-none"
+      tabindex="-1"
+      id="offcanvasRight"
+    >
       <div
         class="offcanvas-header bg-dark w-100 d-flex justify-content-end"
         style="background-image: none"
@@ -31,7 +36,8 @@
       </div>
       <div class="offcanvas-body bg-dark">
         <ul class="navbar-nav">
-          <li class="nav-item">
+          <li class="nav-item d-flex align-items-center" *ngIf="token !== null">
+            <img width="15" class="me-2" src="../../../assets/user.svg" />
             <a
               class="nav-link active"
               role="button"
@@ -45,7 +51,8 @@
               >Profile</a
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item d-flex align-items-center">
+            <img class="me-2" width="15" src="../../../assets/list.svg" />
             <a
               class="nav-link active"
               role="button"
@@ -61,7 +68,21 @@
               >Product List</a
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item d-flex align-items-center">
+            <img width="15" class="me-2" src="../../../assets/cart.svg" />
+            <a
+              class="nav-link active"
+              role="button"
+              [ngStyle]="{
+                color: 'white'}"
+              aria-current="page"
+              routerLink="/app/my-profile"
+              [routerLinkActive]="['is-active']"
+              >Cart</a
+            >
+          </li>
+          <li class="nav-item d-flex align-items-center" *ngIf="token !== null">
+            <img width="15" class="me-2" src="../../../assets/log-out.svg" />
             <a
               class="nav-link active logout-active"
               role="button"
@@ -72,16 +93,49 @@
               >Logout</a
             >
           </li>
+          <li class="nav-item d-flex align-items-center" *ngIf="token === null">
+            <img width="15" class="me-2" src="../../../assets/seller.svg" />
+            <a
+              class="nav-link active"
+              role="button"
+              [ngStyle]="{
+                color: 'white',
+                'font-weight': demo.url === '/app/my-profile' ? '700' : ''
+              }"
+              aria-current="page"
+              routerLink="/seller/auth/login"
+              [routerLinkActive]="['is-active']"
+              >Become a Seller</a
+            >
+          </li>
+  
+          <li class="nav-item d-flex align-items-center" *ngIf="token === null">
+            <img width="15" class="me-2" src="../../../assets/log-in.svg" />
+            <a
+              class="nav-link active"
+              role="button"
+              [ngStyle]="{
+                color: 'white',
+                'font-weight': demo.url === '/app/my-profile' ? '700' : ''
+              }"
+              aria-current="page"
+              routerLink="/auth/login"
+              [routerLinkActive]="['is-active']"
+              >Sign In</a
+            >
+          </li>
         </ul>
       </div>
     </div>
 
+    <!-- Normal Navbar -->
     <div
-      class="collapse navbar-collapse d-md-flex justify-content-start d-none"
+      class="d-md-flex justify-content-end d-none"
       id="navbarNavDropdown"
     >
-      <ul class="navbar-nav">
-        <li class="nav-item">
+      <ul class="navbar-nav d-flex flex-row gap-4">
+        <li class="nav-item d-flex align-items-center" *ngIf="token !== null">
+          <img width="15" class="me-1" src="../../../assets/user.svg" />
           <a
             class="nav-link active"
             role="button"
@@ -95,7 +149,8 @@
             >Profile</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item d-flex align-items-center">
+          <img class="me-1" width="15" src="../../../assets/list.svg" />
           <a
             class="nav-link active"
             role="button"
@@ -111,7 +166,21 @@
             >Product List</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item d-flex align-items-center">
+          <img width="15" class="me-1" src="../../../assets/cart.svg" />
+          <a
+            class="nav-link active"
+            role="button"
+            [ngStyle]="{
+              color: 'white'}"
+            aria-current="page"
+            routerLink="/app/my-profile"
+            [routerLinkActive]="['is-active']"
+            >Cart</a
+          >
+        </li>
+        <li class="nav-item d-flex align-items-center" *ngIf="token !== null">
+          <img width="15" class="me-1" src="../../../assets/log-out.svg" />
           <a
             class="nav-link active logout-active"
             role="button"
@@ -120,6 +189,37 @@
             }"
             (click)="logoutCustomer()"
             >Logout</a
+          >
+        </li>
+        <li class="nav-item d-flex align-items-center" *ngIf="token === null">
+          <img width="15" class="me-1" src="../../../assets/seller.svg" />
+          <a
+            class="nav-link active"
+            role="button"
+            [ngStyle]="{
+              color: 'white',
+              'font-weight': demo.url === '/app/my-profile' ? '700' : ''
+            }"
+            aria-current="page"
+            routerLink="/seller/auth/login"
+            [routerLinkActive]="['is-active']"
+            >Become a Seller</a
+          >
+        </li>
+
+        <li class="nav-item d-flex align-items-center" *ngIf="token === null">
+          <img width="15" class="me-1" src="../../../assets/log-in.svg" />
+          <a
+            class="nav-link active"
+            role="button"
+            [ngStyle]="{
+              color: 'white',
+              'font-weight': demo.url === '/app/my-profile' ? '700' : ''
+            }"
+            aria-current="page"
+            routerLink="/auth/login"
+            [routerLinkActive]="['is-active']"
+            >Sign In</a
           >
         </li>
       </ul>

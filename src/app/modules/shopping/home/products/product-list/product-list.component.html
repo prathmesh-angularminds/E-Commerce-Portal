@@ -9,19 +9,19 @@
   >
     <div
       class="email-block block position-relative d-flex align-items-center"
-      style="height: 35px; width: 30%;"
+      style="height: 35px; width: 30%"
     >
       <input
         type="email"
         class="email-field field"
         placeholder="Search Comic Name"
         style="border-radius: 5px"
-        [(ngModel)] ="searched"
+        [(ngModel)]="searched"
         (keyup)="getSearched()"
       />
     </div>
 
-    <div class="sort-add-block d-flex justify-content-end" style="width:320px;">
+    <div class="sort-add-block d-flex justify-content-end" style="width: 320px">
       <div class="sort-block d-flex align-items-center" style="width: 53%">
         Sort By:
         <select
@@ -40,92 +40,97 @@
   <!-- If page not found -->
   <div
     class="mx-auto d-flex flex-column justify-content-center align-items-center"
-    style="width: 95%; height: 75vh;"
+    style="width: 95%; height: 75vh"
     *ngIf="products === undefined"
   >
-  <iframe src="https://embed.lottiefiles.com/animation/96253"></iframe>
+    <iframe src="https://embed.lottiefiles.com/animation/96253"></iframe>
     <h5>Data not found</h5>
   </div>
 
   <div
-    class="product-list-container d-flex justify-content-start overflow-scroll mx-auto gap-4 mt-2 mx-auto"
-    style="height: 75vh; width: 95%;column-count: 5; flex-wrap: wrap"
+    class="product-list-container d-flex justify-content-start overflow-scroll mx-auto gap-4 mx-auto"
+    style="height: 75vh; width: 95%; flex-wrap: wrap; column-gap: 10px"
     *ngIf="products !== undefined"
   >
     <div
-      class="product-card"
-      style="width: 270px; height: 75%"
-      *ngFor="let product of products.results"
+      class="mb-2 product-block-block"
+      style="
+        column-count: 5;
+        column-gap: 50px;
+        box-sizing: border-box;
+        padding: 0% 2%;
+        gap: 10%;
+      "
     >
       <div
-        class="main-card mb-0 m-0 gap-0"
-        style="border: 1.5px solid #f6f6f6; border-radius: 5px"
+        class="product-card mb-2"
+        style="width: 270px; display: grid; border: 0.1px solid lightgray"
+        *ngFor="let product of products.results"
       >
         <div
-          class="card-image d-flex justify-content-center align-items-center"
-          style="
-            width: 100%;
-            height: 30vh;
-            background-color: #f6f6f6;
-            border-radius: 5px;
-          "
+          class="main-card mb-0 m-0 gap-0"
+          style="border: 1.5px solid #f6f6f6; border-radius: 5px"
         >
-          <img
-            src="{{ product.images[0].url }}"
-            class="card-img-top"
-            style="width: 90%; height: 90%; border-radius: 5px"
-            alt="..."
-          />
-        </div>
-        <div class="card-body">
-          <h6
-            class="card-title"
-            style="
-              overflow: hidden;
-              text-overflow: ellipsis;
-              word-break: break-word;
-              display: -webkit-box;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 1;
-            "
+          <div
+            class="card-image py-3 d-flex justify-content-center align-items-center"
+            style="width: 100%; background-color: #f6f6f6; border-radius: 5px"
           >
-            <b>
-              {{ product.name }}
-            </b>
-          </h6>
-          <p
-            class="card-text"
-            style="
-              overflow: hidden;
-              text-overflow: ellipsis;
-              word-break: break-word;
-              display: -webkit-box;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 1;
-            "
+            <img
+              src="{{ product.images[0].url }}"
+              class="card-img-top"
+              style="width: 90%; height: 80%; border-radius: 5px"
+              alt="..."
+            />
+          </div>
+          <div class="card-body">
+            <h6
+              class="card-title"
+              style="
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-break: break-word;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+              "
+            >
+              <b>
+                {{ product.name }}
+              </b>
+            </h6>
+            <p
+              class="card-text"
+              style="
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-break: break-word;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+              "
+            >
+              {{ product.description }}
+            </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Price: <b>{{ product.price | currency : "INR" }}</b>
+            </li>
+          </ul>
+          <div
+            class="card-body submit-btn-block d-flex justify-content-between align-items-center"
           >
-            {{ product.description }}
-          </p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            Price: <b>{{ product.price | currency : "INR" }}</b>
-          </li>
-        </ul>
-        <div
-          class="card-body submit-btn-block d-flex justify-content-between align-items-center"
-        >
-          <button
-            class="btn btn-dark btn-sm"
-            routerLink="/seller/app/product/product-details"
-          >
-            View Details
-          </button>
-          <button
-            class="btn btn-dark btn-sm"
-          >
-            Add to Cart
-          </button>
+            <button
+              class="btn btn-dark btn-sm"
+              routerLink="/app/product/product-details"
+              (click)="clicked()"
+              [state]="product._id"
+              [disabled]="true"
+            >
+              View Details
+            </button>
+            <button class="btn btn-dark btn-sm">Add to Cart</button>
+          </div>
         </div>
       </div>
     </div>

@@ -14,10 +14,7 @@ export class CommonInterceptor implements HttpInterceptor {
   token: string;
   header: any;
 
-  constructor(private userData: UsersdataService, private router: Router) {
-    console.log("In Interceptor Const");
-
-  }
+  constructor(private userData: UsersdataService, private router: Router) {}
 
   // function which handles auth error
   handleAuthError(err: any, type: string): Observable<any> {
@@ -46,19 +43,11 @@ export class CommonInterceptor implements HttpInterceptor {
 
     this.token = this.userData.getToken(type)!;
     this.header = { Authorization: `Bearer ${this.token}` };
-    console.log("In Interceptor");
 
-    const interceptor = next.handle(request.clone({ setHeaders: this.header })).pipe(
+    return next.handle(request.clone({ setHeaders: this.header })).pipe(
       catchError((err) => {
         return this.handleAuthError(err, type);
       })
     );
-
-    console.log(interceptor.subscribe({
-      next: (res) => console.log("Interceptor: ",res)
-    }));
-
-
-    return interceptor;
   }
 }

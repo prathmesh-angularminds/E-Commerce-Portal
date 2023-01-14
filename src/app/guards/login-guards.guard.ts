@@ -92,7 +92,7 @@ export class CustomerLoginGuardsGuard implements CanActivate {
       localStorage.clear();
       return true;
     } else {
-      this.router.navigate(["/app/my-profile"]);
+      this.router.navigate(["/app/product/product-list"]);
       return false;
     }
   }
@@ -112,7 +112,7 @@ export class CustomerCanLogOutGuard implements CanDeactivate<ShoppingAppLayoutCo
       localStorage.clear();
       return true;
     } else {
-      this.router.navigate(["/app/my-profile"]);
+      this.router.navigate(["/app/product/product-list"]);
       return false;
     }
   }
@@ -129,11 +129,10 @@ export class CustomerShouldOpenProfileGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean {
 
-    console.log("Profile")
     let token = localStorage.getItem('customerToken');
 
     if (token ==  null || token == undefined) {
-      this.router.navigate(["/auth/login"]);  
+      this.router.navigate(["/app/product/product-list"]);  
       return false;
     } else {
       return true;

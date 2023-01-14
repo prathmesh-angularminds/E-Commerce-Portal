@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {UsersdataService} from 'src/app/services/usersdata.service';
 
 @Component({
   selector: 'app-cust-navbar',
@@ -8,18 +9,30 @@ import { Router } from '@angular/router';
 })
 export class CustNavbarComponent implements OnInit {
 
-  demo: Router
-
-  constructor(private router: Router) { 
+  demo: Router;
+  token: any;
+  constructor(private router: Router, private userData: UsersdataService) { 
     this.demo = this.router;
   }
 
   ngOnInit(): void {
+
+
+    this.getToken();
+  }
+
+  // get token
+  getToken() {
+
+    console.log("In get token")
+    this.token = this.userData.getToken("customerToken");
+    console.log("Token",this.token)
   }
 
   // Logout Customer
   logoutCustomer() {
     localStorage.clear();
-    this.router.navigate(["/auth/login"]);
+    this.getToken();
+    this.router.navigate(["/app/product/product-list"]);
   }
 }

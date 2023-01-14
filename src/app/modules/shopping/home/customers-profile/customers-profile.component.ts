@@ -41,6 +41,6 @@ export class CustomersProfileComponent implements OnInit {
   // Logout Customer
   logoutCustomer() {
     localStorage.clear();
-    this.router.navigate(["/auth/login"]);
+    this.router.navigate(["/app/product/product-list"]);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { HttpServiceService } from "src/app/services/http-service.service";
 
 @Component({
@@ -21,7 +22,7 @@ export class ProductListComponent implements OnInit {
   sortBy: string = "name";
   searched: string = "";
 
-  constructor(private httpService: HttpServiceService) {}
+  constructor(private httpService: HttpServiceService, private router: Router) {}
 
   ngOnInit(): void {
     const params = `page=${1}&limit=${this.limit}&sortBy=${this.sortBy}`;
@@ -65,6 +66,11 @@ export class ProductListComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+  clicked() {
+    console.log("Hello");
+    
   }
 
   // Get image form frontend

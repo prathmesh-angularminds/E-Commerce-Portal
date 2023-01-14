@@ -2,10 +2,11 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule, Routes } from "@angular/router";
 import { CustomersProfileComponent } from "./customers-profile/customers-profile.component";
+import { CustomerShouldOpenProfileGuard } from "src/app/guards/login-guards.guard";
 
 const routes: Routes = [
   {
-    path: "app",
+    path: "",
     redirectTo: "product",
     pathMatch: "full",
   },
@@ -31,6 +32,7 @@ const routes: Routes = [
           import("./profile-content/profile-content.module").then(
             (m) => m.ProfileContentModule
           ),
+          canActivate: [CustomerShouldOpenProfileGuard],
       },
     ],
   },

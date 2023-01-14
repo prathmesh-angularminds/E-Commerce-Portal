@@ -1,58 +1,74 @@
 .info::-webkit-scrollbar {
-    display: none !important;
-    scrollbar-width: none !important;
-    overflow: scrollbars-none;
-    border: 2px solid red;
+  display: none !important;
+  scrollbar-width: none !important;
+  overflow: scrollbars-none;
+  border: 2px solid red;
 }
 
 .image-block {
-
-    background-image: url('../../../.././../../assets/no-image.webp');
-    background-position: center;
-    background-repeat: no-repeat;
-    border: 1px solid gray;
+  background-image: url("../../../.././../../assets/no-image.webp");
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid gray;
 }
 
 .edit-btn:hover {
+  background-color: #212529 !important;
+  border-radius: 5px;
 
-    background-color: #212529 !important;
-    border-radius: 5px;
-
-    img {
-        filter: brightness(0) invert(1);    
-    }
+  img {
+    filter: brightness(0) invert(1);
+  }
 }
 
 .delete-btn:hover {
+  background-color: #dc3545 !important;
+  border-radius: 5px;
 
-    background-color: #DC3545 !important;
-    border-radius: 5px;
-
-    img {
-        filter: brightness(0) invert(1);    
-    }
+  img {
+    filter: brightness(0) invert(1);
+  }
 }
 
 @media only screen and (max-width: 768px) {
+  .info {
+    box-sizing: border-box;
+    padding: 0px !important;
+    margin-top: 1%;
+    padding: 0% 2% !important;
+  }
 
-    .info {
+  .name,
+  .email {
+    font-size: 1.1rem !important;
+  }
 
-        box-sizing: border-box;
-        padding: 0px !important;
-        margin-top: 1%;
-        padding: 0% 2% !important;
+  .addres-block {
+    box-sizing: border-box;
+    margin-bottom: 3%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .info-block {
+    
+    box-sizing: border-box;
+    margin-left: 4% !important;
+    .name,
+    .email {
+      font-size: 0.9rem !important;
     }
+  }
 }
 
 @media only screen and (max-width: 410px) {
+  .sub-address {
+    flex-direction: column !important;
 
-    .sub-address {
-        flex-direction: column !important;
-
-        div {
-            border: 0px !important;
-            border-top: 1px solid lightgray !important;
-            width: 100% !important
-        }
+    div {
+      border: 0px !important;
+      border-top: 1px solid lightgray !important;
+      width: 100% !important;
     }
+  }
 }
