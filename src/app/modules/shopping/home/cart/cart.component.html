@@ -1,0 +1,14 @@
+<div
+  class="cart-list-block d-flex flex-column justify-content-center align-items-center w-100"
+  style="height: 92.6vh"
+>
+  <div *ngIf="cartList.length === 0">
+    <img width="400" height="400" src="../../../../../assets/empty-cart.gif" />
+    <div class="w-100 h5" style="text-align: center;">No products available</div>
+  </div>
+  <div class="main-block w-100"*ngIf="cartList.length !== 0">
+    <div class="cart-list">{{cartList | json}}</div>
+    <div class="payment-details"></div>
+  </div>
+
+</div>

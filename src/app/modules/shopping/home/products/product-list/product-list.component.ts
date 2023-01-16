@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { HttpServiceService } from "src/app/services/http-service.service";
+import { addToCart } from "src/app/actions/addToCart.action";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-product-list",
@@ -22,7 +24,7 @@ export class ProductListComponent implements OnInit {
   sortBy: string = "name";
   searched: string = "";
 
-  constructor(private httpService: HttpServiceService, private router: Router) {}
+  constructor(private httpService: HttpServiceService, private router: Router,private store: Store<{ cart: [] }>) {}
 
   ngOnInit(): void {
     const params = `page=${1}&limit=${this.limit}&sortBy=${this.sortBy}`;
@@ -149,5 +151,10 @@ export class ProductListComponent implements OnInit {
         ? `page=${1}&limit=${this.limit}&sortBy=${this.sortBy}`
         : `name=${this.searched}`;
     this.getProductList(params);
+  }
+
+  addToCart(product: any) {
+
+    this.store.dispatch(addToCart(product))
   }
 }

@@ -74,9 +74,11 @@
               class="nav-link active"
               role="button"
               [ngStyle]="{
-                color: 'white'}"
+                color: 'white',
+                'font-weight': demo.url === '/app/cart' ? '700' : ''
+              }"
               aria-current="page"
-              routerLink="/app/my-profile"
+              routerLink="/app/cart"
               [routerLinkActive]="['is-active']"
               >Cart</a
             >
@@ -108,7 +110,7 @@
               >Become a Seller</a
             >
           </li>
-  
+
           <li class="nav-item d-flex align-items-center" *ngIf="token === null">
             <img width="15" class="me-2" src="../../../assets/log-in.svg" />
             <a
@@ -129,10 +131,7 @@
     </div>
 
     <!-- Normal Navbar -->
-    <div
-      class="d-md-flex justify-content-end d-none"
-      id="navbarNavDropdown"
-    >
+    <div class="d-md-flex justify-content-end d-none" id="navbarNavDropdown">
       <ul class="navbar-nav d-flex flex-row gap-4">
         <li class="nav-item d-flex align-items-center" *ngIf="token !== null">
           <img width="15" class="me-1" src="../../../assets/user.svg" />
@@ -172,9 +171,11 @@
             class="nav-link active"
             role="button"
             [ngStyle]="{
-              color: 'white'}"
+              color: 'white',
+              'font-weight': demo.url === '/app/cart' ? '700' : ''
+            }"
             aria-current="page"
-            routerLink="/app/my-profile"
+            routerLink="/app/cart"
             [routerLinkActive]="['is-active']"
             >Cart</a
           >

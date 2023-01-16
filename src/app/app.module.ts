@@ -9,6 +9,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { CommonInterceptor } from "./services/common.interceptor";
 
+// NGRX SETUP
+import { StoreModule } from '@ngrx/store';
+import { cartReducer } from './reducers/cart.reducer';
+
 @NgModule({
   declarations: [AppComponent, ErrorComponent],
   imports: [
@@ -16,6 +20,7 @@ import { CommonInterceptor } from "./services/common.interceptor";
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    StoreModule.forRoot({cartList: cartReducer},),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CommonInterceptor, multi: true },
