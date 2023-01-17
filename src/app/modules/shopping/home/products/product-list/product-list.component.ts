@@ -157,4 +157,8 @@ export class ProductListComponent implements OnInit {
 
     this.store.dispatch(addToCart(product))
   }
+
+  getId(product: any) {
+    console.log(product._id);
+  }
 }

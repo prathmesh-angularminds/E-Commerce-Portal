@@ -1,7 +1,7 @@
 <div
   class="product-list-block d-flex justify-content-center align-items-center"
   class="w-100"
-  style="height: 92.6vh"
+  style="height: 92.6vh;background-color: #F2F2F2"
 >
   <div
     class="search-sortproduct d-flex justify-content-between align-items-center py-3 px-2 mx-auto"
@@ -64,7 +64,7 @@
     >
       <div
         class="product-card mb-2"
-        style="width: 270px; display: grid; border: 0.1px solid lightgray"
+        style="width: 270px; display: grid; background-color: white;"
         *ngFor="let product of products.results"
       >
         <div
@@ -73,7 +73,7 @@
         >
           <div
             class="card-image py-3 d-flex justify-content-center align-items-center"
-            style="width: 100%; background-color: #f6f6f6; border-radius: 5px"
+            style="width: 100%; background-color: white; border-radius: 5px"
           >
             <img
               src="{{ product.images[0].url }}"
@@ -95,7 +95,7 @@
               "
             >
               <b>
-                {{ product.name }}
+                {{ product.name }}background-color: #F2F2F2
               </b>
             </h6>
             <p
@@ -124,8 +124,7 @@
               class="btn btn-dark btn-sm"
               routerLink="/app/product/product-details"
               (click)="clicked()"
-              [state]="product._id"
-              [disabled]="true"
+              [state]="[product._id]"
             >
               View Details
             </button>

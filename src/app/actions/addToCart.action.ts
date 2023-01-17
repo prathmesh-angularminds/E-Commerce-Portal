@@ -1,4 +1,6 @@
-import { createAction } from "@ngrx/store";
+import { createAction, props } from "@ngrx/store";
+
+// let demo = createAction('ADD_TO_CART',props<{product: any}>);
 
 export const addToCart = (action: any) => {
     console.log(action)

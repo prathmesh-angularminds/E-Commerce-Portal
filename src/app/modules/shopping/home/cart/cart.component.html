@@ -1,14 +1,168 @@
 <div
-  class="cart-list-block d-flex flex-column justify-content-center align-items-center w-100"
-  style="height: 92.6vh"
+  class="cart-list-block d-flex flex-column justify-content-center align-items-center w-100 px-5"
+  style="height: 92.6vh; background-color: #f2f2f2"
 >
   <div *ngIf="cartList.length === 0">
     <img width="400" height="400" src="../../../../../assets/empty-cart.gif" />
-    <div class="w-100 h5" style="text-align: center;">No products available</div>
+    <div class="w-100 h5" style="text-align: center">No products available</div>
   </div>
-  <div class="main-block w-100"*ngIf="cartList.length !== 0">
-    <div class="cart-list">{{cartList | json}}</div>
-    <div class="payment-details"></div>
-  </div>
+  <div
+    class="main-block w-100 h-100 d-flex justify-content-between align-items-start pt-5"
+    *ngIf="cartList.length !== 0"
+  >
+    <div
+      class="cart-list-block overflow-scroll"
+      style="width: 65%; height: 85vh"
+    >
+      <!-- <div class="customer-info-block">Hello Popularduck</div> -->
+      <div
+        class="product-cart d-flex p-2 mb-3"
+        style="border-radius: 8px; background-color: white"
+        *ngFor="let product of cartList"
+      >
+        <div class="product-image-block" style="height: 30vh; width: 20%">
+          <img
+            style="width: 100%; height: 100%; border-radius: 10px"
+            src="{{ product.images[0].url }}"
+          />
+        </div>
+        <div
+          class="product-info-block px-4 p-3 d-flex flex-column justify-content-between"
+          style="width: 80%; height: 30vh"
+        >
+          <div
+            class="product-title-block d-flex justify-content-between align-items-center"
+          >
+            <p class="fw-bold m-0">{{ product.name }}</p>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="removeProduct(product)"
+            >
+              Remove
+            </button>
+          </div>
+          <div class="product-seller text-secondary" style="font-size: 0.9rem">
+            Seller: {{ product._org.name }}
+          </div>
+          <div
+            class="product-desc"
+            style="
+              height: 60px;
+              font-size: 0.8rem;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-word;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 3;
+            "
+          >
+            {{ product.description }}
+          </div>
+          <div class="d-flex align-items-center">
+            <p class="h5 me-3 my-auto">
+              {{ product.price | currency : "INR" }}
+            </p>
+            <p class="text-success my-auto">30% off 3 offers applied</p>
+          </div>
+          <div
+            class="product-counter-total-block d-flex justify-content-between align-items-center w-100"
+            style="position: relative; bottom: 1px"
+          >
+            <div
+              class="product-counter-block d-flex justify-content-between align-items-center py-1"
+              style="width: 100px"
+            >
+              <div
+                (click)="decreaseCount(product)"
+                class="dec-btn d-flex justify-content-center align-items-center bg-light"
+                style="width: 30px; height: 30px; border-radius: 50px"
+                role="button"
+                [attr.disabled]="product.totalCount === 1"
+              >
+                <img
+                  width="15"
+                  height="15"
+                  src="../../../../../assets/minus.svg"
+                />
+              </div>
+              <div>{{ product.totalCount }}</div>
+              <div
+                (click)="increaseCount(product)"
+                class="inc-btn d-flex justify-content-center align-items-center bg-light"
+                style="width: 30px; height: 30px; border-radius: 50px"
+                role="button"
+              >
+                <img
+                  width="15"
+                  height="15"
+                  src="../../../../../assets/plus.svg"
+                />
+              </div>
+            </div>
+            <div class="product-total-block">
+              <b>Total Cost: </b>{{ product.totalPrice | currency : "INR" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="payment-detail" style="width: 30%">
+      <div
+        class="payment-details-card border p-3"
+        style="background-color: white"
+      >
+        <div class="title fs-5 text-secondary mb-3">
+          {{ "price details" | uppercase }}
+        </div>
+        <div
+          class="info-block d-flex flex-column gap-2 py-3"
+          style="
+            border-bottom: 0.5px solid lightgray;
+            border-top: 0.5px solid lightgray;
+          "
+        >
+          <div class="total-price-block d-flex justify-content-between">
+            <div class="block-title">Price ({{ cartList.length }} items)</div>
+            <div class="block-info">{{ totalAmount | currency : "INR" }}</div>
+          </div>
 
+          <div class="discount-block d-flex justify-content-between">
+            <div class="block-title">Discount</div>
+            <div class="block-info text-success">
+              {{ "123" | currency : "INR" }}
+            </div>
+          </div>
+
+          <div class="delivery-charges-block d-flex justify-content-between">
+            <div class="block-title">Delivery Charges</div>
+            <div class="block-info text-success">FREE</div>
+          </div>
+
+          <div class="secured-block d-flex justify-content-between">
+            <div class="block-title">Secured Packaging Fee</div>
+            <div class="block-info">{{ "167" | currency : "INR" }}</div>
+          </div>
+        </div>
+        <div
+          class="total-amount-block my-3 d-flex justify-content-between"
+          style="font-size: 1.1rem; font-weight: 700"
+        >
+          <div class="total-amount-title">TOTAL AMOUNT</div>
+          <div class="total-amount-title">
+            {{ totalAmount | currency : "INR" }}
+          </div>
+        </div>
+        <div
+          class="saved-info text-success pt-3 w-100"
+          style="border-top: 0.1px solid lightgray"
+        >
+          You will save {{ 123 | currency : "INR" }} on this order
+          
+        </div>
+      </div>
+      <div class="d-flex w-100 justify-content-end"> <button class="btn btn-dark mt-3 w-100">Place Order</button></div>
+     
+    </div>
+  </div>
 </div>

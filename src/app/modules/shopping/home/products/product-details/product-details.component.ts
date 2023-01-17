@@ -28,7 +28,7 @@ export class ProductDetailsComponent implements OnInit {
   getProductInfo() {
 
     console.log(history.state[0])
-    const url = `/products/${history.state[0]}`
+    const url = `/shop/products/${history.state[0]}`
     this.httpService.get(url).subscribe({
       next: res => {
         console.log(res)

@@ -1,0 +1,20 @@
+
+.inc-btn:hover {
+
+    background-color: #212529 !important;
+
+    img {
+
+        filter: grayscale(1) invert(1);
+    }
+}
+
+.dec-btn:hover {
+ 
+    background-color: #DC3545 !important;
+
+    img {
+
+        filter: grayscale(1) invert(1);
+    }
+}
