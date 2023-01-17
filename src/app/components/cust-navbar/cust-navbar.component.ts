@@ -31,7 +31,7 @@ export class CustNavbarComponent implements OnInit {
 
   // Logout Customer
   logoutCustomer() {
-    localStorage.clear();
+    localStorage.removeItem('customerToken');
     this.getToken();
     this.router.navigate(["/app/product/product-list"]);
   }

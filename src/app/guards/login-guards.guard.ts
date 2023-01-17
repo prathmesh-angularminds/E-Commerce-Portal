@@ -22,7 +22,7 @@ export class LoginGuardsGuard implements CanActivate {
 
     let token = localStorage.getItem('sellerToken');
     if (token === undefined || token === null) {
-      localStorage.clear();
+      localStorage.removeItem('sellerToken');
       return true;
     } else {
       this.router.navigate(["/seller/app/my-profile"]);
@@ -89,7 +89,7 @@ export class CustomerLoginGuardsGuard implements CanActivate {
     let token = localStorage.getItem('customerToken');
 
     if (token === undefined || token === null) {
-      localStorage.clear();
+      localStorage.removeItem('customerToken');
       return true;
     } else {
       this.router.navigate(["/app/product/product-list"]);

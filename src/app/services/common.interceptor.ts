@@ -40,6 +40,7 @@ export class CommonInterceptor implements HttpInterceptor {
       ? "sellerToken"
       : "sellerToken";
 
+    console.log("Hello")
 
     this.token = this.userData.getToken(type)!;
     this.header = { Authorization: `Bearer ${this.token}` };
