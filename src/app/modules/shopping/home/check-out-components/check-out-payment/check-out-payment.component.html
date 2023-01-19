@@ -1,0 +1,99 @@
+<div
+  class="payment-block d-flex flex-column px-4 py-3 my-2"
+  style="width: 95%; background-color: white"
+>
+  <div
+    class="title pb-2"
+    style="border-bottom: 0.1px solid grey; font-size: 0.9rem; font-weight: 600"
+  >
+    PAYMENT PROCESS
+  </div>
+  <div class="payment-fields">
+    <form
+      [formGroup]="paymentForm"
+      class="form-block d-flex flex-column justify-content-center align-items-center w-50"
+    >
+      <!-- card number -->
+      <div
+        class="email-block block position-relative d-flex align-items-center mt-4"
+      >
+        <input
+          type="text"
+          class="email-field field"
+          formControlName="cardNumber"
+          placeholder="Enter Account Number"
+        />
+        <label for="email-field" class="label">Account Number</label>
+      </div>
+      <!-- Card Number Validations -->
+      <div
+        class="validations d-flex align-items-center"
+        *ngIf="getCardNumber?.touched && getCardNumber?.hasError('required')"
+      >
+        Card Number Required
+      </div>
+
+      <div class="expiry-cvv-block d-flex justify-content-between w-100 mb-3">
+        <div class="expiry-block" style="width: 200px">
+          <!-- mm/yyyy -->
+          <div
+            class="password-block block position-relative d-flex align-items-center mt-4"
+          >
+            <input
+              type="text"
+              class="password-field field"
+              formControlName="expiry"
+              placeholder="Card Expiry"
+              autocomplete
+            />
+            <label for="password-field" class="label">MM/YYYY</label>
+          </div>
+
+          <!-- Expiry Validations -->
+          <div
+            class="validations d-flex align-items-center"
+            *ngIf="getExpiry?.touched && getExpiry?.hasError('required')"
+          >
+            Card Expiry Required
+          </div>
+        </div>
+        <div class="cvv-block" style="width: 100px">
+          <!-- Cvv -->
+          <div
+            class="password-block block position-relative d-flex align-items-center mt-4"
+          >
+            <input
+              type="text"
+              class="password-field field"
+              formControlName="cvv"
+              placeholder="CVV"
+              autocomplete
+            />
+            <label for="password-field" class="label">CVV</label>
+          </div>
+
+          <!-- Expiry Validations -->
+          <div
+            class="validations d-flex align-items-center"
+            *ngIf="getCVV?.touched && getCVV?.hasError('required')"
+          >
+            CVV Required
+          </div>
+        </div>
+      </div>
+      <div
+        class="submit-btn-block d-flex justify-content-between align-items-center m-0"
+      >
+        <button
+          class="btn btn-primary submit-btn btn-sm m-0"
+          type="submit"
+          (click)="makePayment()"
+          [disabled]="paymentForm.invalid"
+        >
+          PAY {{ total | currency : "INR" }}
+        </button>
+      </div>
+    </form>
+  </div>
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>

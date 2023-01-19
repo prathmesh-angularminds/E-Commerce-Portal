@@ -1,0 +1,138 @@
+<div
+  class="login-status d-flex flex-column px-4 py-3 my-2"
+  style="width: 95%; background-color: white"
+>
+  <div
+    class="title pb-2"
+    style="border-bottom: 0.1px solid grey; font-size: 0.9rem; font-weight: 600"
+  >
+    LOGIN
+  </div>
+  <div class="info-main-block mt-2 d-flex align-items-center">
+    <div
+      class="img-block"
+      style="width: 75px; height: 70px; border-radius: 50px"
+    >
+      <img
+        style="width: 100%; height: 100%; border-radius: 50px"
+        src="{{ userData?.picture }}"
+      />
+    </div>
+    <div
+      class="info-button-block d-flex align-items-center w-100 justify-content-between"
+    >
+      <div class="info-block ms-3">
+        <div style="font-size: 0.9rem">Name: {{ userData?.name }}</div>
+        <div style="font-size: 0.9rem">Email: {{ userData?.email }}</div>
+      </div>
+      <div class="button-block">
+        <button
+          class="btn btn-dark btn-sm"
+          data-bs-toggle="collapse"
+          href="#collapseExample"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+        >
+          Change User
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="collapse login-shortcut mt-3" id="collapseExample">
+    <div class="card card-body">
+      <form
+        [formGroup]="loginForm"
+        class="form-block d-flex flex-column justify-content-center align-items-center w-50"
+      >
+        <!-- email -->
+        <div
+          class="email-block block position-relative d-flex align-items-center mt-4"
+        >
+          <input
+            type="email"
+            class="email-field field"
+            formControlName="email"
+            placeholder="Enter Email"
+          />
+          <label for="email-field" class="label">Enter Email</label>
+        </div>
+        <!-- Email Validation -->
+        <div
+          class="validations d-flex align-items-center"
+          *ngIf="getEmail?.touched && getEmail?.hasError('pattern')"
+        >
+          Invalid Email id
+        </div>
+
+        <!-- password -->
+        <div
+          class="password-block block position-relative d-flex align-items-center mt-4"
+        >
+          <input
+            [type]="checked ? 'text' : 'password'"
+            class="password-field field"
+            formControlName="password"
+            placeholder="Enter Password"
+            autocomplete
+          />
+          <label for="password-field" class="label">Password</label>
+        </div>
+
+        <!-- Password Validation -->
+        <div
+          class="validations"
+          *ngIf="
+            getPass?.touched && getPass?.hasError('pattern');
+            else fullNameVal1
+          "
+        >
+          Password should at least have a uppercase letter along with 1 digit
+          and special symbol
+        </div>
+        <ng-template #fullNameVal1
+          ><div
+            class="validations"
+            *ngIf="getPass?.touched && getPass?.hasError('maxlength')"
+          >
+            Invalid Password
+          </div>
+        </ng-template>
+
+        <!-- toggle password btn -->
+        <div
+          class="toggle-checkbox-block d-flex align-items-center justify-content-between w-100"
+          style="font-size: 0.8rem; font-weight: 400"
+        >
+          <div class="toggle-block d-flex">
+            <input
+              type="checkbox"
+              class="toggle-checkbox"
+              style="
+                cursor: pointer;
+                box-sizing: border-box;
+                margin-right: 10px;
+              "
+              (click)="showPasswordToggle()"
+            />
+            Show Password
+          </div>
+        </div>
+
+        <div
+          class="submit-btn-block d-flex justify-content-between align-items-center m-0"
+        >
+          <button
+            class="btn btn-primary submit-btn btn-sm m-0"
+            type="submit"
+            (click)="logAUser()"
+            [disabled]="loginForm.invalid"
+          >
+            Login
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>

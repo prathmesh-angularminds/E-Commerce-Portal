@@ -1,33 +1,37 @@
-const intialState: { cart: object[], totalAmount: number} = { cart: [] , totalAmount: 0};
-
+const intialState: { cart: object[]; totalAmount: number } = {
+  cart: [],
+  totalAmount: 0,
+};
 
 function addCount(cart: Product[], newProduct: Product): any {
-  let index = cart.findIndex((data: any) => data?._id === newProduct._id);
+  let index = cart.findIndex((data: any) => data?.productId === newProduct?.productId);
 
+  console.log(cart)
+  console.log(index);
   index === -1
     ? cart.push(newProduct)
-    : ((cart[index].totalCount += 1),
-      (cart[index].totalPrice += cart[index].price));
+    : ((cart[index].qty += 1),
+      (cart[index].subTotal += cart[index].price));
 
   return cart;
 }
 
 // Reduce Product
 function reduceCount(cart: Product[], selected: Product): any {
-  let index = cart.findIndex((data: Product) => data?._id === selected._id);
+  let index = cart.findIndex((data: Product) => data?.productId === selected.productId);
 
-  cart[index].totalCount === 1
+  cart[index].qty === 1
     ? cart.splice(index, 1)
-    : (cart[index].totalCount--, (cart[index].totalPrice -= cart[index].price));
+    : (cart[index].qty--, (cart[index].subTotal -= cart[index].price));
 
   return cart;
 }
 
 // Delete Product
 function deleteProduct(cart: Product[], selected: Product): any {
-  let index = cart.findIndex((data: Product) => data?._id === selected._id);
-  cart[index].totalCount = 0;
-  cart[index].totalPrice = 0;
+  let index = cart.findIndex((data: Product) => data?.productId === selected.productId);
+  cart[index].qty = 0;
+  cart[index].subTotal = 0;
   cart.splice(index, 1);
 
   return cart;
@@ -41,9 +45,9 @@ export const cartReducer = (state: any = intialState, action: any) => {
 
   switch (action.type) {
     case "ADD_TO_CART": {
-      if (action.payload?.totalCount === undefined) {
-        action.payload.totalCount = 1;
-        action.payload.totalPrice = action.payload.price;
+      if (action.payload?.qty === undefined) {
+        action.payload.qty = 1;
+        action.payload.subTotal = action.payload.price;
       }
 
       cart =
@@ -58,13 +62,12 @@ export const cartReducer = (state: any = intialState, action: any) => {
       cart = reduceCount(localCart, action.payload);
       localStorage.setItem("cart", JSON.stringify(cart));
       return { ...state, cart: cart };
-    } 
+    }
     case "DELETE_PRODUCT": {
-
       cart = deleteProduct(localCart, action.payload);
       localStorage.setItem("cart", JSON.stringify(cart));
 
-      return {...state,cart: cart};
+      return { ...state, cart: cart };
     }
     default: {
       return state;
@@ -72,51 +75,44 @@ export const cartReducer = (state: any = intialState, action: any) => {
   }
 };
 
-
 export const totalAmount = (state: any = intialState, action: any) => {
-
-  let cart = null;
   let totalAmount = null;
-  let localCart = JSON.parse(localStorage.getItem("cart") || "[]");
   let localAmount = JSON.parse(localStorage.getItem("totalAmount") || "0");
 
   localAmount = localAmount === 0 ? state.totalAmount : localAmount;
 
-  switch(action.type) {
+  switch (action.type) {
     case "ADD_TO_CART": {
-      
       totalAmount = localAmount + action.payload.price;
       localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
 
-      return { ...state, totalAmount: totalAmount}
+      return { ...state, totalAmount: totalAmount };
     }
     case "SUB_FROM_CART": {
-     
       totalAmount = localAmount - action.payload.price;
       localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
 
-      return { ...state, totalAmount: totalAmount}
+      return { ...state, totalAmount: totalAmount };
     }
     case "DELETE_PRODUCT": {
-      
-      totalAmount = localAmount - action.payload.totalPrice;
-            
+      totalAmount = localAmount - action.payload.subTotal;
+
       localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
-      return { ...state, totalAmount: totalAmount};      
+      return { ...state, totalAmount: totalAmount };
     }
     default: {
       return state;
-    } 
+    }
   }
-}
+};
 
 interface Product {
-  _id: string;
+  productId: string;
   _org: Object;
   createdAt: string;
   description: string;
   name: string;
   price: number;
-  totalCount: number;
-  totalPrice: number;
+  qty: number;
+  subTotal: number;
 }

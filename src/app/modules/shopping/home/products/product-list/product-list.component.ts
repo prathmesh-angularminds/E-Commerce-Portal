@@ -155,6 +155,8 @@ export class ProductListComponent implements OnInit {
 
   addToCart(product: any) {
 
+    product['productId'] = product['_id'];
+
     this.store.dispatch(addToCart(product))
   }
 

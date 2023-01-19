@@ -1,0 +1,190 @@
+<div
+  class="select-address-block d-flex flex-column px-4 py-3 mb-2"
+  style="width: 95%; background-color: white"
+>
+  <div
+    class="select-address-title pb-2 d-flex justify-content-between"
+    style="border-bottom: 0.1px solid grey; font-size: 0.9rem; font-weight: 600"
+  >
+    Select Address
+    <button
+      class="btn btn-dark btn-sm"
+      data-bs-toggle="collapse"
+      href="#collapseExample1"
+      role="button"
+      aria-expanded="false"
+      aria-controls="collapseExample1"
+    >
+      Add New Address +
+    </button>
+  </div>
+  <div class="collapse m-2" id="collapseExample1">
+    <div class="card card-body">
+      <div class="form-block w-75">
+        <form class="form w-100" [formGroup]="addressForm">
+          <!-- Street -->
+          <div
+            class="fullname-block block position-relative d-flex align-items-center mt-4"
+          >
+            <input
+              type="text"
+              class="fullname-field field"
+              formControlName="street"
+              placeholder="Street"
+            />
+            <label for="fullname-field" class="label">Street</label>
+          </div>
+          <!-- Street Validation -->
+          <div
+            class="validations"
+            *ngIf="getStreet?.touched && getStreet?.hasError('required')"
+          >
+            Street must be provided
+          </div>
+    
+          <!-- Line -->
+          <div
+            class="fullname-block block position-relative d-flex align-items-center mt-4"
+          >
+            <input
+              type="text"
+              class="fullname-field field"
+              formControlName="addressLine2"
+              placeholder="Address Line"
+            />
+            <label for="fullname-field" class="label">Address Line</label>
+          </div>
+          <!-- Address Line Validation -->
+          <div
+            class="validations"
+            *ngIf="getLine?.touched && getLine?.hasError('required')"
+          >
+            Address Line must be provided
+          </div>
+    
+          <div
+            class="select-address-block d-flex justify-content-between mt-4"
+            style="font-size: 1rem !important"
+          >
+            <select
+              class="form-select form-select-lg mb-3"
+              style="
+                width: 30%;
+                border: 1px solid black;
+                font-size: 0.9rem;
+                color: lightslategray;
+              "
+              aria-label=".form-select-lg example"
+              formControlName="city"
+              (change)="getSelected($event, 'city')"
+            >
+              <option selected value="">Select City</option>
+              <option [value]="city.name" *ngFor="let city of citiesList">
+                {{ city.name }}
+              </option>
+            </select>
+    
+            <select
+              class="form-select form-select-lg mb-3"
+              style="
+                width: 30%;
+                border: 1px solid black;
+                font-size: 0.9rem;
+                color: lightslategray;
+              "
+              aria-label=".form-select-lg example"
+              formControlName="state"
+              (change)="getSelected($event, 'state')"
+            >
+              <option selected value="">Select State</option>
+              <option
+                (click)="getCityList(state.iso2)"
+                [value]="state.name"
+                *ngFor="let state of stateList"
+              >
+                {{ state.name }}
+              </option>
+            </select>
+    
+            <!-- Pin code -->
+            <div class="pin-block" style="width: 30%">
+              <div
+                class="fullname-block block position-relative d-flex align-items-center"
+              >
+                <input
+                  type="text"
+                  class="fullname-field field"
+                  formControlName="pin"
+                  placeholder="Pin Code"
+                />
+                <label for="fullname-field" class="label">Pin Code</label>
+              </div>
+              <!-- Pin code Validation -->
+              <div
+                class="validations w-100"
+                *ngIf="getPin?.touched && getPin?.hasError('required')"
+              >
+                Pin must be provided
+              </div>
+            </div>
+          </div>
+    
+          <!-- register btn -->
+          <div class="submit-btn-block" style="width: 100%">
+            <button
+              class="btn btn-primary submit-btn m-0 btn-sm"
+              type="submit"
+              (click)="addNewAddress()"
+              [disabled]="this.addressForm.invalid"
+            >
+              Add Address
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="my-2" *ngIf="addressList?.length === 0; else elseblock">
+    Please add new address
+  </div>
+  <ng-template #elseblock class="address-list-block">
+    <div
+      class="address-card py-3 d-flex align-items-start"
+      *ngFor="let address of addressList"
+      style="border-bottom: 0.5px solid lightgray"
+    >
+      <input
+        class="mt-1 me-3"
+        type="radio"
+        name="address"
+        style="accent-color: black"
+        (click)="setAddress(address)"
+      />
+      <div class="address">
+        <div class="customer-name-block d-flex">
+          {{ usersData?.name }}
+          <p
+            class="m-0 ms-2 text-light bg-secondary opacity-50 p-1"
+            style="border-radius: 2px; font-size: 0.8rem"
+          >
+            Home
+          </p>
+        </div>
+        <div class="adddress-info" style="font-size: 0.9rem">
+          Address: {{ address.street }}, {{ address.addressLine2 }},
+          {{ address.city }}, {{ address.state }} - {{ address.pin }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <div class="btn-block mt-3 d-flex justify-content-between">
+    <button
+      class="btn btn-dark btn-sm"
+      [class.disabled]="deliveryAddress === undefined"
+      (click)="submitAddress()"
+    >
+      Confirm Order
+    </button>
+  </div>
+  <div [ngClass]="errorMsgClass">{{ errorMsg }}</div>
+</div>

@@ -86,7 +86,7 @@
                   src="../../../../../assets/minus.svg"
                 />
               </div>
-              <div>{{ product.totalCount }}</div>
+              <div>{{ product.qty }}</div>
               <div
                 (click)="increaseCount(product)"
                 class="inc-btn d-flex justify-content-center align-items-center bg-light"
@@ -101,7 +101,7 @@
               </div>
             </div>
             <div class="product-total-block">
-              <b>Total Cost: </b>{{ product.totalPrice | currency : "INR" }}
+              <b>Total Cost: </b>{{ product.subTotal | currency : "INR" }}
             </div>
           </div>
         </div>
@@ -158,11 +158,13 @@
           style="border-top: 0.1px solid lightgray"
         >
           You will save {{ 123 | currency : "INR" }} on this order
-          
         </div>
       </div>
-      <div class="d-flex w-100 justify-content-end"> <button class="btn btn-dark mt-3 w-100">Place Order</button></div>
-     
+      <div class="d-flex w-100 justify-content-end">
+        <button class="btn btn-dark mt-3 w-100" routerLink="/app/check-out">
+          Place Order
+        </button>
+      </div>
     </div>
   </div>
 </div>

@@ -84,6 +84,19 @@
             >
           </li>
           <li class="nav-item d-flex align-items-center" *ngIf="token !== null">
+            <img width="15" class="me-1" src="../../../assets/history.svg" />
+            <a
+              class="nav-link active logout-active"
+              role="button"
+              [ngStyle]="{
+                color: 'white',
+                'font-weight': demo.url === '/app/order-history' ? '700' : ''
+              }"
+              routerLink="/app/order-history"
+              >Order History</a
+            >
+          </li>
+          <li class="nav-item d-flex align-items-center" *ngIf="token !== null">
             <img width="15" class="me-2" src="../../../assets/log-out.svg" />
             <a
               class="nav-link active logout-active"
@@ -178,6 +191,19 @@
             routerLink="/app/cart"
             [routerLinkActive]="['is-active']"
             >Cart</a
+          >
+        </li>
+        <li class="nav-item d-flex align-items-center" *ngIf="token !== null">
+          <img width="15" class="me-1" src="../../../assets/history.svg" />
+          <a
+            class="nav-link active logout-active"
+            role="button"
+            [ngStyle]="{
+              color: 'white',
+              'font-weight': demo.url === '/app/order-history' ? '700' : ''
+            }"
+            routerLink="/app/order-history"
+            >Order History</a
           >
         </li>
         <li class="nav-item d-flex align-items-center" *ngIf="token !== null">

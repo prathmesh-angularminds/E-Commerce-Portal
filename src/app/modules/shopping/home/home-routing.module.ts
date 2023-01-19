@@ -4,6 +4,8 @@ import { RouterModule, Routes } from "@angular/router";
 import { CustomersProfileComponent } from "./customers-profile/customers-profile.component";
 import { CustomerShouldOpenProfileGuard } from "src/app/guards/login-guards.guard";
 import { CartComponent } from "./cart/cart.component";
+import { OrderHistoryComponent } from "./order-history/order-history.component";
+import { CheckOutComponent } from "./check-out/check-out.component";
 
 const routes: Routes = [
   {
@@ -14,6 +16,16 @@ const routes: Routes = [
   {
     path: "cart",
     component: CartComponent,
+  },
+  {
+    path: 'order-history',
+    component: OrderHistoryComponent,
+    canActivate: [CustomerShouldOpenProfileGuard]
+  },
+  {
+    path: 'check-out',
+    component: CheckOutComponent,
+    canActivate: [CustomerShouldOpenProfileGuard]
   },
   {
     path: "product",
