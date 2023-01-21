@@ -10,23 +10,20 @@ import { UsersdataService } from "src/app/services/usersdata.service";
   styleUrls: ["./check-out-login.component.scss"],
 })
 export class CheckOutLoginComponent implements OnInit {
+
   userData: any;
-  addressList: any;
   checked: boolean = false;
-  deliveryAddress: any;
-  orderId: string;
   errorMsg: string = "";
   errorMsgClass: { snackbar: boolean; show: boolean } = {
     snackbar: true,
     show: false,
   };
   loginForm: FormGroup;
-  items: any;
-  total: any;
+  toggleBtn1: boolean = true;                       // For Change User
+
 
   constructor(
     private httpService: HttpServiceService,
-    private router: Router,
     private usersData: UsersdataService
   ) {}
 
@@ -103,8 +100,5 @@ export class CheckOutLoginComponent implements OnInit {
     this.loginForm.reset();
   }
 
-  // This function helps in showing and hiding password
-  showPasswordToggle() {
-    this.checked = !this.checked;
-  }
 }
+// VIGZ3YGR 

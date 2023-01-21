@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckOutLoginComponent } from './check-out-components/check-out-login/check-out-login.component';
 import { CheckOutAddressComponent } from './check-out-components/check-out-address/check-out-address.component';
 import { CheckOutPaymentComponent } from './check-out-components/check-out-payment/check-out-payment.component';
+import { PaymentDetailsComponent } from 'src/app/modules/shopping/home/payment-details/payment-details.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { CheckOutPaymentComponent } from './check-out-components/check-out-payme
     CheckOutComponent,
     CheckOutLoginComponent,
     CheckOutAddressComponent,
-    CheckOutPaymentComponent
+    CheckOutPaymentComponent,
+    PaymentDetailsComponent
   ],
   imports: [
     CommonModule,

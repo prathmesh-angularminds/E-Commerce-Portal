@@ -2,8 +2,9 @@
   class="select-address-block d-flex flex-column px-4 py-3 mb-2"
   style="width: 95%; background-color: white"
 >
+
   <div
-    class="select-address-title pb-2 d-flex justify-content-between"
+    class="select-address-title pb-2 d-flex justify-content-between" 
     style="border-bottom: 0.1px solid grey; font-size: 0.9rem; font-weight: 600"
   >
     Select Address
@@ -14,6 +15,7 @@
       role="button"
       aria-expanded="false"
       aria-controls="collapseExample1"
+      (click)="btnText = 'Add Address'"
     >
       Add New Address +
     </button>
@@ -41,7 +43,7 @@
           >
             Street must be provided
           </div>
-    
+
           <!-- Line -->
           <div
             class="fullname-block block position-relative d-flex align-items-center mt-4"
@@ -61,7 +63,7 @@
           >
             Address Line must be provided
           </div>
-    
+
           <div
             class="select-address-block d-flex justify-content-between mt-4"
             style="font-size: 1rem !important"
@@ -83,7 +85,7 @@
                 {{ city.name }}
               </option>
             </select>
-    
+
             <select
               class="form-select form-select-lg mb-3"
               style="
@@ -105,7 +107,7 @@
                 {{ state.name }}
               </option>
             </select>
-    
+
             <!-- Pin code -->
             <div class="pin-block" style="width: 30%">
               <div
@@ -128,7 +130,7 @@
               </div>
             </div>
           </div>
-    
+
           <!-- register btn -->
           <div class="submit-btn-block" style="width: 100%">
             <button
@@ -137,7 +139,18 @@
               (click)="addNewAddress()"
               [disabled]="this.addressForm.invalid"
             >
-              Add Address
+              {{btnText}}
+            </button>
+            <button
+              class="ms-2 btn btn-dark btn-sm"
+              (click)="addressForm.reset()"
+              data-bs-toggle="collapse"
+              href="#collapseExample1"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapseExample1"
+            >
+              Close
             </button>
           </div>
         </form>
@@ -169,12 +182,30 @@
           >
             Home
           </p>
+          <button
+            class="btn -btn-sm btn-dark d-flex align-items-center justify-content-center ms-2"
+            title="Edit Address"
+            (click)="editAddress(address)"
+            data-bs-toggle="collapse"
+            href="#collapseExample1"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample1"
+          >
+            <img
+              width="15"
+              height="15"
+              style="filter: brightness(0) invert(1)"
+              src="../../../../../../assets/edit-2.svg"
+            />
+          </button>
         </div>
         <div class="adddress-info" style="font-size: 0.9rem">
           Address: {{ address.street }}, {{ address.addressLine2 }},
           {{ address.city }}, {{ address.state }} - {{ address.pin }}
         </div>
       </div>
+      <div class="edit-btn-block d-flex justiify-self-end"></div>
     </div>
   </ng-template>
   <div class="btn-block mt-3 d-flex justify-content-between">

@@ -132,7 +132,7 @@
     <div class="orders-List overflow-scroll" style="height: 81vh">
       <div
         class="order-card w-100 p-4 mb-2"
-        *ngFor="let order of orderHistory?.results"
+        *ngFor="let order of orderHistory?.results;let i = index"
         style="background-color: white; border-radius: 5px"
       >
         <div
@@ -203,7 +203,8 @@
             </tr>
           </tbody>
         </table>
-        <div class="collapse mt-3" id="collapseExample">
+        <div class="collapse mt-3" [id]="orderId">
+          <div>{{orderId}}</div>
           <div class="card card-body">
             <table class="table table-striped">
               <thead>
@@ -234,27 +235,30 @@
         <div
           class="see-more-cancel-block w-100 d-flex justify-content-between align-items-center mt-3"
         >
-          <div
-            class="text-dark fw-light d-flex align-items-center"
+          <a
             data-bs-toggle="collapse"
-            href="#collapseExample"
+            href="#{{orderId}}"
             role="button"
+            style="text-decoration: none !important;"
             aria-expanded="false"
-            aria-controls="collapseExample"
-            (click)="getSpecificOrder(order._id)"
+            [attr.aria-controls]="orderId"
+            (click)="getSpecificOrder(order._id,i)"
           >
-            {{ text ? "show less" : "show more" }}
-            <img
-              class="ms-1"
-              width="15"
-              height="15"
-              src="{{
-                text
-                  ? '../../../../../../../assets/show-less.svg'
-                  : '../../../../../../../assets/show-more.svg'
-              }}"
-            />
-          </div>
+            <div class="text-dark fw-light d-flex align-items-center">
+              {{ text && orderId === order._id ? "show less" : "show more" }}
+              <img
+                class="ms-1"
+                width="15"
+                height="15"
+                src="{{
+                  text && orderId === order._id
+                    ? '../../../../../../../assets/show-less.svg'
+                    : '../../../../../../../assets/show-more.svg'
+                }}"
+              />
+            </div>
+          </a>
+
           <button
             class="btn btn-danger btn-sm"
             (click)="cancelOrder(order._id)"
@@ -268,7 +272,7 @@
   <div
     class="limit_pagination d-flex justify-content-between align-items-center mx-auto mb-1"
     style="width: 100%"
-    *ngIf="orders?.results.length !== 0"
+    *ngIf="orderHistory?.results.length !== 0"
   >
     <div class="limit-block d-flex align-items-center w-25">
       Page Limit:

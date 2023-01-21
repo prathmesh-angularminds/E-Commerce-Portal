@@ -22,6 +22,7 @@ export class OrderHistoryComponent implements OnInit {
     show: false,
   };
   limit: number = 5;
+  collapseId: string;
 
   constructor(private httpService: HttpServiceService,private router: Router) { }
 
@@ -54,9 +55,11 @@ export class OrderHistoryComponent implements OnInit {
     })
   }
 
-  getSpecificOrder(id: string) {
+  getSpecificOrder(id: string,index: number) {
 
     this.text = !this.text; 
+    this.orderId = "example"+index;
+    console.log(this.orderId);
 
     if(this.text) {
       const url = `/shop/orders/${id}`;
@@ -135,4 +138,5 @@ export class OrderHistoryComponent implements OnInit {
     let params = `?limit=${this.limit}&page=${page}`;
     this.getOrderHistory(params);
   }
+
 }

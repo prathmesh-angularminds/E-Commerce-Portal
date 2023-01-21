@@ -12,6 +12,7 @@ import { UsersdataService } from "src/app/services/usersdata.service";
 })
 export class CheckOutAddressComponent implements OnInit {
   usersData: any;
+  demo: any = console.log;
   addressList: any;
   deliveryAddress: any;
   orderId: string;
@@ -25,6 +26,8 @@ export class CheckOutAddressComponent implements OnInit {
   addressForm: FormGroup;
   citiesList: any;
   stateList: any;
+  btnText = "Add Address";
+  addressId = "";
 
   constructor(
     private httpService: HttpServiceService,
@@ -34,6 +37,8 @@ export class CheckOutAddressComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log("Before Demo");
+
     this.getAddress();
     this.userData.updateDetails.subscribe({
       next: (res) => {
@@ -48,45 +53,49 @@ export class CheckOutAddressComponent implements OnInit {
     this.setAddressForm();
 
     this.getstateList();
-    this.getCityList('JK');
+    this.getCityList("JK");
     this.setAddressForm();
   }
 
-
-  setAddressForm() {
-
+  setAddressForm(
+    address: any = {
+      street: "",
+      addressLine2: "",
+      city: "",
+      state: "",
+      pin: "",
+    }
+  ) {
+    console.log(address);
     this.addressForm = new FormGroup({
-      street: new FormControl("",[Validators.required]),
-      addressLine2: new FormControl("",[Validators.required]),
-      city: new FormControl("",[Validators.required]),
-      state: new FormControl("",[Validators.required]),
-      pin: new FormControl("",[Validators.required]),
+      street: new FormControl(address.street, [Validators.required]),
+      addressLine2: new FormControl(address.addressLine2, [
+        Validators.required,
+      ]),
+      city: new FormControl(address.city, [Validators.required]),
+      state: new FormControl(address.state, [Validators.required]),
+      pin: new FormControl(address.pin, [Validators.required]),
     });
   }
 
   get getStreet() {
-
-    return this.addressForm.get('street');
+    return this.addressForm.get("street");
   }
 
   get getLine() {
-
-    return this.addressForm.get('addressLine2');
+    return this.addressForm.get("addressLine2");
   }
 
   get getCity() {
-
-    return this.addressForm.get('city');
+    return this.addressForm.get("city");
   }
 
   get getState() {
-
-    return this.addressForm.get('state');
+    return this.addressForm.get("state");
   }
 
   get getPin() {
-
-    return this.addressForm.get('pin');
+    return this.addressForm.get("pin");
   }
 
   getItems() {
@@ -132,7 +141,6 @@ export class CheckOutAddressComponent implements OnInit {
 
   submitAddress() {
     const url = "/shop/orders";
-
     let payload = {
       items: this.items,
       total: this.total,
@@ -158,48 +166,70 @@ export class CheckOutAddressComponent implements OnInit {
     }, 3000);
   }
 
-   // Add New Address
-   addNewAddress() {
+  // Add New Address
+  addNewAddress() {
+    let url =
+      this.addressId === ""
+        ? "/customers/address"
+        : `/customers/address/${this.addressId}`;
 
-    const url = "/customers/address"
     const address = this.addressForm.value;
-    this.httpService.post(url,"",address).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.showPop("Address is address successfully");
-        this.addressForm.reset();
-      },
-      error: (err) => {
-        this.showPop(err.error.message);
-      }
-    });
+
+    this.addressId == ""
+      ? this.httpService.post(url, "", address).subscribe({
+          next: (res: any) => {
+            this.showPop("Address is added successfully");
+            this.addressForm.reset();
+            this.getAddress();
+          },
+          error: (err: any) => {
+            this.showPop(err.error.message);
+          },
+        })
+      : this.httpService.put(url, "", address).subscribe({
+          next: (res: any) => {
+            this.showPop("Address is Updated successfully");
+            this.addressForm.reset();
+            this.getAddress();
+          },
+          error: (err: any) => {
+            this.showPop(err.error.message);
+          },
+        });
+
+    this.addressId = "";
+    this.addressForm.reset();
   }
 
-
   // Gets city and state values from dropdown
-  getSelected(event: any,type: String) {
-
-    if(type === 'city') {
-      this.addressForm.value['city'] = event.target.value;      
+  getSelected(event: any, type: String) {
+    if (type === "city") {
+      this.addressForm.value["city"] = event.target.value;
     } else {
-      this.addressForm.value['state'] = event.target.value;
+      this.addressForm.value["state"] = event.target.value;
     }
   }
 
   // Getting State List
   getstateList() {
-
     this.http.get("/states").subscribe({
-      next: (res) => this.stateList = res,
+      next: (res) => (this.stateList = res),
       error: (err) => console.log(err),
     });
-
   }
+  
   // Getting Cities List
   getCityList(state: string) {
     this.http.get(`/states/${state}/cities`).subscribe({
-      next: (res) => this.citiesList = res,
-      error: err => console.log(err)
+      next: (res) => (this.citiesList = res),
+      error: (err) => console.log(err),
     });
+  }
+
+  editAddress(address: any) {
+    
+    this.addressId = address._id;
+    this.btnText = "Edit Address";
+    this.setAddressForm(address);
   }
 }

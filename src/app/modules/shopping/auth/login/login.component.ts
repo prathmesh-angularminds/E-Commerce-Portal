@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { UsersdataService } from "src/app/services/usersdata.service";
 import { Router } from "@angular/router";
 import { HttpServiceService } from "src/app/services/http-service.service";
+import { ToasterServiceService } from "src/app/components/toaster/toaster-service.service";
 
 @Component({
   selector: "app-login",
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private usersdata: UsersdataService,
     private router: Router,
-    private httpService: HttpServiceService
+    private httpService: HttpServiceService,
+    private toaster: ToasterServiceService,
   ) {}
 
   ngOnInit(): void {
@@ -65,6 +67,7 @@ export class LoginComponent implements OnInit {
     setTimeout(() => {
       this.errorMsgClass.show = false;
     }, 3000);
+    // this.toaster.showPopUp("success",message);
   }
 
   logAUser(): void {
@@ -73,6 +76,7 @@ export class LoginComponent implements OnInit {
       let url = "/shop/auth/login";
       this.httpService.post(url, "", this.loginForm.value).subscribe({
         next: (res: any) => {
+          this.toaster.showPopUp("success", res);
           this.usersdata.setToken(res.token, "customerToken");
           this.router.navigate(["/app/my-profile"]);
         },

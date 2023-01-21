@@ -1,0 +1,49 @@
+<div class="payment-details-card border p-3" style="background-color: white">
+  <div class="title fs-5 text-secondary mb-3">
+    {{ "price details" | uppercase }}
+  </div>
+  <div
+    class="info-block d-flex flex-column gap-2 py-3"
+    style="
+      border-bottom: 0.5px solid lightgray;
+      border-top: 0.5px solid lightgray;
+    "
+  >
+    <div class="total-price-block d-flex justify-content-between">
+      <div class="block-title">Price items({{ items?.length }})</div>
+      <div class="block-info">{{ total | currency : "INR" }}</div>
+    </div>
+
+    <div class="discount-block d-flex justify-content-between">
+      <div class="block-title">Discount</div>
+      <div class="block-info text-success">
+        {{ "123" | currency : "INR" }}
+      </div>
+    </div>
+
+    <div class="delivery-charges-block d-flex justify-content-between">
+      <div class="block-title">Delivery Charges</div>
+      <div class="block-info text-success">FREE</div>
+    </div>
+
+    <div class="secured-block d-flex justify-content-between">
+      <div class="block-title">Secured Packaging Fee</div>
+      <div class="block-info">{{ "167" | currency : "INR" }}</div>
+    </div>
+  </div>
+  <div
+    class="total-amount-block my-3 d-flex justify-content-between"
+    style="font-size: 1.1rem; font-weight: 700"
+  >
+    <div class="total-amount-title">TOTAL AMOUNT</div>
+    <div class="total-amount-title">
+      {{ total | currency : "INR" }}
+    </div>
+  </div>
+  <div
+    class="saved-info text-success pt-3 w-100"
+    style="border-top: 0.1px solid lightgray"
+  >
+    You will save {{ 123 | currency : "INR" }} on this order
+  </div>
+</div>

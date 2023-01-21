@@ -139,3 +139,27 @@ export class CustomerShouldOpenProfileGuard implements CanActivate {
     }
   }
 }
+
+@Injectable({
+  providedIn: "root",
+})
+export class CheckCartList implements CanActivate {
+  constructor(private router: Router) {}
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+
+
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]')
+    console.log(this.router.url)
+    if (cart.length == 0 || cart === undefined) {
+      console.log("Check-out")
+      this.router.navigate(['/app/product/product-list']); 
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
