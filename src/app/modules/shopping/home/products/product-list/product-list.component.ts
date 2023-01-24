@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { HttpServiceService } from "src/app/services/http-service.service";
 import { addToCart } from "src/app/actions/addToCart.action";
 import { Store } from "@ngrx/store";
+import { SearchDataService } from "src/app/services/search-data.service";
 
 @Component({
   selector: "app-product-list",
@@ -24,13 +25,36 @@ export class ProductListComponent implements OnInit {
   sortBy: string = "name";
   searched: string = "";
 
-  constructor(private httpService: HttpServiceService, private router: Router,private store: Store<{ cart: [] }>) {}
+  constructor(
+    private httpService: HttpServiceService,
+    private search: SearchDataService,
+    private router: Router,
+    private store: Store<{ cart: [] }>
+  ) {}
 
   ngOnInit(): void {
-    const params = `page=${1}&limit=${this.limit}&sortBy=${this.sortBy}`;
+    let name: string = "";
 
+    this.setParams(name);
+
+    this.search.searchObserver.subscribe((data) => {
+      if (data === true) {
+        setTimeout(() => {
+          name = this.search.getSearchValue();
+          this.setParams(name);
+          this.search.searchObserver.next(false);
+        }, 0);
+      }
+    });
+  }
+
+  setParams(name: string) {
+    const params =
+      name === undefined || name === ""
+        ? `page=${1}&limit=${this.limit}&sortBy=${this.sortBy}`
+        : `name=${name}&page=${1}&limit=${this.limit}&sortBy=${this.sortBy}`;
+    console.log(params);
     this.getProductList(params);
-    this.setProductForm();
   }
 
   // Getter methods
@@ -70,11 +94,6 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  clicked() {
-    console.log("Hello");
-    
-  }
-
   // Get image form frontend
   getSelectedImage(event: Event): void {
     let images: any = (event.target as HTMLInputElement).files;
@@ -83,15 +102,6 @@ export class ProductListComponent implements OnInit {
 
     this.imagesList =
       this.imagesList === undefined ? images : [...images, ...this.imagesList];
-  }
-
-  // Set Product Form
-  setProductForm() {
-    this.productForm = new FormGroup({
-      name: new FormControl("", [Validators.required]),
-      description: new FormControl("", [Validators.required]),
-      price: new FormControl("", [Validators.required]),
-    });
   }
 
   // show popup code
@@ -109,31 +119,7 @@ export class ProductListComponent implements OnInit {
     this.getProductList(params);
   }
 
-  submitForm() {
-    let productForm = this.productForm.value;
-    let productData: FormData = new FormData();
-    const url = "/products";
-    const params = `page=${this.products.page}&limit=${
-      this.limit
-    }&sortBy=${"name"}`;
-
-    productData.append("name", productForm.name);
-    productData.append("description", productForm.description);
-    productData.append("price", productForm.price);
-
-    this.imagesList.map((data: File) => productData.append("images", data));
-
-    this.httpService.post(url, "", productData).subscribe({
-      next: (res) => {
-        this.showPop("Product Added Successfully");
-        this.getProductList(params);
-      },
-      error: (err) => this.showPop(err.error.message),
-    });
-  }
-
   getSelected(event: any, page: number, type: string) {
-    
     this.sortBy = type === "sortBy" ? event.target.value : "name";
     this.limit = type === "limit" ? event.target.value : 10;
 
@@ -145,22 +131,8 @@ export class ProductListComponent implements OnInit {
     this.getProductList(params);
   }
 
-  getSearched() {
-    const params =
-      this.searched === ""
-        ? `page=${1}&limit=${this.limit}&sortBy=${this.sortBy}`
-        : `name=${this.searched}`;
-    this.getProductList(params);
-  }
+  viewProduct(id: string) {
 
-  addToCart(product: any) {
-
-    product['productId'] = product['_id'];
-
-    this.store.dispatch(addToCart(product))
-  }
-
-  getId(product: any) {
-    console.log(product._id);
+    this.router.navigate(['/app/product/product-details'],{queryParams: {id: id}});
   }
 }

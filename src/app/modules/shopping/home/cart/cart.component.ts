@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { addToCart, deleteProduct, subProduct } from "src/app/actions/addToCart.action";
 
@@ -11,14 +12,15 @@ export class CartComponent implements OnInit {
   
   cartList: any;
   totalAmount: number;
-  token: string;
+  token: any;
 
-  constructor(private store: Store<{ cartList: [] , totalAmount:  number}>) {}
+  constructor(private store: Store<{ cartList: [] , totalAmount:  number}>,private router: Router) {}
 
   ngOnInit(): void {
 
     this.getStoreData();
-    this.token = localStorage.getItem('customerToken') || "";
+    this.token = localStorage.getItem('customerToken') || null;
+    console.log(this.token);
   }
 
   getStoreData() {
@@ -51,5 +53,11 @@ export class CartComponent implements OnInit {
 
   removeProduct(product: any) {
     this.store.dispatch(deleteProduct(product))
+  }
+
+  goToLogin() {
+
+    localStorage.removeItem('customerToken');
+    this.router.navigate(['/auth/login']);
   }
 }

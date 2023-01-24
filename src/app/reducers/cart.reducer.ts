@@ -6,11 +6,9 @@ const intialState: { cart: object[]; totalAmount: number } = {
 function addCount(cart: Product[], newProduct: Product): any {
   let index = cart.findIndex((data: any) => data?.productId === newProduct?.productId);
 
-  console.log(cart)
-  console.log(index);
   index === -1
     ? cart.push(newProduct)
-    : ((cart[index].qty += 1),
+    : ((cart[index].qty += newProduct.qty),
       (cart[index].subTotal += cart[index].price));
 
   return cart;
@@ -45,9 +43,10 @@ export const cartReducer = (state: any = intialState, action: any) => {
 
   switch (action.type) {
     case "ADD_TO_CART": {
-      if (action.payload?.qty === undefined) {
-        action.payload.qty = 1;
+      if (action.payload?.subTotal === undefined) {
         action.payload.subTotal = action.payload.price;
+      } else {
+
       }
 
       cart =

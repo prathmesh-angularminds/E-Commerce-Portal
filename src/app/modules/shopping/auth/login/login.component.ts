@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { UsersdataService } from "src/app/services/usersdata.service";
-import { Router } from "@angular/router";
+import { Router, NavigationEnd } from "@angular/router";
 import { HttpServiceService } from "src/app/services/http-service.service";
 import { ToasterServiceService } from "src/app/components/toaster/toaster-service.service";
+import { filter, pairwise } from "rxjs";
 
 @Component({
   selector: "app-login",
@@ -18,17 +19,30 @@ export class LoginComponent implements OnInit {
     snackbar: true,
     show: false,
   };
+  url: string = "";
 
   constructor(
     private usersdata: UsersdataService,
     private router: Router,
     private httpService: HttpServiceService,
-    private toaster: ToasterServiceService,
-  ) {}
+    private toaster: ToasterServiceService
+  ) {
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        pairwise()
+      )
+      .subscribe((event: any) => {
+        console.log("Url:",event[0].urlAfterRedirects);
+        localStorage.setItem("prevUrl", event[0].urlAfterRedirects);
+      });
+  }
 
   ngOnInit(): void {
     this.setLoginForm();
   }
+
+  route() {}
 
   // Getter Methods
   get getEmail() {
@@ -71,14 +85,18 @@ export class LoginComponent implements OnInit {
   }
 
   logAUser(): void {
-
+    let prevUrl = localStorage.getItem("prevUrl");
+    localStorage.removeItem('prevUrl');
+    console.log(this.url);
     if (this.loginForm.valid) {
       let url = "/shop/auth/login";
       this.httpService.post(url, "", this.loginForm.value).subscribe({
         next: (res: any) => {
           this.toaster.showPopUp("success", res);
           this.usersdata.setToken(res.token, "customerToken");
-          this.router.navigate(["/app/my-profile"]);
+          prevUrl === null || prevUrl === undefined
+            ? this.router.navigate(["/app/product"])
+            : this.router.navigate([prevUrl]);
         },
         error: (err) => {
           this.showPop(err.error.message);

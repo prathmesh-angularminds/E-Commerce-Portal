@@ -23,6 +23,8 @@
     "angularx-social-login": "^4.1.0",
     "ng-recaptcha": "^11.0.0",
     "ngx-captcha": "^12.0.2",
+    "ngx-image-zoom": "^1.0.1",
+    "ngx-red-zoom": "^0.9.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

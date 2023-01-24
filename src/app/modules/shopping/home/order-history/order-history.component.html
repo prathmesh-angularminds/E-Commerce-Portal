@@ -132,7 +132,7 @@
     <div class="orders-List overflow-scroll" style="height: 81vh">
       <div
         class="order-card w-100 p-4 mb-2"
-        *ngFor="let order of orderHistory?.results;let i = index"
+        *ngFor="let order of orderHistory?.results; let i = index"
         style="background-color: white; border-radius: 5px"
       >
         <div
@@ -203,8 +203,7 @@
             </tr>
           </tbody>
         </table>
-        <div class="collapse mt-3" [id]="orderId">
-          <div>{{orderId}}</div>
+        <div class="collapse mt-3" id="collapseExample" *ngIf="index === i">
           <div class="card card-body">
             <table class="table table-striped">
               <thead>
@@ -217,7 +216,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let product of orders; let i = index">
+                <tr *ngFor="let product of order.items; let i = index">
                   <th class="text-center" scope="row">{{ i + 1 }}</th>
                   <td class="text-center">{{ product.name }}</td>
                   <td class="text-center">{{ product.qty }}</td>
@@ -237,21 +236,21 @@
         >
           <a
             data-bs-toggle="collapse"
-            href="#{{orderId}}"
+            href="#collapseExample"
             role="button"
-            style="text-decoration: none !important;"
+            style="text-decoration: none !important"
             aria-expanded="false"
-            [attr.aria-controls]="orderId"
-            (click)="getSpecificOrder(order._id,i)"
+            aria-controls="collapseExample"
+            (click)="getSpecificOrder(order._id, i)"
           >
             <div class="text-dark fw-light d-flex align-items-center">
-              {{ text && orderId === order._id ? "show less" : "show more" }}
+              {{ text && index === i ? "show less" : "show more" }}
               <img
                 class="ms-1"
                 width="15"
                 height="15"
                 src="{{
-                  text && orderId === order._id
+                  text && index === i
                     ? '../../../../../../../assets/show-less.svg'
                     : '../../../../../../../assets/show-more.svg'
                 }}"

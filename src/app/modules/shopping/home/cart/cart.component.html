@@ -1,3 +1,41 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="modalExample"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Please login before placing order
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-dark"
+          data-bs-dismiss="modal"
+          (click)="goToLogin()"
+        >
+          Login
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div
   class="cart-list-block d-flex flex-column justify-content-center align-items-center w-100 px-5"
   style="height: 92.6vh; background-color: #f2f2f2"
@@ -14,7 +52,6 @@
       class="cart-list-block overflow-scroll"
       style="width: 65%; height: 85vh"
     >
-      <!-- <div class="customer-info-block">Hello Popularduck</div> -->
       <div
         class="product-cart d-flex p-2 mb-3"
         style="border-radius: 8px; background-color: white"
@@ -111,9 +148,21 @@
     <div class="payment-block" style="width: 30%">
       <app-payment-details></app-payment-details>
       <div class="d-flex w-100 justify-content-end">
-        <button class="btn btn-dark mt-3 w-100" routerLink="/app/check-out">
+        <button
+          class="btn btn-dark mt-3 w-100"
+          data-bs-toggle="modal"
+          data-bs-target="#modalExample"
+          *ngIf="token === null"
+        >
           Place Order
-        </button> 
+        </button>
+        <button
+          class="btn btn-dark mt-3 w-100"
+          *ngIf="token !== null"
+          routerLink="/app/check-out"
+        >
+          Place Order
+        </button>
       </div>
     </div>
   </div>

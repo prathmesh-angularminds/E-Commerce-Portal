@@ -6,8 +6,6 @@ import { ProductRoutingModule } from './product-routing.module';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-
-
 @NgModule({
   declarations: [
     ProductListComponent,
@@ -17,7 +15,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     ProductRoutingModule,
     FormsModule,
-    RouterModule
+    RouterModule,
   ]
 })
 export class ProductsModule { }

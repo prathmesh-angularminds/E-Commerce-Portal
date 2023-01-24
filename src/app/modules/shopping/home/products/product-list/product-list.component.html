@@ -1,27 +1,16 @@
 <div
   class="product-list-block d-flex justify-content-center align-items-center"
   class="w-100"
-  style="height: 92.6vh;background-color: #F2F2F2"
+  style="height: 92.6vh; background-color: #f2f2f2"
 >
   <div
     class="search-sortproduct d-flex justify-content-between align-items-center py-3 px-2 mx-auto"
     style="width: 95%"
   >
     <div
-      class="email-block block position-relative d-flex align-items-center"
-      style="height: 35px; width: 30%"
+      class="sort-add-block d-flex justify-content-start"
+      style="width: 320px"
     >
-      <input
-        type="email"
-        class="email-field field"
-        placeholder="Search Comic Name"
-        style="border-radius: 5px"
-        [(ngModel)]="searched"
-        (keyup)="getSearched()"
-      />
-    </div>
-
-    <div class="sort-add-block d-flex justify-content-end" style="width: 320px">
       <div class="sort-block d-flex align-items-center" style="width: 53%">
         Sort By:
         <select
@@ -64,7 +53,13 @@
     >
       <div
         class="product-card mb-2"
-        style="width: 270px; display: grid; background-color: white;"
+        (click)="viewProduct(product._id)"
+        style="
+          width: 270px;
+          display: grid;
+          background-color: white;
+          z-index: -2;
+        "
         *ngFor="let product of products.results"
       >
         <div
@@ -94,9 +89,7 @@
                 -webkit-line-clamp: 1;
               "
             >
-              <b>
-                {{ product.name }}background-color: #F2F2F2
-              </b>
+              <b> {{ product.name }}background-color: #F2F2F2 </b>
             </h6>
             <p
               class="card-text"
@@ -106,29 +99,33 @@
                 word-break: break-word;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
-                -webkit-line-clamp: 1;
+                -webkit-line-clamp: 2;
               "
             >
               {{ product.description }}
             </p>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              Price: <b>{{ product.price | currency : "INR" }}</b>
+            <li class="list-group-item m-0 p-0 px-3 " style="font-size: 0.9rem; border: none">
+              <span style="font-size: 1.5rem">{{
+                product.price | currency : "INR"
+              }}</span>
+              <span class="text-decoration-line-through ms-1">{{ "123" | currency : "INR" }}</span> (5% off)
+            </li>
+            <li class="list-group-item m-0 p-0 px-3">
+              <img width=18 height=18 role='button' src="../../../../../../assets/star.svg"/>
+              <img width=18 height=18 role='button' src="../../../../../../assets/star.svg"/>
+              <img width=18 height=18 role='button' src="../../../../../../assets/star.svg"/>
+              <img width=18 height=18 role='button' src="../../../../../../assets/star.svg"/>
+              <img width=16 height=16 role='button' src="../../../../../../assets/star1.svg"/>
             </li>
           </ul>
           <div
             class="card-body submit-btn-block d-flex justify-content-between align-items-center"
           >
-            <button
-              class="btn btn-dark btn-sm"
-              routerLink="/app/product/product-details"
-              (click)="clicked()"
-              [state]="[product._id]"
-            >
-              View Details
-            </button>
-            <button class="btn btn-dark btn-sm" (click)="addToCart(product)">Add to Cart</button>
+            <!-- <button class="btn btn-dark btn-sm" style='z-index: 1'(click)="addToCart(product)">
+              Add to Cart
+            </button> -->
           </div>
         </div>
       </div>
