@@ -10,6 +10,7 @@ import { HttpServiceService } from 'src/app/services/http-service.service';
 })
 export class OrderHistoryComponent implements OnInit {
 
+  index: number;
   orderId: string;
   total: number;
   orderHistory: any;
@@ -57,18 +58,8 @@ export class OrderHistoryComponent implements OnInit {
 
   getSpecificOrder(id: string,index: number) {
 
-    this.text = !this.text; 
-    this.orderId = "example"+index;
-    console.log(this.orderId);
-
-    if(this.text) {
-      const url = `/shop/orders/${id}`;
-
-      this.httpService.get(url).subscribe({
-        next: res => {this.orders = res.items,console.log(res)},
-        error: err => console.log(err)
-      })
-    }
+    this.text = !this.text;
+    this.index = index 
   }
 
    // show popup code [Completed]

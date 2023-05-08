@@ -1,57 +1,42 @@
-
-
 <div class="product-details w-100" style="height: 92vh">
-  <div class="back-arrow-block w-100 p-2 d-flex justify-content-end">
+  <div class="back-arrow-block w-25 ms-4 d-flex justify-content-start">
     <div
+    role="button"
       routerLink="/app/product/product-list"
-      class="d-flex justify-content-center align-items-center"
+      class="d-flex w-100 align-items-center"
       style="
         width: 40px;
         height: 40px;
-        background-color: black;
+        font-size: 0.8rem;
         border-radius: 50px;
       "
     >
-      <img src="../../../../../assets/back-arrow.svg" />
+      <img width="15px" hright=15px src="../../../../../assets/black-arrow.svg" />
+      Go Back
     </div>
   </div>
   <div class="details-block d-flex flex-column flex-md-row" style="height: 92%">
     <div class="product-imageblock d-flex h-100;" style="width: 580px">
       <div
         class="images-list-block d-flex align-items-center flex-column px-2 my-2"
-        style="height: 82vh; width: 32%; overflow: scroll"
+        style="width: 200px"
       >
         <div
-          class="mb-2"
-          style="width: 100%"
-          *ngFor="let img of product.images; let i = index"
-          (click)="changeProfileImage(i)"
+          class="mb-2 d-flex justify-content-end"
+          style="width: 100%;"
+          *ngFor="let img of product?.images; let i = index"
+          (mouseover)="changeProfileImage(i)"
         >
-          <div
-            class="image-block position-relative"
-            style="width: 100%; height: 25vh"
-          >
+          <div class="image-block p-1" style="width: 60px; height: 60px;border-radius: 5px;" role="button">
             <img
-              class="w-100 h-100 position-absolute"
-              style="object-fit: cover"
+              class="w-100 h-100"
+              style="object-fit: cover;border-radius: 3px;"
               src="{{ img.url }}"
             />
-            <div
-              class="d-flex justify-content-end delete-icon-block position-absolute p-1"
-              style="
-                background-color: rgba(58, 57, 57, 0.5);
-                border-radius: 50px;
-              "
-            >
-              <img src="./../../../../../assets/three-dot.svg" />
-            </div>
           </div>
         </div>
       </div>
-      <div
-        class="main-image-block h-100 w-75 p-2"
-        style="border: 1px solid grey"
-      >
+      <div class="main-image-block p-2" style="width: 500px; height: 600px">
         <img
           class="selected-image w-100 h-100"
           src="{{ profileImage }}"
@@ -59,35 +44,117 @@
         />
       </div>
     </div>
-
     <div
       class="product-descblock h-100 p-4"
-      style="width: 65%; overflow: scroll; box-sizing: border-box"
+      style="width: 40%; overflow: scroll; box-sizing: border-box"
     >
-      <div class="product-title h2 mb-4">{{ product.name }}</div>
-      <div class="product-description mb-4">{{ product.description }}</div>
-      <div class="product-price mb-4">
-        Price: <b class="ms-2">{{ product.price | currency : "INR" }}</b>
+      <div style="font-size: 0.8rem">
+        Brand:<a href="#" style="text-decoration: none !important">{{
+          product?._org.name
+        }}</a>
       </div>
       <div
-        class="update-delete-block d-flex justify-content-between align-items-center"
-        style="width: 300px"
+        class="product-title mt-2 pb-2"
+        style="font-size: 2rem; border-bottom: 0.5px solid lightgray"
       >
+        {{ product?.name }}
+      </div>
+      <div
+        class="product-price-block d-flex flex-column gap-1 py-2"
+        style="font-size: 1.3rem; border-bottom: 0.5px solid lightgray"
+      >
+        <div>
+          <span class="text-danger">-33%</span>
+          <span class="ms-2">{{ product?.price | currency : "INR" }}</span>
+        </div>
+        <div class="actual-price" style="font-size: 0.8rem">
+          MRP:
+          <span class="text-decoration-line-through">{{
+            "123" | currency : "INR"
+          }}</span>
+        </div>
+      </div>
+      <div class="product-description-block py-2" style="font-size: 0.8rem">
+        <div class="mb-1" style="font-weight: 700">Product Description</div>
+        <div>{{ product?.description }}</div>
+      </div>
+      <div class="product-price mb-4"></div>
+    </div>
+    <div
+      class="cart-block p-4 align-self-start"
+      style="
+        width: 300px;
+        height: auto !important;
+        border: 0.5px solid lightgray;
+        border-radius: 5px;
+        font-size: 0.8rem;
+      "
+    >
+      <div clas="product-price" style="font-size: 1.8rem">
+        {{ product.price | currency : "INR" }}
+      </div>
+      <div class="text-success delivery-info mt-1" style="font-weight: 700">
+        FREE DELIVERY
+      </div>
+      <div class="order-info mt-1">
+        Order within <span class="text-primary">1 hr 7 mins</span>
+      </div>
+      <div
+        class="text-success mt-1"
+        style="font-size: 1.5rem; font-weight: 500"
+      >
+        In Stock
+      </div>
+      <div class="sold-info" style="font-weight: 500">
+        Sold by
+        <span class="text-primary">{{ product?._org.name | uppercase }}</span>
+        and delivered by Comicverse
+      </div>
+      <div class="product-qty mt-1 d-flex align-items-center">
+        <b class="me-2">Quantity:</b>
+        <div
+              class="product-counter-block d-flex justify-content-between align-items-center py-1"
+              style="width: 100px"
+            >
+              <div
+                (click)="qty = (qty - 1)"
+                class="dec-btn d-flex justify-content-center align-items-center bg-light"
+                style="width: 30px; height: 30px; border-radius: 50px"
+                role="button"
+                [class.disabled]="qty === 1"
+              >
+                <img
+                  width="15"
+                  height="15"
+                  src="../../../../../assets/minus.svg"
+                />
+              </div>
+              <div>{{ qty }}</div>
+              <div
+                (click)="qty = (qty + 1)"
+                class="inc-btn d-flex justify-content-center align-items-center bg-light"
+                style="width: 30px; height: 30px; border-radius: 50px"
+                role="button"
+              >
+                <img
+                  width="15"
+                  height="15"
+                  src="../../../../../assets/plus.svg"
+                />
+              </div>
+            </div>
+      </div>
+      <div class="cart-btn-blocks d-flex flex-column gap-1 mt-2">
         <button
-          class="btn btn-dark btn-sm"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-          (click)="formType = 'Information'"
+          class="btn btn-warning btn-sm"
+          style="font-size: 0.9rem"
+          title="Add to shopping cart"
+          (click)="addToCart()"
         >
-          Update Product
+          Add to cart
         </button>
-        <button
-          class="btn btn-dark btn-sm"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-          (click)="formType = 'Image'"
-        >
-          Add Images
+        <button class="btn btn-dark btn-sm" style="font-size: 0.9rem">
+          Buy Now
         </button>
       </div>
     </div>

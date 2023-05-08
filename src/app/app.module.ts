@@ -12,9 +12,7 @@ import { CommonInterceptor } from "./services/common.interceptor";
 // NGRX SETUP
 import { StoreModule } from '@ngrx/store';
 import { cartReducer, totalAmount } from './reducers/cart.reducer';
-import { PaymentDetailsComponent } from './modules/shopping/home/payment-details/payment-details.component';
 import { ToasterModule } from './components/toaster/toaster.module';
-
 
 @NgModule({
   declarations: [AppComponent, ErrorComponent, ],

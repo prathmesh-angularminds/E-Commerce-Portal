@@ -2,7 +2,9 @@
   class="navbar navbar-expand-lg navbar-light bg-dark d-flex justify-content-between flex-row"
   style="justify-content: space-between !important"
 >
-  <div class="container-fluid d-flex justify-content-between w-100 flex-row">
+  <div
+    class="container-fluid d-flex justify-content-between w-100 flex-row ms-auto"
+  >
     <a
       class="navbar-brand"
       style="font-size: 1.4rem; font-weight: bold !important"
@@ -69,6 +71,7 @@
             >
           </li>
           <li class="nav-item d-flex align-items-center">
+            <div>1</div>
             <img width="15" class="me-2" src="../../../assets/cart.svg" />
             <a
               class="nav-link active"
@@ -143,6 +146,24 @@
       </div>
     </div>
 
+    <form class="d-md-flex d-none" style="width: 30% !important" role="search">
+      <input
+        class="form-control"
+        type="search"
+        style="border-top-right-radius: 0px; border-bottom-right-radius: 0px"
+        placeholder="Search"
+        aria-label="Search"
+        [(ngModel)]="searchValue"
+      />
+      <button
+        class="btn btn-light"
+        style="border-top-left-radius: 0px; border-bottom-left-radius: 0px"
+        (click)="searchProduct()"
+      >
+        <img width="20px" height="20px" src="./../../../assets/search.svg" />
+      </button>
+    </form>
+
     <!-- Normal Navbar -->
     <div class="d-md-flex justify-content-end d-none" id="navbarNavDropdown">
       <ul class="navbar-nav d-flex flex-row gap-4">
@@ -178,7 +199,21 @@
             >Product List</a
           >
         </li>
-        <li class="nav-item d-flex align-items-center">
+        <li class="nav-item d-flex align-items-center position-relative">
+          <div
+            class="bg-light position-absolute"
+            style="
+              font-size: 0.6rem !important;
+              border-radius: 50px;
+              top: -2px;
+              right: -5px;
+              padding: 5%;
+              font-weight: 800;
+            "
+            *ngIf="cartAddedCnt !== 0"
+          >
+            {{cartAddedCnt}}
+          </div>
           <img width="15" class="me-1" src="../../../assets/cart.svg" />
           <a
             class="nav-link active"
@@ -252,4 +287,21 @@
       </ul>
     </div>
   </div>
+  <form class="d-md-none d-flex mx-auto my-1" style="width: 96% !important">
+    <input
+      class="form-control"
+      type="search"
+      style="border-top-right-radius: 0px; border-bottom-right-radius: 0px"
+      placeholder="Search"
+      aria-label="Search"
+      [(ngModel)]="searchValue"
+    />
+    <button
+      class="btn btn-light"
+      style="border-top-left-radius: 0px; border-bottom-left-radius: 0px"
+      (click)="searchProduct()"
+    >
+      <img width="20px" height="20px" src="./../../../assets/search.svg" />
+    </button>
+  </form>
 </nav>
